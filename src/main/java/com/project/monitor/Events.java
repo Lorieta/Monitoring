@@ -1,18 +1,19 @@
 package com.project.monitor;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class Events extends  dbFunctions {
 
-    private TextField username;
-    private PasswordField password;
 
 
-    private void getInfo(){
 
+    public void Computation (ActionEvent event){
 
     }
+
 
 
 

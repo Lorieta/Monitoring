@@ -35,8 +35,6 @@ public class Main extends Application {
             stage.show();
 
 
-
-
         }catch (Exception e){
             e.printStackTrace();
 
@@ -47,8 +45,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         dbFunctions db = new dbFunctions();
         db.connect_to_db("projectdb","postgres","123");
-
-
 
         launch(args);
     }
