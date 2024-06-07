@@ -1,0 +1,60 @@
+/* styles.css */
+.root {
+    -fx-background-color: whitesmoke;
+}
+
+.text-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field {
+    -fx-padding: 10;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.button-login {
+    -fx-background-color: #00008b;
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,139,0.5), 5, 0, 0, 0);
+}
+
+.label-link {
+    -fx-text-fill: #007bff;
+    -fx-text-decoration: none;
+}
+/* signup_styles.css */
+.root {
+    -fx-background-color: whitesmoke;
+}
+
+.text-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field {
+    -fx-padding: 10;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.button-signup {
+    -fx-background-color: #00008b;
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 0);
+}
+
+.label-link {
+    -fx-text-fill: #007bff;
+    -fx-text-decoration: none;
+}

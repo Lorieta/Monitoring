@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="627.0" prefWidth="1009.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.HelloController">
+<VBox alignment="CENTER" prefHeight="627.0" prefWidth="1009.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -16,12 +16,14 @@
          <children>
             <Button layoutX="23.0" layoutY="45.0" mnemonicParsing="false" text="HOME" textOverrun="LEADING_WORD_ELLIPSIS" />
             <Button layoutX="131.0" layoutY="45.0" mnemonicParsing="false" text="STUDENT" />
+            <Button layoutX="131.0" layoutY="45.0" mnemonicParsing="false" text="STUDENT" />
             <Button layoutX="255.0" layoutY="45.0" mnemonicParsing="false" text="READING LOGS" />
             <Button layoutX="387.0" layoutY="45.0" mnemonicParsing="false" text="READING ASSESSMENT" />
             <TextField layoutX="664.0" layoutY="45.0" prefHeight="25.0" prefWidth="232.0" />
             <Button layoutX="896.0" layoutY="45.0" mnemonicParsing="false" text="Button" />
-            <FlowPane prefHeight="594.0" prefWidth="976.0" />
+            <FlowPane layoutX="-13.0" layoutY="-3.0" prefHeight="594.0" prefWidth="976.0" />
          </children>
+
       </Pane>
    </children>
 </VBox>
