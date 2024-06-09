@@ -15,12 +15,12 @@
    </padding>
    <Text styleClass="text-title" text="Login" />
    <VBox alignment="CENTER" prefWidth="300" spacing="15.0">
-      <TextField fx:id="username" promptText="Username" styleClass="text-field" />
-      <PasswordField fx:id="password" promptText="Password" styleClass="password-field" />
-      <Button fx:id="loginID" styleClass="button-login" text="Login" />
+      <TextField fx:id="loginField" promptText="Teacher ID" styleClass="text-field" />
+      <PasswordField fx:id="loginPassField" promptText="Password" styleClass="password-field" />
+      <Button id="loginID" onMouseClicked="#login" styleClass="button-login" text="Login" />
    </VBox>
    <HBox alignment="CENTER" spacing="5">
-      <Label onMouseClicked="#switchToSignUp" text="Don't have an account?" />
+      <Label fx:id="toSignUP" onMouseClicked="#switchToSignUp" onMouseEntered="#switchColor" onMouseExited="#defaultColor" text="Don't have an account?" />
 
    </HBox>
 </VBox>

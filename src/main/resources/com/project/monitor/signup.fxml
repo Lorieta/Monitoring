@@ -3,26 +3,25 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="400" prefWidth="400" spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Controller">
+<VBox alignment="CENTER" maxHeight="442.0" prefHeight="396.0" prefWidth="400" spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Controller">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
-    <Text styleClass="text-title" text="Sign Up" />
-    <VBox alignment="CENTER" prefWidth="300" spacing="15.0">
-        <TextField fx:id="username" promptText="Username" styleClass="text-field" />
-        <TextField fx:id="email" promptText="Email" styleClass="text-field" />
-        <PasswordField fx:id="password" promptText="Password" styleClass="password-field" />
-        <PasswordField fx:id="confirmPassword" promptText="Confirm Password" styleClass="password-field" />
-        <Button styleClass="button-signup" text="Sign Up" />
-    </VBox>
-    <HBox alignment="CENTER" spacing="5">
-        <Label onDragDetected="#switchToLogin" onMouseClicked="#switchToLogin" text="Already have an account?" />
-
-    </HBox>
+   <AnchorPane prefHeight="375.0" prefWidth="360.0">
+      <children>
+          <Text layoutX="159.0" layoutY="27.0" styleClass="text-title" text="Sign Up" />
+           <TextField fx:id="teacherIDField" layoutX="30.0" layoutY="41.0" prefHeight="25.0" prefWidth="301.0" promptText="TeacherID" styleClass="text-field" />
+           <TextField fx:id="fnameField" layoutX="31.0" layoutY="87.0" prefHeight="25.0" prefWidth="301.0" promptText="First Name" styleClass="text-field" />
+           <Button id="signup" layoutX="152.0" layoutY="281.0" onMouseClicked="#signUpGetter" styleClass="button-signup" text="Sign Up" />
+           <Label layoutX="113.0" layoutY="314.0" onDragDetected="#switchToLogin" onMouseClicked="#switchToLogin" onMouseDragEntered="#switchColor" onMouseDragExited="#defaultColor" text="Already have an account?" />
+         <TextField fx:id="lnameField" layoutX="31.0" layoutY="130.0" prefHeight="25.0" prefWidth="301.0" promptText="Last Name" styleClass="text-field" />
+         <TextField fx:id="gradeandsectionField" layoutX="31.0" layoutY="178.0" prefHeight="25.0" prefWidth="301.0" promptText="Grade and Section" styleClass="text-field" />
+         <TextField fx:id="passwordField" layoutX="31.0" layoutY="221.0" prefHeight="25.0" prefWidth="301.0" promptText="Password" styleClass="text-field" />
+      </children>
+   </AnchorPane>
 </VBox>

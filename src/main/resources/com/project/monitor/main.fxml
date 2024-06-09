@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -11,19 +11,18 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <children>
+
       <Pane prefHeight="634.0" prefWidth="969.0">
-         <children>
-            <Button layoutX="23.0" layoutY="45.0" mnemonicParsing="false" text="HOME" textOverrun="LEADING_WORD_ELLIPSIS" />
-            <Button layoutX="131.0" layoutY="45.0" mnemonicParsing="false" text="STUDENT" />
-            <Button layoutX="131.0" layoutY="45.0" mnemonicParsing="false" text="STUDENT" />
-            <Button layoutX="255.0" layoutY="45.0" mnemonicParsing="false" text="READING LOGS" />
-            <Button layoutX="387.0" layoutY="45.0" mnemonicParsing="false" text="READING ASSESSMENT" />
-            <TextField layoutX="664.0" layoutY="45.0" prefHeight="25.0" prefWidth="232.0" />
-            <Button layoutX="896.0" layoutY="45.0" mnemonicParsing="false" text="Button" />
-            <FlowPane layoutX="-13.0" layoutY="-3.0" prefHeight="594.0" prefWidth="976.0" />
-         </children>
+
+            <Button id="home" layoutX="23.0" layoutY="45.0" mnemonicParsing="false" text="HOME" textOverrun="LEADING_WORD_ELLIPSIS" />
+            <Button id="student" layoutX="131.0" layoutY="45.0" mnemonicParsing="false" text="STUDENT" />
+            <Button id="readingLogs" layoutX="255.0" layoutY="45.0" mnemonicParsing="false" text="READING LOGS" />
+            <Button id="readingAssessment" layoutX="387.0" layoutY="45.0" mnemonicParsing="false" text="READING ASSESSMENT" />
+            <TextField id="searchField" layoutX="664.0" layoutY="45.0" prefHeight="25.0" prefWidth="232.0" />
+            <Button id="searchButton" layoutX="896.0" layoutY="45.0" mnemonicParsing="false" text="Button" />
+      <AnchorPane prefHeight="587.0" prefWidth="969.0" />
+
 
       </Pane>
-   </children>
+
 </VBox>

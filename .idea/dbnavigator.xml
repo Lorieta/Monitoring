@@ -17,7 +17,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f7582f43-67e4-4421-bed0-8957327d4c20">
-      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select * FROM teacher;]]></console>
+      <console name="Connection" type="STANDARD" schema="public" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -35,6 +35,7 @@
         <condition column="student_id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="f7582f43-67e4-4421-bed0-8957327d4c20" dataset="public.teacher" active-filter-id="" />
     <filter-actions connection-id="f7582f43-67e4-4421-bed0-8957327d4c20" dataset="information_schema.sql_features" active-filter-id="49cc0fee-fb9f-4386-a836-9d121346d4bf">
       <filter id="49cc0fee-fb9f-4386-a836-9d121346d4bf" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="comments" operator="=" value="" active="true" />
@@ -79,7 +80,7 @@
           <deprecated-pwd value="MTIz" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />

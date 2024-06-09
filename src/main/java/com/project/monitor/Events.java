@@ -1,17 +1,12 @@
 package com.project.monitor;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 
-public class Events extends  dbFunctions {
+import javafx.scene.control.Alert;
 
+public class Events  {
 
-
-
-    public void Computation (ActionEvent event){
-
+    public static boolean checker(String str) {
+        return str == null || str.trim().isEmpty();
     }
 
 
