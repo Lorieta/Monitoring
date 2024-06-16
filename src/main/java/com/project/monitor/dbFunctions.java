@@ -1,9 +1,5 @@
 package com.project.monitor;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import java.sql.*;
 
 public class dbFunctions extends Controller {
@@ -23,7 +19,7 @@ public class dbFunctions extends Controller {
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
 
         }
         return conn;
@@ -53,11 +49,11 @@ public class dbFunctions extends Controller {
 
 
     //SIGNUP
-    public boolean signup(Connection conn, String tablename, String teacherid, String fname, String lname, String gradeAndsection, String password) {
+    public boolean signup(Connection conn, String tablename, int teacherid, String fname, String lname, String gradeAndsection, String password) {
         try {
             String query = "INSERT INTO " + tablename + " (teacher_id, teacherfname, teacherlname, grade_section, password) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, teacherid);
+            statement.setInt(1, teacherid);
             statement.setString(2, fname);
             statement.setString(3, lname);
             statement.setString(4, gradeAndsection);

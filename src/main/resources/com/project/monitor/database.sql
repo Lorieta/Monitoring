@@ -1,7 +1,11 @@
-CREATE TABLE teacher (
-    teacher_id INT PRIMARY KEY,
-    teacherfname VARCHAR(100),
-    teacherlname VARCHAR(100),
-    grade_section VARCHAR(50),
-    password VARCHAR(255)
+CREATE TABLE Student_info(
+  LRN varchar(255),
+  Firstname varchar(255),
+  Lastname varchar(255),
+  Gender varchar(255),
+  Age varchar(255),
+  PRIMARY KEY (LRN)
 );
+
+
+

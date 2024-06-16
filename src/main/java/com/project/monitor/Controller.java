@@ -75,7 +75,7 @@ public class Controller extends Events {
         String gradeandsection = gradeandsectionField.getText();
 
         if (!checker(teacherID)&&!checker(fname)&&!checker(lname)&&!checker(password)&&!checker(gradeandsection)){
-            db.signup(conn,"teacher",teacherID,fname,lname,gradeandsection,password);
+            db.signup(conn,"teacher", Integer.parseInt(teacherID),fname,lname,gradeandsection,password);
 
 
         } else {

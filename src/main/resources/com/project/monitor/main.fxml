@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-
-<VBox alignment="CENTER" prefHeight="627.0" prefWidth="1009.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Controller">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-      <Pane prefHeight="634.0" prefWidth="969.0">
-
-            <Button id="home" layoutX="23.0" layoutY="45.0" mnemonicParsing="false" text="HOME" textOverrun="LEADING_WORD_ELLIPSIS" />
-            <Button id="student" layoutX="131.0" layoutY="45.0" mnemonicParsing="false" text="STUDENT" />
-            <Button id="readingLogs" layoutX="255.0" layoutY="45.0" mnemonicParsing="false" text="READING LOGS" />
-            <Button id="readingAssessment" layoutX="387.0" layoutY="45.0" mnemonicParsing="false" text="READING ASSESSMENT" />
-            <TextField id="searchField" layoutX="664.0" layoutY="45.0" prefHeight="25.0" prefWidth="232.0" />
-            <Button id="searchButton" layoutX="896.0" layoutY="45.0" mnemonicParsing="false" text="Button" />
-      <AnchorPane prefHeight="587.0" prefWidth="969.0" />
 
 
-      </Pane>
 
-</VBox>
+
+
+ <AnchorPane prefHeight="1000.0" prefWidth="1593.0" stylesheets="application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Controller">
+     <Button layoutX="0" layoutY="61" prefHeight="48" prefWidth="1920" styleClass="button1" />
+     <Label layoutX="275.0" layoutY="69.0" prefHeight="27" prefWidth="34.0" styleClass="label" text="Logo" />
+     <Button layoutX="439.0" layoutY="61.0" prefHeight="43" prefWidth="204" styleClass="button3" text="HOME" />
+     <Button layoutX="649" layoutY="61" prefHeight="43" prefWidth="204" styleClass="button4" text="STUDENT" />
+     <Button layoutX="860" layoutY="61" prefHeight="43" prefWidth="204" styleClass="button4" text="READING LOGS" />
+     <Button layoutX="1073.0" layoutY="64.0" prefHeight="43" prefWidth="204" styleClass="button4" text="ASSESSMENT" />
+     <Button layoutX="1332" layoutY="67" prefHeight="35" prefWidth="381" styleClass="button5" />
+
+ </AnchorPane>
