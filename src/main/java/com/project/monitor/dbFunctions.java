@@ -74,15 +74,29 @@ public class dbFunctions extends Controller {
         }
     }
 
-    //BOOKS
+    //INSERT RESOURCES
+
+
+
+    //INSERT STUDENT PROFILE
+
+
+    //INSERT READING LOG
+
+
+    //UPDATE RESOURCES
+
+
+    //UPDATE STUDENT PROFILE
+
+
+    //UPDATE RESOURCES
+
+    //INSERT ASSESSMENTS
 
 
 
 
-    //STUDENT PROFILE
-
-
-    //READING LOG
 
 
 

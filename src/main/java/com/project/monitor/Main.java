@@ -39,7 +39,7 @@ public class Main extends Application {
         String Password = System.getenv("POSTGRESQL_PASSWORD");
 
         dbFunctions db = new dbFunctions();
-        Connection conn = db.connect_to_db(Database,lUser,Password);
+        Connection conn = db.connect_to_db("projectdb","postgres","123");
 
         launch(args);
 
