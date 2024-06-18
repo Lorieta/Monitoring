@@ -2,5 +2,5 @@ package com.project.monitor;
 
 import javafx.fxml.Initializable;
 
-public class TableController implements Initializable {
+public class TableController{
 }
