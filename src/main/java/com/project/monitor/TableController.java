@@ -2,20 +2,19 @@ package com.project.monitor;
 import Tables.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -25,14 +24,16 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TableController extends Controller implements Initializable {
     String Database = Config.DATABASE;
-   String lUser = Config.USER;
-   String Password = Config.PASSWORD;
+    String lUser = Config.USER;
+    String Password = Config.PASSWORD;
+
     @FXML
     private TableColumn<Student, String> GenderColumn;
     @FXML
@@ -49,10 +50,11 @@ public class TableController extends Controller implements Initializable {
     private TableView<Student> studentTable;
     private final ObservableList<Student> StudentList = FXCollections.observableArrayList();
 
+    private final dbFunctions db = new dbFunctions();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
-        loadDate();
+
     }
 
     private void setupTableColumns() {
@@ -61,6 +63,8 @@ public class TableController extends Controller implements Initializable {
         lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         GenderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+        studentTable.setItems(StudentList);
+        refreshTable();
 
         // Make firstnameColumn editable
         firstnameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -113,11 +117,43 @@ public class TableController extends Controller implements Initializable {
     }
 
     private void handleEdit(Student student) {
+        try {
+            dbFunctions db = new dbFunctions();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("editStudent.fxml"));
+            Parent parent = loader.load();
 
+            EditStudent editStudentController = loader.getController();
+            editStudentController.setDialogStage(new Stage());
+            editStudentController.setStudent(student);
+
+            Scene scene = new Scene(parent);
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Student");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+
+            dialogStage.setScene(scene);
+
+            editStudentController.setDialogStage(dialogStage);
+
+            dialogStage.showAndWait();
+
+            if (editStudentController.isSaveClicked()) {
+
+                refreshTable();
+            }
+        } catch (IOException e) {
+            Logger.getLogger(TableController.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     private void handleDelete(Student student) {
-        System.out.println("delete");
+        try {
+            Connection conn = db.connect_to_db(Database, lUser, Password);
+            db.deleteStudent(conn, student.getLrn().toString());
+            refreshTable();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -141,10 +177,6 @@ public class TableController extends Controller implements Initializable {
         }
     }
 
-    public void loadDate() {
-        studentTable.setItems(StudentList);
-        refreshTable();
-    }
 
     public void refreshTable() {
         StudentList.clear();
@@ -175,10 +207,13 @@ public class TableController extends Controller implements Initializable {
         }
     }
 
-    @FXML
-    void refresh(MouseEvent event) {
+    private void refresh(MouseEvent event){
+
         refreshTable();
     }
 
 
-}
+
+    }
+
+

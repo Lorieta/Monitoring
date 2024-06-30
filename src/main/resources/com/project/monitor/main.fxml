@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane cacheShape="false" centerShape="false" prefHeight="640.0" prefWidth="1203.0" scaleShape="false"  xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.TableController">
+<AnchorPane cacheShape="false" centerShape="false" prefHeight="640.0" prefWidth="1203.0" scaleShape="false" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.TableController">
     <AnchorPane layoutX="-4.0" layoutY="63.0" prefHeight="50.0" prefWidth="1203.0" styleClass="button1">
         <children>
             <Label layoutX="115.0" layoutY="11.0" prefHeight="27" prefWidth="34.0" styleClass="label" text="Logo" />
@@ -18,7 +18,7 @@
             <Button layoutX="905.0" layoutY="3.0" prefHeight="43" prefWidth="204" styleClass="button4" text="ASSESSMENT" />
         </children>
     </AnchorPane>
-    <TableView fx:id="studentTable" layoutX="379.0" layoutY="290.0" prefHeight="299.0" prefWidth="743.0">
+    <TableView fx:id="studentTable" layoutX="249.0" layoutY="289.0" prefHeight="299.0" prefWidth="743.0">
         <columns>
             <TableColumn fx:id="LRNColumn" prefWidth="75.0" text="LRN" />
             <TableColumn fx:id="firstnameColumn" prefWidth="100.0" text="First Name" />
@@ -31,13 +31,12 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
-    <Pane layoutX="379.0" layoutY="121.0" prefHeight="161.0" prefWidth="743.0">
+    <Pane layoutX="249.0" layoutY="120.0" prefHeight="114.0" prefWidth="743.0">
         <children>
-            <Label layoutX="14.0" layoutY="32.0" text="LRN:" />
-            <Button fx:id="refreshButton" layoutX="16.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#refresh" text="Refresh" />
-            <TextField layoutX="372.0" layoutY="23.0" prefHeight="39.0" prefWidth="311.0" styleClass="button5" />
-            <Button layoutX="683.0" layoutY="28.0" mnemonicParsing="false" text="Search" />
-            <Button fx:id="addButton" layoutX="303.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#addBtn" text="ADD" />
+            <TextField fx:id="STDsearchbar" layoutX="365.0" layoutY="17.0" prefHeight="39.0" prefWidth="311.0" promptText="Search" styleClass="button5" />
+            <Button fx:id="STDsearchbtn" layoutX="682.0" layoutY="21.0" mnemonicParsing="false" text="Search" />
+            <Button fx:id="addButton" layoutX="682.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#addBtn" stylesheets="@application.css" text="ADD" />
+         <Button layoutX="605.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#refreshTable" text="REFRESH" />
         </children>
     </Pane>
 </AnchorPane>

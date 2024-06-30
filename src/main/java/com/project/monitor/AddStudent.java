@@ -18,14 +18,11 @@ public class AddStudent {
     private final String lUser = Config.USER;
     private final String Password = Config.PASSWORD;
 
-    @FXML
-    private Button addbtn;
 
     @FXML
     private TextField ageTb;
 
-    @FXML
-    private Button clearbtn;
+
 
     @FXML
     private TextField fnameTB;
