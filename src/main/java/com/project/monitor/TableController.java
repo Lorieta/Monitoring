@@ -1,4 +1,5 @@
 package com.project.monitor;
+
 import Tables.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +25,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,16 +45,19 @@ public class TableController extends Controller implements Initializable {
     @FXML
     private TableColumn<Student, String> lastnameColumn;
     @FXML
+    private TableColumn<Student, String> gradeandSectionCol;
+    @FXML
     private TableColumn<Student, Void> actionsColumn;
     @FXML
     private TableView<Student> studentTable;
-    private final ObservableList<Student> StudentList = FXCollections.observableArrayList();
 
+    private final ObservableList<Student> StudentList = FXCollections.observableArrayList();
     private final dbFunctions db = new dbFunctions();
+    private String teacherID; // Variable to store teacherID
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
-
+        refreshTable();  // Initial data load
     }
 
     private void setupTableColumns() {
@@ -63,10 +66,11 @@ public class TableController extends Controller implements Initializable {
         lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         GenderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
-        studentTable.setItems(StudentList);
-        refreshTable();
 
-        // Make firstnameColumn editable
+        // Use gradeSectionProperty() method of Student for gradeandSectionCol
+        gradeandSectionCol.setCellValueFactory(cellData -> cellData.getValue().grade_sectionProperty());
+
+        // Make firstnameColumn editable (if needed)
         firstnameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         firstnameColumn.setOnEditCommit(event -> {
             Student student = event.getRowValue();
@@ -116,6 +120,7 @@ public class TableController extends Controller implements Initializable {
         });
     }
 
+
     private void handleEdit(Student student) {
         try {
             dbFunctions db = new dbFunctions();
@@ -138,7 +143,6 @@ public class TableController extends Controller implements Initializable {
             dialogStage.showAndWait();
 
             if (editStudentController.isSaveClicked()) {
-
                 refreshTable();
             }
         } catch (IOException e) {
@@ -155,8 +159,6 @@ public class TableController extends Controller implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
-
 
     @FXML
     void addBtn(MouseEvent event) {
@@ -177,14 +179,19 @@ public class TableController extends Controller implements Initializable {
         }
     }
 
-
     public void refreshTable() {
         StudentList.clear();
         try {
             dbFunctions db = new dbFunctions();
             Connection conn = db.connect_to_db(Database, lUser, Password);
-            String query = "SELECT * FROM student_info";
+            String query = "SELECT student_info.lrn, student_info.firstname, student_info.lastname, " +
+                    "student_info.gender, student_info.age, teacher_info.grade_section " +
+                    "FROM student_info " +
+                    "JOIN teacher_info ON teacher_info.employeeID = student_info.adviserID " +
+                    "WHERE teacher_info.employeeID = ?";
+
             PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, teacherID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -193,7 +200,8 @@ public class TableController extends Controller implements Initializable {
                         resultSet.getString("firstname"),
                         resultSet.getString("lastname"),
                         resultSet.getString("gender"),
-                        resultSet.getString("age")
+                        resultSet.getInt("age"),
+                        resultSet.getString("grade_section")  // Assuming grade_section is a string
                 ));
             }
 
@@ -201,19 +209,17 @@ public class TableController extends Controller implements Initializable {
             preparedStatement.close();
             conn.close();
 
+            // Set the items into the table
+            studentTable.setItems(StudentList);
+
         } catch (Exception e) {
             System.out.println("Error during data refresh: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void refresh(MouseEvent event){
-
-        refreshTable();
+    public void setTeacherID(String teacherID) {
+        this.teacherID = teacherID;
+        refreshTable(); // Refresh table with new teacherID
     }
-
-
-
-    }
-
-
+}

@@ -1,20 +1,24 @@
 package Tables;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 
 public class Student {
     private final SimpleStringProperty lrn;
     private final SimpleStringProperty firstname;
     private final SimpleStringProperty lastname;
     private final SimpleStringProperty gender;
-    private final SimpleStringProperty age;
+    private final SimpleIntegerProperty age;
+    private final SimpleStringProperty grade_section;
 
-    public Student(String lrn, String firstname, String lastname, String gender, String age) {
+    public Student(String lrn, String firstname, String lastname, String gender, int age, String gradeSection) {
         this.lrn = new SimpleStringProperty(lrn);
         this.firstname = new SimpleStringProperty(firstname);
         this.lastname = new SimpleStringProperty(lastname);
         this.gender = new SimpleStringProperty(gender);
-        this.age = new SimpleStringProperty(age);
+        this.age = new SimpleIntegerProperty(age);
+        this.grade_section = new SimpleStringProperty(gradeSection);
     }
 
     public String getLrn() {
@@ -65,15 +69,25 @@ public class Student {
         return gender;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age.get();
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age.set(age);
     }
 
-    public SimpleStringProperty ageProperty() {
+    public SimpleIntegerProperty ageProperty() {
         return age;
     }
+
+    public String getGrade_section() {
+        return grade_section.get();
+    }
+
+    public SimpleStringProperty grade_sectionProperty() {
+        return grade_section;
+    }
+
+
 }

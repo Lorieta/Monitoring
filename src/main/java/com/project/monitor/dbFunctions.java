@@ -85,46 +85,51 @@ public class dbFunctions extends Controller {
     //INSERT STUDENT PROFILE
     public void AddStudent(Connection conn, String tablename, String lrn, String fname, String lname, String gender, String age) {
         try {
+            // Get the logged-in teacher's ID
+            String adviserID = Controller.getLoggedInTeacherID();
 
-            String query = "INSERT INTO student_info" + " (lrn,firstname,lastname,gender,age) VALUES (?, ?, ?, ?, ?);";
+            // Prepare the SQL query with the adviserID (employeeID of the teacher)
+            String query = "INSERT INTO student_info (lrn, firstname, lastname, gender, age, adviserID) VALUES (?, ?, ?, ?, ?, ?);";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, lrn);
             statement.setString(2, fname);
             statement.setString(3, lname);
             statement.setString(4, gender);
             statement.setString(5, age);
+            statement.setString(6, adviserID);
 
             int rowsInserted = statement.executeUpdate();
             System.out.println(rowsInserted);
             if (rowsInserted > 0) {
                 System.out.println("ADDED STUDENT");
-
             } else {
                 System.out.println("Failed ADD STUDENT.");
-
             }
+
             statement.close();
             conn.close();
-
         } catch (SQLException e) {
-            System.out.println("An error occurred while signing up teacher: " + e.getMessage());
+            System.out.println("An error occurred while adding student: " + e.getMessage());
             e.printStackTrace();
-
         }
-
     }
 
 
-    //INSERT STUDENT PROFILE
-    public void updateStudentInDatabase(Connection conn, String tablename, String firstname, String lastname, String gender, String age, String lrn) {
+
+    public void updateStudentInDatabase(Connection conn, String tablename, String firstname, String lastname, String gender, int age, String lrn) {
         try {
-            String query = "UPDATE " + tablename + " SET firstname = ?, lastname = ?, gender = ?, age = ? WHERE lrn = ?";
+            // Get the logged-in teacher's ID
+            String adviserID = Controller.getLoggedInTeacherID();
+
+            // Prepare the SQL query with the adviserID (employeeID of the teacher)
+            String query = "UPDATE " + tablename + " SET firstname = ?, lastname = ?, gender = ?, age = ?, adviserID = ? WHERE lrn = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, firstname);
             preparedStatement.setString(2, lastname);
             preparedStatement.setString(3, gender);
-            preparedStatement.setString(4, age);
-            preparedStatement.setString(5, lrn);
+            preparedStatement.setInt(4, age);
+            preparedStatement.setString(5, adviserID);
+            preparedStatement.setString(6, lrn);
 
             int rowsUpdated = preparedStatement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -140,6 +145,7 @@ public class dbFunctions extends Controller {
             e.printStackTrace();
         }
     }
+
 
     public void deleteStudent(Connection conn, String lrn) throws SQLException {
         String query = "DELETE FROM student_info WHERE lrn = ?";

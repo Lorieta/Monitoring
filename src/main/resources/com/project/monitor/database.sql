@@ -1,20 +1,33 @@
 CREATE TABLE Student_info(
-  LRN varchar(255),
+  lrn varchar(255),
   Firstname varchar(255),
   Lastname varchar(255),
   Gender varchar(255),
-  birthDay Date(255),
-
+  age varchar(255),
+ adviserID varchar(255) NOT NULL REFERENCES teacher_info(employeeID),
+ UNIQUE(adviserID),
   PRIMARY KEY (LRN)
+);
+
+SELECT student_info.lrn, student_info.firstname, student_info.lastname, student_info.gender, student_info.age, teacher_info.grade_section
+FROM student_info
+JOIN teacher_info ON teacher_info.employeeID = student_info.adviserID;
+
+
+CREATE TABLE SectionClassList (
+  sectionID BIGSERIAL NOT NULL,
+  LRN varchar(255) NOT NULL REFERENCES student_info(lrn),
+  adviserID varchar(255) NOT NULL REFERENCES teacher_info(employeeID),
+  PRIMARY KEY (`sectionID`)
 );
 
 
 
 CREATE TABLE teacher_Info(
-  EmployeeID VARCHAR(225),
-  TeacherFname VARCHAR(225),
-  TeacherLname VARCHAR(225),
-  Grade_Section VARCHAR(225),
+  employeeID VARCHAR(225),
+  teacherFname VARCHAR(225),
+  teacherLname VARCHAR(225),
+  grade_section VARCHAR(225),
   Password VARCHAR(225),
   PRIMARY KEY (EmployeeID)
 );

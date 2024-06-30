@@ -1,12 +1,12 @@
 package com.project.monitor;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,29 +55,39 @@ public class AddStudent {
         String gender = genderTb.getText();
         String age = ageTb.getText();
 
-        if (!checker(lrn) && !checker(fname) && !checker(lname) && !checker(gender) && !checker(age)) {
-            try {
-                // Check if LRN already exists
-                if (isLRNUnique(lrn)) {
-                    dbFunctions db = new dbFunctions();
-                    Connection conn = db.connect_to_db(Database, lUser, Password);
-                    db.AddStudent(conn, "student_info", lrn, fname, lname, gender, age);
-                    conn.close();
-                    clearFields();
+        if (!isNumeric(lrn) || !isNumeric(age)) {
+            showAlert("LRN and age must be valid numbers.");
+            return;
+        }
 
-                    // Refresh table after successful addition
-                    if (tableController != null) {
-                        tableController.refreshTable();
-                    }
-                } else {
-                    showAlert("LRN already exists. Please enter a unique LRN.");
+        try {
+            // Check if LRN already exists
+            if (isLRNUnique(lrn)) {
+                dbFunctions db = new dbFunctions();
+                Connection conn = db.connect_to_db(Database, lUser, Password);
+                db.AddStudent(conn, "student_info", lrn, fname, lname, gender, age);
+                conn.close();
+                clearFields();
+
+                // Refresh table after successful addition
+                if (tableController != null) {
+                    tableController.refreshTable();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                showAlert("Error occurred while adding student.");
+            } else {
+                showAlert("LRN already exists. Please enter a unique LRN.");
             }
-        } else {
-            showAlert("All fields are required.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error occurred while adding student.");
+        }
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 

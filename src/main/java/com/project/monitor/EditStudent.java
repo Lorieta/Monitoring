@@ -2,6 +2,7 @@ package com.project.monitor;
 
 import Tables.Student;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -52,7 +53,7 @@ public class EditStudent {
         fnametb.setText(student.getFirstname());
         lnametb.setText(student.getLastname());
         gendertb.setText(student.getGender());
-        agetb.setText(student.getAge());
+        agetb.setText(String.valueOf(student.getAge()));
     }
 
     public boolean isSaveClicked() {
@@ -61,27 +62,42 @@ public class EditStudent {
 
     @FXML
     public void saveChanges() {
-        student.setLrn(lrntb.getText());
-        student.setFirstname(fnametb.getText());
-        student.setLastname(lnametb.getText());
-        student.setGender(gendertb.getText());
-        student.setAge(agetb.getText());
+        try {
+            int age = Integer.parseInt(agetb.getText()); // Validate that age is an integer
 
-        // Initialize dbFunctions
-        db = new dbFunctions();
+            student.setLrn(lrntb.getText());
+            student.setFirstname(fnametb.getText());
+            student.setLastname(lnametb.getText());
+            student.setGender(gendertb.getText());
+            student.setAge(age);
 
-        // Get database connection
-        Connection conn = db.connect_to_db(Database, lUser, Password);
+            // Initialize dbFunctions
+            db = new dbFunctions();
 
-        // Update student in the database
-        db.updateStudentInDatabase(conn, "student_info", student.getFirstname(), student.getLastname(), student.getGender(), student.getAge(), student.getLrn());
+            // Get database connection
+            Connection conn = db.connect_to_db(Database, lUser, Password);
 
-        saveClicked = true;
-        dialogStage.close();
+            // Update student in the database
+            db.updateStudentInDatabase(conn, "student_info", student.getFirstname(), student.getLastname(), student.getGender(), student.getAge(), student.getLrn());
+
+            saveClicked = true;
+            dialogStage.close();
+        } catch (NumberFormatException e) {
+            showAlert("Only integers are allowed for age.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error occurred while saving changes.");
+        }
     }
 
     @FXML
     private void cancelEdit() {
         dialogStage.close();
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

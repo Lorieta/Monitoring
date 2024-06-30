@@ -10,12 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.Objects;
-
 
 public class Controller  {
 
@@ -26,25 +24,24 @@ public class Controller  {
     @FXML
     private TextField fnameField;
     @FXML
-    private  TextField lnameField;
+    private TextField lnameField;
     @FXML
-    private  TextField gradeandsectionField;
+    private TextField gradeandsectionField;
     @FXML
     private TextField passwordField;
     @FXML
     private TextField loginField;
     @FXML
-    private  PasswordField loginPassField;
-
+    private PasswordField loginPassField;
 
     private final String css = Objects.requireNonNull(this.getClass().getResource("application.css")).toExternalForm();
     private Stage stage;
     private Scene scene;
+    private static String loggedInTeacherID;
+
     public static boolean checker(String str) {
         return str == null || str.trim().isEmpty();
     }
-
-
 
     public void switchToSignUp(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("signup.fxml"));
@@ -53,7 +50,6 @@ public class Controller  {
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
-
     }
 
     public void switchToLogin(MouseEvent event)throws IOException{
@@ -63,12 +59,9 @@ public class Controller  {
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
-
     }
 
-
-
-   public void signUpGetter(MouseEvent event) {
+    public void signUpGetter(MouseEvent event) {
         dbFunctions db = new dbFunctions();
         Connection conn = db.connect_to_db("projectdb","postgres","123");
         String teacherID = teacherIDField.getText();
@@ -79,10 +72,8 @@ public class Controller  {
 
         if (!checker(teacherID)&&!checker(fname)&&!checker(lname)&&!checker(password)&&!checker(gradeandsection)){
             db.signup(conn,"teacher_info", teacherID,fname,lname,gradeandsection,password);
-
-
         } else {
-       showAlert("Fill all Fields");
+            showAlert("Fill all Fields");
         }
     }
 
@@ -95,9 +86,19 @@ public class Controller  {
         try {
             if (!checker(employeeid) && !checker(password)) {
                 if (db.login(conn, "teacher_info", employeeid, password)) {
-                    Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+                    // Store the logged-in teacher's ID
+                    loggedInTeacherID = employeeid;
+
+                    // Switch to TableController
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("student.fxml"));
+                    Parent root = loader.load();
+
+                    TableController tableController = loader.getController();
+                    tableController.setTeacherID(employeeid); // Pass teacherID to TableController
+
                     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
+                    scene.getStylesheets().add(css);
                     stage.setScene(scene);
                     stage.show();
                 } else {
@@ -112,7 +113,6 @@ public class Controller  {
         }
     }
 
-
     public void showAlert(String messageText) {
         Alert message = new Alert(Alert.AlertType.ERROR);
         message.setTitle("Error");
@@ -121,14 +121,7 @@ public class Controller  {
         message.showAndWait();
     }
 
-    public void switchColor(MouseEvent event)throws IOException{
-        this.toSignUP.setTextFill(Color.web("#0076a3"));
+    public static String getLoggedInTeacherID() {
+        return loggedInTeacherID;
     }
-    public void defaultColor(MouseEvent event)throws IOException{
-        this.toSignUP.setTextFill(Color.web("#000000"));
-    }
-
-
 }
-
-
