@@ -3,17 +3,18 @@ CREATE TABLE Student_info(
   Firstname varchar(255),
   Lastname varchar(255),
   Gender varchar(255),
-  Age varchar(255),
+  birthDay Date(255),
+
   PRIMARY KEY (LRN)
 );
 
 
 
-CREATE TABLE Teacher_Info(
+CREATE TABLE teacher_Info(
   EmployeeID VARCHAR(225),
   TeacherFname VARCHAR(225),
   TeacherLname VARCHAR(225),
-  "Section" VARCHAR(225),
+  Grade_Section VARCHAR(225),
   Password VARCHAR(225),
   PRIMARY KEY (EmployeeID)
 );

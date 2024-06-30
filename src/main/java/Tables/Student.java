@@ -1,60 +1,79 @@
 package Tables;
 
-import java.sql.Date;
+import javafx.beans.property.SimpleStringProperty;
 
 public class Student {
+    private final SimpleStringProperty lrn;
+    private final SimpleStringProperty firstname;
+    private final SimpleStringProperty lastname;
+    private final SimpleStringProperty gender;
+    private final SimpleStringProperty age;
 
-    String LRN;
-    String firstname;
-    String lastname;
-    String gender;
-    Date dateOfBirth;
-
-    public Student(Date dateOfBirth, String gender, String lastname, String firstname, String LRN) {
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.LRN = LRN;
+    public Student(String lrn, String firstname, String lastname, String gender, String age) {
+        this.lrn = new SimpleStringProperty(lrn);
+        this.firstname = new SimpleStringProperty(firstname);
+        this.lastname = new SimpleStringProperty(lastname);
+        this.gender = new SimpleStringProperty(gender);
+        this.age = new SimpleStringProperty(age);
     }
 
-    public String getLRN() {
-        return LRN;
+    public String getLrn() {
+        return lrn.get();
     }
 
-    public void setLRN(String LRN) {
-        this.LRN = LRN;
+    public void setLrn(String lrn) {
+        this.lrn.set(lrn);
+    }
+
+    public SimpleStringProperty lrnProperty() {
+        return lrn;
     }
 
     public String getFirstname() {
-        return firstname;
+        return firstname.get();
     }
 
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.firstname.set(firstname);
+    }
+
+    public SimpleStringProperty firstnameProperty() {
+        return firstname;
     }
 
     public String getLastname() {
-        return lastname;
+        return lastname.get();
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastname.set(lastname);
+    }
+
+    public SimpleStringProperty lastnameProperty() {
+        return lastname;
     }
 
     public String getGender() {
-        return gender;
+        return gender.get();
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        this.gender.set(gender);
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public SimpleStringProperty genderProperty() {
+        return gender;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public String getAge() {
+        return age.get();
+    }
+
+    public void setAge(String age) {
+        this.age.set(age);
+    }
+
+    public SimpleStringProperty ageProperty() {
+        return age;
     }
 }

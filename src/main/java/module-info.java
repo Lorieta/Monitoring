@@ -8,4 +8,6 @@ module com.project.monitor {
 
     opens com.project.monitor to javafx.fxml;
     exports com.project.monitor;
+    exports Tables;
+    opens Tables to javafx.fxml;
 }

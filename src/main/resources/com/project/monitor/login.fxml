@@ -17,7 +17,7 @@
    <VBox alignment="CENTER" prefWidth="300" spacing="15.0">
       <TextField fx:id="loginField" promptText="Teacher ID" styleClass="text-field" />
       <PasswordField fx:id="loginPassField" promptText="Password" styleClass="password-field" />
-      <Button id="loginID" onMouseClicked="#login" styleClass="button-login" text="Login" />
+      <Button id="loginID" onMouseClicked="#login" styleClass="button-login" stylesheets="@application.css" text="Login" />
    </VBox>
    <HBox alignment="CENTER" spacing="5">
       <Label fx:id="toSignUP" onMouseClicked="#switchToSignUp" onMouseEntered="#switchColor" onMouseExited="#defaultColor" text="Don't have an account?" />

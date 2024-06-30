@@ -34,12 +34,12 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        String Database = System.getenv("POSTGRESQL_DATABASE");
-        String lUser = System.getenv("POSTGRESQL_USER");
-        String Password = System.getenv("POSTGRESQL_PASSWORD");
+        String Database = Config.DATABASE;
+        String lUser =  Config.USER;
+        String Password = Config.PASSWORD;
 
         dbFunctions db = new dbFunctions();
-        Connection conn = db.connect_to_db("projectdb","postgres","123");
+        Connection conn = db.connect_to_db(Database,lUser,Password);
 
         launch(args);
 
