@@ -90,3 +90,30 @@
     -fx-font-weight: 400;
     -fx-text-fill: black;
 }
+
+
+/*EDIT AND DELETE BUTTON*/
+
+.edit-button {
+    -fx-background-color: #4CAF50; /* Green background */
+    -fx-text-fill: white; /* White text */
+    -fx-padding: 5 10 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.edit-button:hover {
+    -fx-background-color: #45a049; /* Darker green when hovered */
+}
+
+.delete-button {
+    -fx-background-color: #f44336; /* Red background */
+    -fx-text-fill: white; /* White text */
+    -fx-padding: 5 10 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.delete-button:hover {
+    -fx-background-color: #e53935; /* Darker red when hovered */
+}

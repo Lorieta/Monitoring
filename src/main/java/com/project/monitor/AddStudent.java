@@ -1,10 +1,12 @@
 package com.project.monitor;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -68,7 +70,7 @@ public class AddStudent {
 
                     // Refresh table after successful addition
                     if (tableController != null) {
-                        tableController.loadDate();
+                        tableController.refreshTable();
                     }
                 } else {
                     showAlert("LRN already exists. Please enter a unique LRN.");
@@ -93,7 +95,7 @@ public class AddStudent {
 
     @FXML
     void exit(MouseEvent event) {
-        // Handle exit action
+
     }
 
     private boolean isLRNUnique(String lrn) {
