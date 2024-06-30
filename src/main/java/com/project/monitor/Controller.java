@@ -45,6 +45,7 @@ public class Controller  {
     }
 
 
+
     public void switchToSignUp(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("signup.fxml"));
         stage = ((Stage)((Node)event.getSource()).getScene().getWindow());

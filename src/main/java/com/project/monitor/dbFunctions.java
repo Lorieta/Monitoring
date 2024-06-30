@@ -114,15 +114,58 @@ public class dbFunctions extends Controller {
 
     }
 
-    //UPDATE STUDENT
 
+    //INSERT STUDENT PROFILE
+    public void updateStudentInDatabase(Connection conn, String tablename, String firstname, String lastname, String gender, String age, String lrn) {
+        try {
+            String query = "UPDATE " + tablename + " SET firstname = ?, lastname = ?, gender = ?, age = ? WHERE lrn = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, firstname);
+            preparedStatement.setString(2, lastname);
+            preparedStatement.setString(3, gender);
+            preparedStatement.setString(4, age);
+            preparedStatement.setString(5, lrn);
 
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Updated student successfully.");
+            } else {
+                System.out.println("Failed to update student.");
+            }
 
-
-
-
-
+            preparedStatement.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error updating student: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
+    public void deleteStudent(Connection conn, String lrn) throws SQLException {
+        String query = "DELETE FROM student_info WHERE lrn = ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(query);
+        preparedStatement.setString(1, lrn);
+
+        int affectedRows = preparedStatement.executeUpdate();
+        if (affectedRows > 0) {
+            System.out.println("Student deleted successfully");
+        } else {
+            System.out.println("Failed to delete student");
+        }
+
+        preparedStatement.close();
+    }
+
+}
+
+
+
+
+
+
+
+
+
 
 
 
