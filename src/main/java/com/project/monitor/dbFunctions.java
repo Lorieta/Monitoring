@@ -26,25 +26,25 @@ public class dbFunctions extends Controller {
     }
 
     //LOGIN
-    public boolean login(Connection conn, String tablename, int teacherID, String password) {
-        try {
-            String query = String.format("SELECT * FROM %s WHERE teacher_id = ? AND password = ?;", tablename);
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setInt(1, teacherID);
+    public boolean login(Connection conn, String tablename, String employeeid, String password) {
+        String query = String.format("SELECT * FROM %s WHERE employeeid = ? AND password = ?;", tablename);
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, employeeid);
             preparedStatement.setString(2, password);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            boolean loggedIn = resultSet.next(); // If there is a next row, login successful
-
-            resultSet.close(); // Close resultSet
-            preparedStatement.close(); // Close preparedStatement
-            conn.close();
-
-            return loggedIn;
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next(); // If there is a next row, login is successful
+            }
         } catch (SQLException e) {
             System.out.println("Error during login: " + e.getMessage());
             return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
     }
 
@@ -114,6 +114,15 @@ public class dbFunctions extends Controller {
 
     }
 
+    //UPDATE STUDENT
+
+
+
+
+
+
+
+    }
 
 
 
@@ -124,7 +133,7 @@ public class dbFunctions extends Controller {
 
 
 
-}
+
 
 
 

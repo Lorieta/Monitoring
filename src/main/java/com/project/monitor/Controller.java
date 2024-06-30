@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.Objects;
 
-public class Controller extends Events {
+
+public class Controller  {
 
     @FXML
     private Label toSignUP;
@@ -39,8 +40,9 @@ public class Controller extends Events {
     private final String css = Objects.requireNonNull(this.getClass().getResource("application.css")).toExternalForm();
     private Stage stage;
     private Scene scene;
-    private Parent root;
-
+    public static boolean checker(String str) {
+        return str == null || str.trim().isEmpty();
+    }
 
 
     public void switchToSignUp(MouseEvent event) throws IOException {
@@ -79,33 +81,43 @@ public class Controller extends Events {
 
 
         } else {
-            System.out.println("Missing fields detected.");
-            Alert message = new Alert(Alert.AlertType.ERROR);
-            message.setTitle("Missing fields");
-            message.setHeaderText(null);
-            message.setContentText("Fill all fields");
-            message.showAndWait();
+       showAlert("Fill all Fields");
         }
     }
 
     public void login(MouseEvent event) throws IOException {
         dbFunctions db = new dbFunctions();
-        Connection conn = db.connect_to_db("projectdb","postgres","123");
-        int teacherID = Integer.parseInt(loginField.getText());
+        Connection conn = db.connect_to_db("projectdb", "postgres", "123");
+        String employeeid = loginField.getText();
         String password = loginPassField.getText();
 
-        if(db.login(conn,"teacher",teacherID,password)){
-            Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-            stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
-            scene = new Scene(root);
-            scene.getStylesheets().add(css);
-            stage.setScene(scene);
-            stage.show();
-
-        }else {
-            System.out.println("error");
+        try {
+            if (!checker(employeeid) && !checker(password)) {
+                if (db.login(conn, "teacher_info", employeeid, password)) {
+                    Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } else {
+                    showAlert("Login failed. No account found with the provided credentials.");
+                }
+            } else {
+                showAlert("Missing fields detected. Fill all fields.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("An error occurred during login. Please try again.");
         }
+    }
 
+
+    public void showAlert(String messageText) {
+        Alert message = new Alert(Alert.AlertType.ERROR);
+        message.setTitle("Error");
+        message.setHeaderText(null);
+        message.setContentText(messageText);
+        message.showAndWait();
     }
 
     public void switchColor(MouseEvent event)throws IOException{

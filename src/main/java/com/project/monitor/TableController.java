@@ -4,22 +4,27 @@ import Tables.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class TableController implements Initializable {
+public class TableController extends Controller implements Initializable {
 
     private final String Database = Config.DATABASE;
     private final String lUser = Config.USER;
@@ -31,12 +36,8 @@ public class TableController implements Initializable {
     @FXML
     private TableColumn<Student, String> LRNColumn;
 
-
     @FXML
     private TableColumn<Student, String> ageColumn;
-
-    @FXML
-    private TableColumn<Student, String> editColumn;
 
     @FXML
     private TableColumn<Student, String> firstnameColumn;
@@ -44,56 +45,41 @@ public class TableController implements Initializable {
     @FXML
     private TableColumn<Student, String> lastnameColumn;
 
+    @FXML
+    private TableColumn<Student, String> editColumn;
 
     @FXML
     private TableView<Student> studentTable;
     private final ObservableList<Student> StudentList = FXCollections.observableArrayList();
 
-    @FXML
-    private TextField lrnTb;
-
-    @FXML
-    private TextField lnametb;
 
 
     @FXML
-    private TextField fnametb;
-
-    @FXML
-    private TextField gendertb;
-
-    @FXML
-    private TextField agetb;
+    void addBtn(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addStudent.fxml"));
+            Parent parent = loader.load();
 
 
+            AddStudent addStudentController = loader.getController();
+            addStudentController.setTableController(this); // Pass reference to TableController
 
-    @FXML
-    void addBtn(MouseEvent event) throws  Exception{
-        String lrn = lrnTb.getText();
-        String fname = fnametb.getText();
-        String lname =lnametb.getText();
-        String gender = gendertb.getText();
-        String age = agetb.getText();
-    try{
-        dbFunctions db = new dbFunctions();
-        Connection conn = db.connect_to_db(Database, lUser, Password);
-        db.AddStudent(conn,"student_info",lrn,fname,lname,gender,age);
-    }catch (Exception e){
-
-
-    }
-
-
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(TableController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
+    }
 
     @FXML
     void refresh(MouseEvent event) {
         refreshTable();
     }
 
-    private void loadDate() {
+    public void loadDate() {
         LRNColumn.setCellValueFactory(new PropertyValueFactory<>("lrn"));
         firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
         lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
@@ -105,8 +91,7 @@ public class TableController implements Initializable {
         refreshTable();
     }
 
-
-    private void refreshTable() {
+    public void refreshTable() {
         StudentList.clear();
         try {
             dbFunctions db = new dbFunctions();
@@ -140,5 +125,3 @@ public class TableController implements Initializable {
         loadDate();
     }
 }
-
-
