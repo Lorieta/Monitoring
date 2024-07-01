@@ -5,7 +5,7 @@ CREATE TABLE Student_info(
   Gender varchar(255),
   age varchar(255),
  adviserID varchar(255) NOT NULL REFERENCES teacher_info(employeeID),
- UNIQUE(adviserID),
+
   PRIMARY KEY (LRN)
 );
 
@@ -38,17 +38,25 @@ CREATE TABLE Languagetype (
   PRIMARY KEY (LanguageID)
 );
 
-CREATE TABLE Resources (
-  ResourceID BIGSERIAL,
-  LanguageID BIGINT NOT NULL REFERENCES languagetype (LanguageID),
-  ResourceTitle VARCHAR(255) NOT NULL,
-  URL VARCHAR(255),
-  "Author/Publisher" VARCHAR(255) NOT NULL,
-   "Date Published" date,
-  ResourceType VARCHAR(255) NOT NULL,
-  PRIMARY KEY (ResourceID)
-
+CREATE TABLE Materials (
+  `MaterialsId` int BIGSERIAL,
+  `TypeID` BIGINT  NOT NULL REFERENCES languagetype(Language),
+  ` ResourceTitle` <type>,
+  `URL` VARCHAR(255),
+  `Author/Publisher` VARCHAR(255),
+  ` Date_Published` date,
+  `ResourceID` BIGINT  NOT NULL REFERENCES Resourcetype(resourceid),
+  PRIMARY KEY (`MaterialsId`)
 );
+
+
+CREATE TABLE Resourcetype (
+  `resourceid` Type,
+  `ResourceType` Type,
+  PRIMARY KEY (`resourceid`)
+);
+
+
 
 SELECT * FROM resources
 JOIN languagetype on resources.LanguageID = languagetype.LanguageID

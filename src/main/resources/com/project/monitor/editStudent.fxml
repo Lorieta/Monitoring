@@ -11,7 +11,7 @@
    <children>
       <Pane layoutY="-1.0" prefHeight="538.0" prefWidth="454.0" style="-fx-background-color: blue;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextField fx:id="lrntb" layoutX="151.0" layoutY="119.0" prefHeight="26.0" prefWidth="289.0" style="-fx-background-color: white;" />
+            <TextField fx:id="lrntb" disable="true" layoutX="151.0" layoutY="119.0" opacity="0.59" prefHeight="26.0" prefWidth="289.0" style="-fx-background-color: white;" />
             <Text layoutX="12.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit info">
                <font>
                   <Font size="40.0" />

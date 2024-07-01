@@ -3,7 +3,6 @@ package com.project.monitor;
 import Tables.Student;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -14,11 +13,6 @@ public class EditStudent {
     @FXML
     private TextField agetb;
 
-    @FXML
-    private Button cancelbtn;
-
-    @FXML
-    private Button confirmbtn;
 
     @FXML
     private TextField fnametb;
@@ -35,7 +29,7 @@ public class EditStudent {
     private Stage dialogStage;
     private Student student;
     private boolean saveClicked = false;
-    private dbFunctions db; // Add an instance of dbFunctions
+    private dbFunctions db;
 
     // Database connection parameters
     String Database = Config.DATABASE;
@@ -63,7 +57,7 @@ public class EditStudent {
     @FXML
     public void saveChanges() {
         try {
-            int age = Integer.parseInt(agetb.getText()); // Validate that age is an integer
+            int age = Integer.parseInt(agetb.getText());
 
             student.setLrn(lrntb.getText());
             student.setFirstname(fnametb.getText());
@@ -71,22 +65,22 @@ public class EditStudent {
             student.setGender(gendertb.getText());
             student.setAge(age);
 
-            // Initialize dbFunctions
             db = new dbFunctions();
-
-            // Get database connection
             Connection conn = db.connect_to_db(Database, lUser, Password);
 
-            // Update student in the database
-            db.updateStudentInDatabase(conn, "student_info", student.getFirstname(), student.getLastname(), student.getGender(), student.getAge(), student.getLrn());
-
-            saveClicked = true;
-            dialogStage.close();
+            if (conn != null) {
+                db.updateStudentInDatabase(conn, "student_info", student.getFirstname(), student.getLastname(), student.getGender(), student.getAge(), student.getLrn());
+                saveClicked = true;
+                conn.close(); // Close the connection
+                dialogStage.close();
+            } else {
+                showAlert("Failed to connect to the database.");
+            }
         } catch (NumberFormatException e) {
             showAlert("Only integers are allowed for age.");
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error occurred while saving changes.");
+            showAlert("Error occurred while saving changes: " + e.getMessage());
         }
     }
 

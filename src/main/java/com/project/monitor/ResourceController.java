@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TableController extends Controller implements Initializable {
+public class ResourceController extends Controller implements Initializable {
     String Database = Config.DATABASE;
     String lUser = Config.USER;
     String Password = Config.PASSWORD;
@@ -193,24 +193,7 @@ public class TableController extends Controller implements Initializable {
         }
     }
 
-    @FXML
-    void addBtn(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("addStudent.fxml"));
-            Parent parent = loader.load();
 
-            AddStudent addStudentController = loader.getController();
-            addStudentController.setTableController(this);
-
-            Scene scene = new Scene(parent);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.initStyle(StageStyle.UTILITY);
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(TableController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public void refreshTable() {
         StudentList.clear();
@@ -258,6 +241,6 @@ public class TableController extends Controller implements Initializable {
 
     @FXML
     void search(ActionEvent event) {
-    setupSearchFilter();
+        setupSearchFilter();
     }
 }

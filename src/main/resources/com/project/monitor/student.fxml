@@ -5,6 +5,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
@@ -18,7 +20,7 @@
             <Button layoutX="905.0" layoutY="3.0" prefHeight="43" prefWidth="204" styleClass="button4" text="ASSESSMENT" />
         </children>
     </AnchorPane>
-    <TableView fx:id="studentTable" layoutX="58.0" layoutY="254.0" prefHeight="299.0" prefWidth="897.0" style="-fx-background-color: blue;" stylesheets="@table.css">
+    <TableView fx:id="studentTable" layoutX="153.0" layoutY="264.0" prefHeight="299.0" prefWidth="897.0" style="-fx-background-color: blue;" stylesheets="@table.css">
         <columns>
             <TableColumn fx:id="LRNColumn" prefWidth="75.0" text="LRN" />
             <TableColumn fx:id="firstnameColumn" prefWidth="100.0" text="First Name" />
@@ -32,12 +34,16 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
-    <Pane layoutX="249.0" layoutY="120.0" prefHeight="114.0" prefWidth="743.0">
+    <Pane layoutX="307.0" layoutY="197.0" prefHeight="58.0" prefWidth="743.0">
         <children>
-            <TextField fx:id="STDsearchbar" layoutX="365.0" layoutY="17.0" prefHeight="39.0" prefWidth="311.0" promptText="Search" styleClass="button5" />
-            <Button fx:id="STDsearchbtn" layoutX="682.0" layoutY="21.0" mnemonicParsing="false" text="Search" />
-            <Button fx:id="addButton" layoutX="682.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#addBtn" stylesheets="@application.css" text="ADD" />
-         <Button layoutX="605.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#refreshTable" text="REFRESH" />
+            <TextField fx:id="searchField" layoutX="412.0" layoutY="14.0" onAction="#search" prefHeight="39.0" prefWidth="311.0" promptText="Search" styleClass="button5" />
+            <Button fx:id="addButton" layoutX="269.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#addBtn" stylesheets="@application.css" text="ADD" />
+         <Button layoutX="328.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#refreshTable" text="REFRESH" />
+         <ImageView fitHeight="27.0" fitWidth="21.0" layoutX="685.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@images/pngwing.com.png" />
+            </image>
+         </ImageView>
         </children>
     </Pane>
 </AnchorPane>
