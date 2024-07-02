@@ -71,16 +71,9 @@ public class TableController extends Controller implements Initializable {
         GenderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
 
-        // Use gradeSectionProperty() method of Student for gradeandSectionCol
+
         gradeandSectionCol.setCellValueFactory(cellData -> cellData.getValue().grade_sectionProperty());
 
-        // Make firstnameColumn editable (if needed)
-        firstnameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        firstnameColumn.setOnEditCommit(event -> {
-            Student student = event.getRowValue();
-            student.setFirstname(event.getNewValue());
-            // Implement update method as per your database handling
-        });
 
         // Set the cell factory for the actions column
         actionsColumn.setCellFactory(new Callback<>() {
@@ -156,7 +149,7 @@ public class TableController extends Controller implements Initializable {
 
     private void handleEdit(Student student) {
         try {
-            dbFunctions db = new dbFunctions();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("editStudent.fxml"));
             Parent parent = loader.load();
 
@@ -215,7 +208,7 @@ public class TableController extends Controller implements Initializable {
     public void refreshTable() {
         StudentList.clear();
         try {
-            dbFunctions db = new dbFunctions();
+
             Connection conn = db.connect_to_db(Database, lUser, Password);
             String query = "SELECT student_info.lrn, student_info.firstname, student_info.lastname, " +
                     "student_info.gender, student_info.age, teacher_info.grade_section " +

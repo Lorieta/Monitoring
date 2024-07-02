@@ -1,91 +1,114 @@
 package com.project.monitor;
+import java.awt.Desktop;
+import java.net.URI;
+import javafx.scene.control.Alert;
 
+import Tables.ResourceModel;
 import Tables.Student;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
-import java.io.IOException;
+import javax.print.attribute.standard.RequestingUserName;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class ResourceController extends Controller implements Initializable {
+
     String Database = Config.DATABASE;
     String lUser = Config.USER;
     String Password = Config.PASSWORD;
 
     @FXML
-    private TableColumn<Student, String> GenderColumn;
-    @FXML
-    private TableColumn<Student, String> LRNColumn;
-    @FXML
-    private TableColumn<Student, String> ageColumn;
-    @FXML
-    private TableColumn<Student, String> firstnameColumn;
-    @FXML
-    private TableColumn<Student, String> lastnameColumn;
-    @FXML
-    private TableColumn<Student, String> gradeandSectionCol;
-    @FXML
-    private TableColumn<Student, Void> actionsColumn;
-    @FXML
-    private TableView<Student> studentTable;
-    @FXML
-    private TextField searchField; // Add this line
+    private TableView<ResourceModel> MaterialTable;
 
-    private final ObservableList<Student> StudentList = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<ResourceModel, Void> actioncol;
+
+    @FXML
+    private TableColumn<ResourceModel, String> authorcol;
+
+    @FXML
+    private TableColumn<ResourceModel, Date> datecol;
+
+    @FXML
+    private TableColumn<ResourceModel, String> languagecol;
+
+    @FXML
+    private TableColumn<ResourceModel, Integer> materialIDcol;
+
+    @FXML
+    private TableColumn<ResourceModel, String> resourcetitlecol;
+
+    @FXML
+    private TableColumn<ResourceModel, String> resourcetypecol;
+
+    @FXML
+    private TableColumn<ResourceModel, String> urlcol;
+
+    @FXML
+    private TextField searchField;
+
+
+
+    private final ObservableList<ResourceModel> ResourceList = FXCollections.observableArrayList();
     private final dbFunctions db = new dbFunctions();
-    private String teacherID; // Variable to store teacherID
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
-        setupSearchFilter(); // Add this line
-        refreshTable();  // Initial data load
+
+        refreshTable();
+        setupSearchFilter();
     }
 
     private void setupTableColumns() {
-        LRNColumn.setCellValueFactory(new PropertyValueFactory<>("lrn"));
-        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-        lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-        GenderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
-
-        // Use gradeSectionProperty() method of Student for gradeandSectionCol
-        gradeandSectionCol.setCellValueFactory(cellData -> cellData.getValue().grade_sectionProperty());
-
-        // Make firstnameColumn editable (if needed)
-        firstnameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        firstnameColumn.setOnEditCommit(event -> {
-            Student student = event.getRowValue();
-            student.setFirstname(event.getNewValue());
-            // Implement update method as per your database handling
+        materialIDcol.setCellValueFactory(new PropertyValueFactory<>("materialid"));
+        resourcetitlecol.setCellValueFactory(new PropertyValueFactory<>("resourceTitle"));
+        urlcol.setCellValueFactory(new PropertyValueFactory<>("URL"));
+        authorcol.setCellValueFactory(new PropertyValueFactory<>("author_publisher"));
+        datecol.setCellValueFactory(new PropertyValueFactory<>("date_published"));
+        languagecol.setCellValueFactory(new PropertyValueFactory<>("languageType"));
+        resourcetypecol.setCellValueFactory(new PropertyValueFactory<>("resourceType"));
+        urlcol.setCellFactory(column -> {
+            return new TableCell<ResourceModel, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                        setOnMouseClicked(null);
+                    } else {
+                        setText(item);
+                        setStyle("-fx-text-fill: blue; -fx-underline: true;");
+                        setOnMouseClicked(event -> openWebPage(item));
+                    }
+                }
+            };
         });
 
+
+
         // Set the cell factory for the actions column
-        actionsColumn.setCellFactory(new Callback<>() {
+        actioncol.setCellFactory(new Callback<>() {
             @Override
-            public TableCell<Student, Void> call(final TableColumn<Student, Void> param) {
+            public TableCell<ResourceModel, Void> call(final TableColumn<ResourceModel, Void> param) {
                 return new TableCell<>() {
                     private final Button editButton = new Button("Edit");
                     private final Button deleteButton = new Button("Delete");
@@ -95,13 +118,13 @@ public class ResourceController extends Controller implements Initializable {
                         deleteButton.getStyleClass().add("delete-button");
 
                         editButton.setOnAction(event -> {
-                            Student student = getTableView().getItems().get(getIndex());
-                            handleEdit(student);
+                            ResourceModel resource = getTableView().getItems().get(getIndex());
+                            //
                         });
 
                         deleteButton.setOnAction(event -> {
-                            Student student = getTableView().getItems().get(getIndex());
-                            handleDelete(student);
+                            ResourceModel resource = getTableView().getItems().get(getIndex());
+                            // Implement delete action here
                         });
                     }
 
@@ -124,100 +147,28 @@ public class ResourceController extends Controller implements Initializable {
         });
     }
 
-    private void setupSearchFilter() {
-        FilteredList<Student> filteredData = new FilteredList<>(StudentList, b -> true);
-
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(student -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (student.getLrn().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (student.getFirstname().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (student.getLastname().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (student.getGender().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (student.getGrade_section().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-        });
-
-        studentTable.setItems(filteredData);
-    }
-
-    private void handleEdit(Student student) {
-        try {
-            dbFunctions db = new dbFunctions();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("editStudent.fxml"));
-            Parent parent = loader.load();
-
-            EditStudent editStudentController = loader.getController();
-            editStudentController.setDialogStage(new Stage());
-            editStudentController.setStudent(student);
-
-            Scene scene = new Scene(parent);
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Student");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-
-            dialogStage.setScene(scene);
-
-            editStudentController.setDialogStage(dialogStage);
-
-            dialogStage.showAndWait();
-
-            if (editStudentController.isSaveClicked()) {
-                refreshTable();
-            }
-        } catch (IOException e) {
-            Logger.getLogger(TableController.class.getName()).log(Level.SEVERE, null, e);
-        }
-    }
-
-    private void handleDelete(Student student) {
-        try {
-            Connection conn = db.connect_to_db(Database, lUser, Password);
-            db.deleteStudent(conn, student.getLrn().toString());
-            refreshTable();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
     public void refreshTable() {
-        StudentList.clear();
+        ResourceList.clear();
         try {
-            dbFunctions db = new dbFunctions();
             Connection conn = db.connect_to_db(Database, lUser, Password);
-            String query = "SELECT student_info.lrn, student_info.firstname, student_info.lastname, " +
-                    "student_info.gender, student_info.age, teacher_info.grade_section " +
-                    "FROM student_info " +
-                    "JOIN teacher_info ON teacher_info.employeeID = student_info.adviserID " +
-                    "WHERE teacher_info.employeeID = ?";
+            String query = "SELECT m.MaterialsId, m.ResourceTitle, m.URL, m.AuthorPublisher, m.Date_Published, lt.LanguageType, rt.ResourceType " +
+                    "FROM Materials m " +
+                    "JOIN Languagetype lt ON m.TypeID = lt.LanguageID " +
+                    "JOIN Resourcetype rt ON m.ResourceID = rt.ResourceID";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, teacherID);
+
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                StudentList.add(new Student(
-                        resultSet.getString("lrn"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("gender"),
-                        resultSet.getInt("age"),
-                        resultSet.getString("grade_section")  // Assuming grade_section is a string
+                ResourceList.add(new ResourceModel(
+                        new SimpleIntegerProperty(resultSet.getInt("MaterialsId")),
+                        new SimpleStringProperty(resultSet.getString("ResourceTitle")),
+                        new SimpleStringProperty(resultSet.getString("URL")),
+                        new SimpleStringProperty(resultSet.getString("AuthorPublisher")),
+                        resultSet.getDate("Date_Published"),
+                        new SimpleStringProperty(resultSet.getString("LanguageType")),
+                        new SimpleStringProperty(resultSet.getString("ResourceType"))
                 ));
             }
 
@@ -226,7 +177,7 @@ public class ResourceController extends Controller implements Initializable {
             conn.close();
 
             // Set the items into the table
-            studentTable.setItems(StudentList);
+            MaterialTable.setItems(ResourceList);
 
         } catch (Exception e) {
             System.out.println("Error during data refresh: " + e.getMessage());
@@ -234,13 +185,62 @@ public class ResourceController extends Controller implements Initializable {
         }
     }
 
-    public void setTeacherID(String teacherID) {
-        this.teacherID = teacherID;
-        refreshTable(); // Refresh table with new teacherID
-    }
+
+        private void setupSearchFilter() {
+            FilteredList<ResourceModel> filteredData = new FilteredList<>(ResourceList, b -> true);
+
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(resource -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+
+                    String lowerCaseFilter = newValue.toLowerCase();
+
+                    if (String.valueOf(resource.getMaterialid()).contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (resource.getResourceTitle().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (resource.getURL().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (resource.getAuthor_publisher().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (String.valueOf(resource.getDate_published()).toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+            });
+            MaterialTable.setItems(filteredData);
+        }
+
 
     @FXML
-    void search(ActionEvent event) {
-        setupSearchFilter();
+    void searchtb(ActionEvent event) {
+    setupSearchFilter();
     }
-}
+
+    private void openWebPage(String url) {
+        try {
+            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(new URI(url));
+            } else {
+                // Fallback for systems that don't support Desktop
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("xdg-open " + url);
+            }
+        } catch (Exception e) {
+            System.out.println("Error opening URL: " + e.getMessage());
+            e.printStackTrace();
+            // Show an error alert
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Opening URL");
+            alert.setHeaderText(null);
+            alert.setContentText("Unable to open the URL. Please check your internet connection and try again.");
+            alert.showAndWait();
+        }
+    }
+    }
+

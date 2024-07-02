@@ -60,3 +60,10 @@ CREATE TABLE Resourcetype (
 
 SELECT * FROM resources
 JOIN languagetype on resources.LanguageID = languagetype.LanguageID
+
+-- Insert data into Materials table
+INSERT INTO Materials (TypeID, ResourceTitle, URL, AuthorPublisher, Date_Published, ResourceID)
+VALUES
+(1, 'Effective Java', 'http://example.com/effectivejava', 'Joshua Bloch', '2018-01-01', 1),
+(2, 'Spanish Grammar', 'http://example.com/spanishgrammar', 'John Doe', '2019-06-15', 2),
+(3, 'French for Beginners', 'http://example.com/frenchbeginners', 'Jane Smith', '2020-09-10', 3);
