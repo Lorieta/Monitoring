@@ -1,87 +1,146 @@
 package com.project.monitor;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-public class Addresource {
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 
-    @FXML
-    private TextField Datepublished;
+public class Addresource implements Initializable {
 
-    @FXML
-    private Button addbtn;
+    private static final String DATABASE_URL = Config.DATABASE;
+    private static final String DATABASE_USER = Config.USER;
+    private static final String DATABASE_PASSWORD = Config.PASSWORD;
 
-    @FXML
-    private TextField authorField;
+    private dbFunctions db = new dbFunctions();
 
-    @FXML
-    private Button clearbtn;
+    @FXML private TextField authorField;
+    @FXML private ChoiceBox<String> languageTypeChoice;
+    @FXML private ChoiceBox<String> resourceTypeChoice;
+    @FXML private TextField titleField;
+    @FXML private TextField urlField;
+    @FXML private DatePicker datePublishedPicker;
 
-    @FXML
-    private ChoiceBox<String> languageType;
+    private ResourceController tableController;
 
-    @FXML
-    private ChoiceBox<String> resourceType;
-
-    @FXML
-    private TextField titleField;
-
-    @FXML
-    private TextField urlField;
-
-    private String selectedLanguage;
-    private String selectedResourceType;
+    public void setTableController(ResourceController tableController) {
+        this.tableController = tableController;
+    }
 
     @FXML
     void addResource(MouseEvent event) {
-        // Collect data from fields
-        String title = titleField.getText();
-        String author = authorField.getText();
-        String datePublished = Datepublished.getText();
-        String url = urlField.getText();
+        if (!validateInputs()) {
+            showAlert(Alert.AlertType.ERROR, "Input Error", "All fields except URL must be filled.");
+            return;
+        }
 
-        // Use the selected values from ChoiceBoxes
-        if (selectedLanguage != null && selectedResourceType != null) {
-            // TODO: Add logic to save the resource with all collected data
-            System.out.println("Adding resource: " + title + " by " + author);
-            System.out.println("Language: " + selectedLanguage);
-            System.out.println("Resource Type: " + selectedResourceType);
-        } else {
-            System.out.println("Please select both language and resource type.");
+        Connection conn = null;
+        try {
+            conn = db.connect_to_db(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+            conn.setAutoCommit(false);
+
+            java.sql.Date sqlDate = java.sql.Date.valueOf(datePublishedPicker.getValue());
+
+            boolean isAdded = db.addResourceToDatabase(conn,
+                    titleField.getText(),
+                    urlField.getText(),
+                    authorField.getText(),
+                    sqlDate,
+                    languageTypeChoice.getValue(),
+                    resourceTypeChoice.getValue());
+
+            if (isAdded) {
+                conn.commit();
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Resource added successfully.");
+                clearFields();
+
+                if (tableController != null) {
+                    tableController.refreshTable();
+                }
+            } else {
+                conn.rollback();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Database Error", "Error occurred while adding resource: " + e.getMessage());
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackException) {
+                rollbackException.printStackTrace();
+            }
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     @FXML
-    void clearFields(MouseEvent event) {
+    void clearFields() {
         titleField.clear();
         authorField.clear();
-        Datepublished.clear();
+        datePublishedPicker.setValue(null);
         urlField.clear();
-        languageType.getSelectionModel().clearSelection();
-        resourceType.getSelectionModel().clearSelection();
-        selectedLanguage = null;
-        selectedResourceType = null;
+        languageTypeChoice.getSelectionModel().clearSelection();
+        resourceTypeChoice.getSelectionModel().clearSelection();
     }
 
-    @FXML
-    public void initialize() {
-        // Initialize ChoiceBoxes
-        languageType.setItems(FXCollections.observableArrayList("English", "French", "Spanish"));
-        resourceType.setItems(FXCollections.observableArrayList("Book", "Video", "Article"));
-
-        // Add listeners to ChoiceBoxes
-        languageType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectedLanguage = newValue;
-            System.out.println("Selected language: " + selectedLanguage);
-        });
-
-        resourceType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectedResourceType = newValue;
-            System.out.println("Selected resource type: " + selectedResourceType);
-        });
+    private boolean validateInputs() {
+        return !titleField.getText().trim().isEmpty() &&
+                !authorField.getText().trim().isEmpty() &&
+                datePublishedPicker.getValue() != null &&
+                languageTypeChoice.getValue() != null &&
+                resourceTypeChoice.getValue() != null;
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadChoiceBoxes();
+    }
+
+    private void loadChoiceBoxes() {
+        String languageQuery = "SELECT LanguageType FROM Languagetype";
+        String resourceQuery = "SELECT ResourceType FROM Resourcetype";
+
+        try (Connection conn = db.connect_to_db(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+             PreparedStatement languageStmt = conn.prepareStatement(languageQuery);
+             PreparedStatement resourceStmt = conn.prepareStatement(resourceQuery);
+             ResultSet languageRs = languageStmt.executeQuery();
+             ResultSet resourceRs = resourceStmt.executeQuery()) {
+
+            while (languageRs.next()) {
+                languageTypeChoice.getItems().add(languageRs.getString("LanguageType"));
+            }
+
+            while (resourceRs.next()) {
+                resourceTypeChoice.getItems().add(resourceRs.getString("ResourceType"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Database Error", "Error loading choice box data: " + e.getMessage());
+        }
+    }
+
+
 }

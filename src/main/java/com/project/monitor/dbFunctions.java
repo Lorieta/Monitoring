@@ -1,6 +1,7 @@
 package com.project.monitor;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class dbFunctions extends Controller {
 
@@ -162,7 +163,44 @@ public class dbFunctions extends Controller {
         preparedStatement.close();
     }
 
-}
+
+    public boolean addResourceToDatabase(Connection conn, String title, String url, String author, java.sql.Date datePublished, String languageType, String resourceType) throws SQLException {
+        String query = "INSERT INTO Materials (ResourceTitle, URL, AuthorPublisher, Date_Published, TypeID, ResourceID) " +
+                "VALUES (?, ?, ?, ?, " +
+                "(SELECT LanguageID FROM Languagetype WHERE LanguageType = ?), " +
+                "(SELECT ResourceID FROM Resourcetype WHERE ResourceType = ?))";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, (url != null && !url.trim().isEmpty()) ? url : null);
+            pstmt.setString(3, author);
+            pstmt.setDate(4, datePublished);
+            pstmt.setString(5, languageType);
+            pstmt.setString(6, resourceType);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating resource failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    System.out.println("New resource added with ID: " + generatedKeys.getInt(1));
+                    return true;
+                } else {
+                    throw new SQLException("Creating resource failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error occurred while adding resource: " + e.getMessage());
+            throw e;
+        }
+    }
+
+            }
+
+
 
 
 

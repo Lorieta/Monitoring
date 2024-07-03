@@ -1,6 +1,11 @@
 package com.project.monitor;
 import java.awt.Desktop;
+import java.io.IOException;
 import java.net.URI;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
 import Tables.ResourceModel;
@@ -15,8 +20,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import javax.print.attribute.standard.RequestingUserName;
@@ -26,6 +34,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ResourceController extends Controller implements Initializable {
@@ -85,25 +95,22 @@ public class ResourceController extends Controller implements Initializable {
         datecol.setCellValueFactory(new PropertyValueFactory<>("date_published"));
         languagecol.setCellValueFactory(new PropertyValueFactory<>("languageType"));
         resourcetypecol.setCellValueFactory(new PropertyValueFactory<>("resourceType"));
-        urlcol.setCellFactory(column -> {
-            return new TableCell<ResourceModel, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null || empty) {
-                        setText(null);
-                        setStyle("");
-                        setOnMouseClicked(null);
-                    } else {
-                        setText(item);
-                        setStyle("-fx-text-fill: blue; -fx-underline: true;");
-                        setOnMouseClicked(event -> openWebPage(item));
-                    }
+
+        urlcol.setCellFactory(column -> new TableCell<ResourceModel, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setStyle("");
+                    setOnMouseClicked(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-text-fill: blue; -fx-underline: true;");
+                    setOnMouseClicked(event -> openWebPage(item));
                 }
-            };
+            }
         });
-
-
 
         // Set the cell factory for the actions column
         actioncol.setCellFactory(new Callback<>() {
@@ -119,12 +126,12 @@ public class ResourceController extends Controller implements Initializable {
 
                         editButton.setOnAction(event -> {
                             ResourceModel resource = getTableView().getItems().get(getIndex());
-                            //
+                            // Implement edit action here
                         });
 
                         deleteButton.setOnAction(event -> {
                             ResourceModel resource = getTableView().getItems().get(getIndex());
-                            // Implement delete action here
+                            handleDelete(resource);  // Call the handleDelete method
                         });
                     }
 
@@ -146,6 +153,25 @@ public class ResourceController extends Controller implements Initializable {
             }
         });
     }
+
+    private void handleDelete(ResourceModel resource) {
+        try {
+            Connection conn = db.connect_to_db(Database, lUser, Password);
+            String query = "DELETE FROM Materials WHERE MaterialsId = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, resource.getMaterialid());
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            conn.close();
+
+            refreshTable();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     public void refreshTable() {
         ResourceList.clear();
@@ -240,6 +266,26 @@ public class ResourceController extends Controller implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Unable to open the URL. Please check your internet connection and try again.");
             alert.showAndWait();
+        }
+    }
+
+
+    @FXML
+    void addBtn(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addresource.fxml"));
+            Parent parent = loader.load();
+
+          Addresource addresource= loader.getController();
+            addresource.setTableController(this);
+
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(TableController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     }
