@@ -8,20 +8,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.images.Addresource">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane layoutX="2.0" prefHeight="755.0" prefWidth="597.0" style="-fx-background-color: grey;">
          <children>
-            <TextField layoutX="241.0" layoutY="198.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
+            <TextField fx:id="urlField" layoutX="241.0" layoutY="198.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
             <Text layoutX="31.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resource Details">
                <font>
                   <Font size="45.0" />
                </font>
             </Text>
-            <TextField layoutX="241.0" layoutY="138.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
-            <TextField layoutX="241.0" layoutY="318.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
-            <TextField layoutX="241.0" layoutY="258.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
+            <TextField fx:id="titleField" layoutX="241.0" layoutY="138.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
+            <TextField fx:id="Datepublished" layoutX="241.0" layoutY="318.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" text="yyyy- mmmm-dddd">
+               <font>
+                  <Font size="15.0" />
+               </font></TextField>
+            <TextField fx:id="authorField" layoutX="241.0" layoutY="258.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
             <Text layoutX="21.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title:">
                <font>
                   <Font size="29.0" />
@@ -42,8 +44,8 @@
                   <Font size="29.0" />
                </font>
             </Text>
-            <Button fx:id="addbtn" layoutX="241.0" layoutY="563.0" mnemonicParsing="false" onMouseClicked="#addStudent" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: lime;" text="ADD" />
-            <Button fx:id="clearbtn" layoutX="465.0" layoutY="563.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: red;" text="Close" />
+            <Button fx:id="addbtn" layoutX="241.0" layoutY="563.0" mnemonicParsing="false"  prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: lime;" text="ADD" />
+            <Button fx:id="clearbtn" layoutX="465.0" layoutY="563.0" mnemonicParsing="false"  prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: red;" text="Close" />
             <Text layoutX="20.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Language Type:">
                <font>
                   <Font size="29.0" />

@@ -22,8 +22,6 @@ public class AddStudent {
     @FXML
     private TextField ageTb;
 
-
-
     @FXML
     private TextField fnameTB;
 
