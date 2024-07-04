@@ -198,7 +198,31 @@ public class dbFunctions extends Controller {
         }
     }
 
-            }
+
+    public boolean updateResourceInDatabase(Connection conn, int materialID, String title, String url, String author, java.sql.Date datePublished, String languageType, String resourceType) {
+        try {
+            String query = "UPDATE Materials SET ResourceTitle = ?, URL = ?, AuthorPublisher = ?, Date_Published = ?, TypeID = (SELECT LanguageID FROM Languagetype WHERE LanguageType = ?), ResourceID = (SELECT ResourceID FROM Resourcetype WHERE ResourceType = ?) WHERE MaterialsId = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, url != null ? url : "");
+            preparedStatement.setString(3, author);
+            preparedStatement.setDate(4, datePublished);
+            preparedStatement.setString(5, languageType);
+            preparedStatement.setString(6, resourceType);
+            preparedStatement.setInt(7, materialID);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+}
 
 
 
