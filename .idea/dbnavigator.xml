@@ -17,14 +17,16 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f7582f43-67e4-4421-bed0-8957327d4c20">
-      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT * from student_info]]></console>
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[pg_dump]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="f7582f43-67e4-4421-bed0-8957327d4c20" object-ref="consoles/Connection" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="f7582f43-67e4-4421-bed0-8957327d4c20" />

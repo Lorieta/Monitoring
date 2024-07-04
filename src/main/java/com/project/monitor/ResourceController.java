@@ -1,33 +1,35 @@
 package com.project.monitor;
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import Tables.ResourceModel;
-import Tables.Student;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Callback;
 
-import javax.print.attribute.standard.RequestingUserName;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -36,7 +38,6 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 public class ResourceController extends Controller implements Initializable {
 
@@ -74,15 +75,12 @@ public class ResourceController extends Controller implements Initializable {
     @FXML
     private TextField searchField;
 
-
-
     private final ObservableList<ResourceModel> ResourceList = FXCollections.observableArrayList();
     private final dbFunctions db = new dbFunctions();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
-
         refreshTable();
         setupSearchFilter();
     }
@@ -112,7 +110,6 @@ public class ResourceController extends Controller implements Initializable {
             }
         });
 
-        // Set the cell factory for the actions column
         actioncol.setCellFactory(new Callback<>() {
             @Override
             public TableCell<ResourceModel, Void> call(final TableColumn<ResourceModel, Void> param) {
@@ -126,12 +123,12 @@ public class ResourceController extends Controller implements Initializable {
 
                         editButton.setOnAction(event -> {
                             ResourceModel resource = getTableView().getItems().get(getIndex());
-                            // Implement edit action here
+                            handleEdit(resource);
                         });
 
                         deleteButton.setOnAction(event -> {
                             ResourceModel resource = getTableView().getItems().get(getIndex());
-                            handleDelete(resource);  // Call the handleDelete method
+                            handleDelete(resource);
                         });
                     }
 
@@ -154,6 +151,32 @@ public class ResourceController extends Controller implements Initializable {
         });
     }
 
+    private void handleEdit(ResourceModel resource) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("editResource.fxml"));
+            Parent parent = loader.load();
+
+            Editresource editResourceController = loader.getController();
+            Stage dialogStage = new Stage();
+            editResourceController.setDialogStage(dialogStage);
+            editResourceController.setResource(resource);
+
+            Scene scene = new Scene(parent);
+            dialogStage.setTitle("Edit Resource");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setScene(scene);
+
+            dialogStage.showAndWait();
+
+            if (editResourceController.isSaveClicked()) {
+                refreshTable();
+            }
+        } catch (IOException e) {
+            Logger.getLogger(ResourceController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+
     private void handleDelete(ResourceModel resource) {
         try {
             Connection conn = db.connect_to_db(Database, lUser, Password);
@@ -170,8 +193,6 @@ public class ResourceController extends Controller implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
-
 
     public void refreshTable() {
         ResourceList.clear();
@@ -202,7 +223,6 @@ public class ResourceController extends Controller implements Initializable {
             preparedStatement.close();
             conn.close();
 
-            // Set the items into the table
             MaterialTable.setItems(ResourceList);
 
         } catch (Exception e) {
@@ -211,40 +231,38 @@ public class ResourceController extends Controller implements Initializable {
         }
     }
 
+    private void setupSearchFilter() {
+        FilteredList<ResourceModel> filteredData = new FilteredList<>(ResourceList, b -> true);
 
-        private void setupSearchFilter() {
-            FilteredList<ResourceModel> filteredData = new FilteredList<>(ResourceList, b -> true);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(resource -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
 
-            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-                filteredData.setPredicate(resource -> {
-                    if (newValue == null || newValue.isEmpty()) {
-                        return true;
-                    }
+                String lowerCaseFilter = newValue.toLowerCase();
 
-                    String lowerCaseFilter = newValue.toLowerCase();
-
-                    if (String.valueOf(resource.getMaterialid()).contains(lowerCaseFilter)) {
-                        return true;
-                    } else if (resource.getResourceTitle().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    } else if (resource.getURL().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    } else if (resource.getAuthor_publisher().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    } else if (String.valueOf(resource.getDate_published()).toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
+                if (String.valueOf(resource.getMaterialid()).contains(lowerCaseFilter)) {
+                    return true;
+                } else if (resource.getResourceTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (resource.getURL().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (resource.getAuthor_publisher().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(resource.getDate_published()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else {
+                    return false;
+                }
             });
-            MaterialTable.setItems(filteredData);
-        }
-
+        });
+        MaterialTable.setItems(filteredData);
+    }
 
     @FXML
     void searchtb(ActionEvent event) {
-    setupSearchFilter();
+        setupSearchFilter();
     }
 
     private void openWebPage(String url) {
@@ -253,14 +271,12 @@ public class ResourceController extends Controller implements Initializable {
             if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
                 desktop.browse(new URI(url));
             } else {
-                // Fallback for systems that don't support Desktop
                 Runtime runtime = Runtime.getRuntime();
                 runtime.exec("xdg-open " + url);
             }
         } catch (Exception e) {
             System.out.println("Error opening URL: " + e.getMessage());
             e.printStackTrace();
-            // Show an error alert
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Opening URL");
             alert.setHeaderText(null);
@@ -269,15 +285,14 @@ public class ResourceController extends Controller implements Initializable {
         }
     }
 
-
     @FXML
     void addBtn(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("addresource.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addResource.fxml"));
             Parent parent = loader.load();
 
-          Addresource addresource= loader.getController();
-            addresource.setTableController(this);
+            Addresource addResourceController = loader.getController();
+            addResourceController.setTableController(this);
 
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
@@ -285,8 +300,7 @@ public class ResourceController extends Controller implements Initializable {
             stage.initStyle(StageStyle.UTILITY);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(TableController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ResourceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    }
-
+}
