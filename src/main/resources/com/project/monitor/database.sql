@@ -56,6 +56,42 @@ CREATE TABLE Resourcetype (
   PRIMARY KEY (`resourceid`)
 );
 
+CREATE TABLE reading_log (
+  LogID BIGSERIAL PRIMARY KEY,
+  MaterialID BIGINT NOT NULL REFERENCES materials(MaterialsId),
+  LRN VARCHAR(255) NOT NULL REFERENCES student_info(LRN),
+  Duration VARCHAR(50),
+  DateStarted DATE,
+  DateFinished DATE,
+  Comment VARCHAR(255)
+);
+
+
+SELECT
+    rl.LogID,
+    si.LRN,
+    si.Firstname,
+    si.Lastname,
+    m.ResourceTitle,
+    m.URL,
+    lt.LanguageType,
+    rt.ResourceType,
+    rl.Duration,
+    rl.DateStarted,
+    rl.DateFinished,
+    rl.Comment
+FROM
+    reading_log rl
+JOIN
+    Student_info si ON rl.LRN = si.LRN
+JOIN
+    Materials m ON rl.MaterialID = m.MaterialsId
+JOIN
+    Languagetype lt ON m.TypeID = lt.LanguageID
+JOIN
+    Resourcetype rt ON m.ResourceID = rt.ResourceID
+ORDER BY
+    rl.DateStarted DESC;
 
 
 SELECT * FROM resources

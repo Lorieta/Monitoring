@@ -18,7 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("Resource.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("reaadinglog.fxml"));
             Scene scene = new Scene(root);
             String css = this.getClass().getResource("application.css").toExternalForm();
             scene.getStylesheets().add(css);
@@ -30,9 +30,7 @@ public class App extends Application {
             e.printStackTrace();
 
         }
-//wqeqweqweqweQWE
-        ///qweqweERRR
-        //WEQWQWEQWEQWEQWE
+
     }
 
 
