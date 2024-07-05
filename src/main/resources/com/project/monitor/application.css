@@ -134,10 +134,11 @@
     -fx-padding: 8px; /* Cell padding */
 }
 
-.table-view .table-row-cell:odd {
+.table-view .table-row-cell:odd {/*asdasd*/
     -fx-background-color: #f9f9f9; /* Background color for odd rows */
 }
 
 .table-view .table-row-cell:hover {
     -fx-background-color: #ececec; /* Background color on hover */
 }
+
