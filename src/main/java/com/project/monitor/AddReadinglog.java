@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+import javafx.util.StringConverter;
 
 public class AddReadinglog implements Initializable {
 
@@ -91,7 +92,6 @@ public class AddReadinglog implements Initializable {
             }
         }
     }
-
     @FXML
     void clearFields() {
         LRNfield.getSelectionModel().clearSelection();
@@ -120,21 +120,14 @@ public class AddReadinglog implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (LRNfield == null) {
-            System.err.println("LRNfield is null in initialize method");
-        } else {
-            loadLRNs();
-            setupLRNSelectionListener();
-        }
+        loadLRNs();
         loadResources();
+        setupLRNSelectionListener();
+        setupLRNConverter(); // Add this line
+        LRNfield.setPromptText("Select a student");
     }
 
     private void loadLRNs() {
-        if (LRNfield == null) {
-            System.err.println("LRNfield is null in loadLRNs method");
-            return;
-        }
-
         String lrnQuery = "SELECT LRN, Firstname, Lastname FROM Student_info";
 
         try (Connection conn = db.connect_to_db(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
@@ -188,8 +181,26 @@ public class AddReadinglog implements Initializable {
             }
         });
     }
+    private void setupLRNConverter() {
+        // Create a StringConverter for Student
+        StringConverter<Student> studentConverter = new StringConverter<Student>() {
+            @Override
+            public String toString(Student student) {
+                return student.getLrn() + " - " + student.getFirstname() + " " + student.getLastname();
+            }
 
-    // Fetch material ID based on the resource title
+            @Override
+            public Student fromString(String string) {
+                return null; // Not used in this case
+            }
+        };
+
+        // Set the StringConverter to the ComboBox
+        LRNfield.setConverter(studentConverter);
+    }
+
+
+
     private int fetchMaterialId(String resourceTitle) throws SQLException {
         String materialQuery = "SELECT MaterialsId FROM Materials WHERE ResourceTitle = ?";
         try (Connection conn = db.connect_to_db(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
@@ -204,8 +215,7 @@ public class AddReadinglog implements Initializable {
         }
     }
 
-    // Calculate duration in days
-    private int calculateDuration(Date startDate, Date endDate) {
+    private int calculateDuration(java.sql.Date startDate, java.sql.Date endDate) {
         long differenceInMillis = endDate.getTime() - startDate.getTime();
         return (int) (differenceInMillis / (1000 * 60 * 60 * 24));
     }

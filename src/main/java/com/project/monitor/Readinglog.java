@@ -19,15 +19,13 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Readinglog {
+public class Readinglog extends Controller{
 
     private final String css = Objects.requireNonNull(this.getClass().getResource("application.css")).toExternalForm();
     private Stage stage;
@@ -133,6 +131,7 @@ public class Readinglog {
                         editButton.setOnAction(event -> {
                             ReadinglogModel readinglogModel = getTableView().getItems().get(getIndex());
                             handleEdit(readinglogModel);
+
                         });
 
                         deleteButton.setOnAction(event -> {
@@ -161,11 +160,25 @@ public class Readinglog {
     }
 
     private void handleEdit(ReadinglogModel readinglogModel) {
-        // Implement edit functionality
-    }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("editreadlog.fxml"));
+            Parent parent = loader.load();
 
-    private void handleDelete(ReadinglogModel readinglogModel) {
-        // Implement delete functionality
+            Editreadlog editReadinglogController = loader.getController();
+            editReadinglogController.setReadinglog(readinglogModel);
+            editReadinglogController.setDialogStage(new Stage()); // Create a new stage for editing
+            editReadinglogController.setTableController(this);  // Set the table controller
+
+            // Show the edit window
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);  // You can customize the stage style here
+            stage.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(Readinglog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -210,6 +223,36 @@ public class Readinglog {
         }
     }
 
+    private void handleDelete(ReadinglogModel readinglogModel) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Delete");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete this reading log entry?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            String deleteQuery = "DELETE FROM reading_log WHERE LogID = ?";
+            try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
+                 PreparedStatement stmt = conn.prepareStatement(deleteQuery)) {
+
+                stmt.setInt(1, readinglogModel.getLogid());
+                int rowsAffected = stmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "Reading log entry deleted successfully.");
+                    refreshTable(); // Refresh the table after deletion
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Delete Failed", "Failed to delete reading log entry.");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Database Error", "Error occurred while deleting reading log: " + e.getMessage());
+
+            }
+        }
+
+    }
     public void switchStudent(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("student.fxml"));
         stage = ((Stage) ((Node) event.getSource()).getScene().getWindow());

@@ -73,7 +73,7 @@ public class Controller  {
         if (!checker(teacherID)&&!checker(fname)&&!checker(lname)&&!checker(password)&&!checker(gradeandsection)){
             db.signup(conn,"teacher_info", teacherID,fname,lname,gradeandsection,password);
         } else {
-            showAlert("Fill all Fields");
+            showAlert(Alert.AlertType.INFORMATION, "Fill all Fields", "Reading log entry deleted successfully.");
         }
     }
 
@@ -102,18 +102,18 @@ public class Controller  {
                     stage.setScene(scene);
                     stage.show();
                 } else {
-                    showAlert("Login failed. No account found with the provided credentials.");
+                    showAlert(Alert.AlertType.INFORMATION, "Login failed. No account found with the provided credentials.", "Reading log entry deleted successfully.");
                 }
             } else {
-                showAlert("Missing fields detected. Fill all fields.");
+                showAlert(Alert.AlertType.INFORMATION, "Missing fields detected. Fill all fields.", "Reading log entry deleted successfully.");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("An error occurred during login. Please try again.");
+            showAlert(Alert.AlertType.INFORMATION, "An error occurred during login. Please try again.", "Reading log entry deleted successfully.");
         }
     }
 
-    public void showAlert(String messageText) {
+    public void showAlert(Alert.AlertType information, String messageText, String s) {
         Alert message = new Alert(Alert.AlertType.ERROR);
         message.setTitle("Error");
         message.setHeaderText(null);
