@@ -6,18 +6,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PhiliriResults implements Initializable {
 
@@ -58,9 +66,14 @@ public class PhiliriResults implements Initializable {
     private static final String USER = Config.USER;
     private static final String PASSWORD = Config.PASSWORD;
 
-    private Readinglog tableController;
+    private PhiliriResults tableController;
     private final ObservableList<PhiliriResultsModel>  philiriResults = FXCollections.observableArrayList();
+
     private final dbFunctions db = new dbFunctions();
+
+    public void setTableController(PhiliriResults tableController) {
+        this.tableController = tableController;
+    }
 
     private void setupTableColumns() {
         resultID.setCellValueFactory(new PropertyValueFactory<>("resultID"));
@@ -117,8 +130,23 @@ public class PhiliriResults implements Initializable {
 
     @FXML
     void addBtn(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addphiliriResults.fxml"));
+            Parent parent = loader.load();
 
+            AddPhiliriResult addPhiliriResultController = loader.getController();
+            addPhiliriResultController.setTableController(this);  // Pass the PhiliriResults controller
+
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Readinglog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
 
     @FXML
     void searchtb(ActionEvent event) {

@@ -17,7 +17,7 @@
             <Pane layoutX="-14.0" layoutY="-13.0" prefHeight="962.0" prefWidth="873.0" style="-fx-background-color: grey;">
                <children>
                   <TextField fx:id="fnameField" editable="false" layoutX="244.0" layoutY="194.0" prefHeight="37.0" prefWidth="578.0" style="-fx-background-color: white;" />
-                  <Text layoutX="31.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resource Details">
+                  <Text layoutX="31.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READLOGS Details">
                      <font>
                         <Font size="45.0" />
                      </font>
