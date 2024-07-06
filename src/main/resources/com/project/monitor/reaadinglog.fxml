@@ -38,6 +38,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <Button fx:id="addButton" layoutX="1405.0" layoutY="82.0" mnemonicParsing="false" onMouseClicked="#addBtn" text="ADD" />
          </children>
       </AnchorPane>
    </children>

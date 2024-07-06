@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -20,6 +21,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Readinglog {
     private final String css = Objects.requireNonNull(this.getClass().getResource("application.css")).toExternalForm();
@@ -60,9 +63,12 @@ public class Readinglog {
     private TextField searchField;
     @FXML
     private TableColumn<ReadinglogModel, String> urlcol;
+    private Readinglog tableController;
 
     private final ObservableList<ReadinglogModel> readinglog = FXCollections.observableArrayList();
     private final dbFunctions db = new dbFunctions();
+
+
 
     @FXML
     void initialize() {
@@ -70,10 +76,31 @@ public class Readinglog {
         refreshTable();
     }
 
+
+    public void setTableController(Readinglog tableController) {
+        this.tableController = tableController;
+    }
+
     @FXML
     void addBtn(MouseEvent event) {
-        // Implement add functionality
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addreadlogs.fxml"));
+            Parent parent = loader.load();
+
+            AddReadinglog addResourceController = loader.getController();
+            addResourceController.setTableController(this); // This line should now work correctly
+
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Readinglog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
+
 
     @FXML
     void search(ActionEvent event) {
@@ -114,7 +141,7 @@ public class Readinglog {
             while (resultSet.next()) {
                 readinglog.add(new ReadinglogModel(
                         resultSet.getInt("LogID"),
-                        resultSet.getInt("LRN"),
+                        resultSet.getString("LRN"),
                         resultSet.getString("Firstname"),
                         resultSet.getString("Lastname"),
                         resultSet.getString("ResourceTitle"),
@@ -135,22 +162,22 @@ public class Readinglog {
             e.printStackTrace();
         }
     }
+
     public void switchStudent(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("student.fxml"));
-        stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
+        stage = ((Stage) ((Node) event.getSource()).getScene().getWindow());
         scene = new Scene(root);
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void switchToMaterials(MouseEvent event)throws IOException{
+    public void switchToMaterials(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Resource.fxml"));
-        stage = ((Stage)((Node)event.getSource()).getScene().getWindow());
+        stage = ((Stage) ((Node) event.getSource()).getScene().getWindow());
         scene = new Scene(root);
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
     }
-
 }

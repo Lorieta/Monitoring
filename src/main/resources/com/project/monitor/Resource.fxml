@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.ResourceController">
    <children>
-      <AnchorPane cacheShape="false" centerShape="false" layoutX="-9.0" layoutY="-14.0" onMouseClicked="#addBtn" prefHeight="625.0" prefWidth="1381.0" scaleShape="false" stylesheets="@application.css">
+      <AnchorPane cacheShape="false" centerShape="false" layoutX="-9.0" layoutY="-14.0" prefHeight="625.0" prefWidth="1381.0" scaleShape="false" stylesheets="@application.css">
          <children>
             <AnchorPane layoutX="7.0" layoutY="21.0" prefHeight="58.0" prefWidth="1515.0" styleClass="button1">
                <children>

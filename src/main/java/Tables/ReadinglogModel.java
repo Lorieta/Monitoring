@@ -1,28 +1,26 @@
 package Tables;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 import java.sql.Date;
 
 public class ReadinglogModel {
-    private final SimpleIntegerProperty logid;
-    private final SimpleIntegerProperty lrn;
-    private final SimpleStringProperty fname;
-    private final SimpleStringProperty lname;
-    private final SimpleStringProperty resourceTitle;
-    private final SimpleStringProperty url;
-    private final SimpleStringProperty languageType;
-    private final SimpleStringProperty resourceType;
-    private final SimpleStringProperty duration;
-    private final SimpleObjectProperty<Date> dateStarted;
-    private final SimpleObjectProperty<Date> dateFinished;
-    private final SimpleStringProperty comment;
+    private final IntegerProperty logid;
+    private final StringProperty lrn;
+    private final StringProperty fname;
+    private final StringProperty lname;
+    private final StringProperty resourceTitle;
+    private final StringProperty url;
+    private final StringProperty languageType;
+    private final StringProperty resourceType;
+    private final StringProperty duration;
+    private final ObjectProperty<Date> dateStarted;
+    private final ObjectProperty<Date> dateFinished;
+    private final StringProperty comment;
 
-    public ReadinglogModel(int logid, int lrn, String fname, String lname, String resourceTitle, String url, String languageType, String resourceType, String duration, Date dateStarted, Date dateFinished, String comment) {
+    public ReadinglogModel(int logid, String lrn, String fname, String lname, String resourceTitle, String url, String languageType, String resourceType, String duration, Date dateStarted, Date dateFinished, String comment) {
         this.logid = new SimpleIntegerProperty(logid);
-        this.lrn = new SimpleIntegerProperty(lrn);
+        this.lrn = new SimpleStringProperty(lrn);
         this.fname = new SimpleStringProperty(fname);
         this.lname = new SimpleStringProperty(lname);
         this.resourceTitle = new SimpleStringProperty(resourceTitle);
@@ -35,21 +33,21 @@ public class ReadinglogModel {
         this.comment = new SimpleStringProperty(comment);
     }
 
-    // Getters for properties
+    // Getters for each property
 
     public int getLogid() {
         return logid.get();
     }
 
-    public SimpleIntegerProperty logidProperty() {
+    public IntegerProperty logidProperty() {
         return logid;
     }
 
-    public int getLrn() {
+    public String getLrn() {
         return lrn.get();
     }
 
-    public SimpleIntegerProperty lrnProperty() {
+    public StringProperty lrnProperty() {
         return lrn;
     }
 
@@ -57,7 +55,7 @@ public class ReadinglogModel {
         return fname.get();
     }
 
-    public SimpleStringProperty fnameProperty() {
+    public StringProperty fnameProperty() {
         return fname;
     }
 
@@ -65,7 +63,7 @@ public class ReadinglogModel {
         return lname.get();
     }
 
-    public SimpleStringProperty lnameProperty() {
+    public StringProperty lnameProperty() {
         return lname;
     }
 
@@ -73,7 +71,7 @@ public class ReadinglogModel {
         return resourceTitle.get();
     }
 
-    public SimpleStringProperty resourceTitleProperty() {
+    public StringProperty resourceTitleProperty() {
         return resourceTitle;
     }
 
@@ -81,7 +79,7 @@ public class ReadinglogModel {
         return url.get();
     }
 
-    public SimpleStringProperty urlProperty() {
+    public StringProperty urlProperty() {
         return url;
     }
 
@@ -89,7 +87,7 @@ public class ReadinglogModel {
         return languageType.get();
     }
 
-    public SimpleStringProperty languageTypeProperty() {
+    public StringProperty languageTypeProperty() {
         return languageType;
     }
 
@@ -97,7 +95,7 @@ public class ReadinglogModel {
         return resourceType.get();
     }
 
-    public SimpleStringProperty resourceTypeProperty() {
+    public StringProperty resourceTypeProperty() {
         return resourceType;
     }
 
@@ -105,7 +103,7 @@ public class ReadinglogModel {
         return duration.get();
     }
 
-    public SimpleStringProperty durationProperty() {
+    public StringProperty durationProperty() {
         return duration;
     }
 
@@ -113,7 +111,7 @@ public class ReadinglogModel {
         return dateStarted.get();
     }
 
-    public SimpleObjectProperty<Date> dateStartedProperty() {
+    public ObjectProperty<Date> dateStartedProperty() {
         return dateStarted;
     }
 
@@ -121,7 +119,7 @@ public class ReadinglogModel {
         return dateFinished.get();
     }
 
-    public SimpleObjectProperty<Date> dateFinishedProperty() {
+    public ObjectProperty<Date> dateFinishedProperty() {
         return dateFinished;
     }
 
@@ -129,7 +127,7 @@ public class ReadinglogModel {
         return comment.get();
     }
 
-    public SimpleStringProperty commentProperty() {
+    public StringProperty commentProperty() {
         return comment;
     }
 }
