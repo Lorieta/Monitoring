@@ -16,7 +16,7 @@ public class AddReadinglog implements Initializable {
     private static final String DATABASE_USER = Config.USER;
     private static final String DATABASE_PASSWORD = Config.PASSWORD;
 
-    private dbFunctions db = new dbFunctions();
+    private final dbFunctions db = new dbFunctions();
 
     @FXML private ComboBox<Student> LRNfield;
     @FXML private TextField fnameField;
@@ -25,8 +25,6 @@ public class AddReadinglog implements Initializable {
     @FXML private DatePicker datestarted;
     @FXML private DatePicker datefinished;
     @FXML private TextArea remarks;
-
-
 
     private Readinglog tableController;
 
@@ -37,7 +35,7 @@ public class AddReadinglog implements Initializable {
     @FXML
     void addbtn(MouseEvent event) {
         if (!validateInputs()) {
-            showAlert(Alert.AlertType.ERROR, "Input Error", "All fields must be filled.");
+            showAlert(Alert.AlertType.ERROR, "Input Error", "All required fields must be filled.");
             return;
         }
 
@@ -47,12 +45,12 @@ public class AddReadinglog implements Initializable {
             conn.setAutoCommit(false);
 
             java.sql.Date sqlStartDate = java.sql.Date.valueOf(datestarted.getValue());
-            java.sql.Date sqlEndDate = java.sql.Date.valueOf(datefinished.getValue());
+            java.sql.Date sqlEndDate = datefinished.getValue() != null ? java.sql.Date.valueOf(datefinished.getValue()) : null;
 
             Student selectedStudent = LRNfield.getValue();
 
             int materialId = fetchMaterialId(resourcecb.getValue());
-            int duration = calculateDuration(sqlStartDate, sqlEndDate);
+            int duration = sqlEndDate != null ? calculateDuration(sqlStartDate, sqlEndDate) : 0;
 
             boolean isAdded = db.addReadingLogToDatabase(conn,
                     selectedStudent.getLrn(),
@@ -108,7 +106,6 @@ public class AddReadinglog implements Initializable {
     private boolean validateInputs() {
         return LRNfield.getValue() != null &&
                 datestarted.getValue() != null &&
-                datefinished.getValue() != null &&
                 resourcecb.getValue() != null &&
                 !remarks.getText().trim().isEmpty();
     }

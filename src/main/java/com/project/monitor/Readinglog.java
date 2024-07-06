@@ -12,8 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Readinglog {
+
     private final String css = Objects.requireNonNull(this.getClass().getResource("application.css")).toExternalForm();
     private Stage stage;
     private Scene scene;
@@ -34,7 +38,7 @@ public class Readinglog {
     private static final String PASSWORD = Config.PASSWORD;
 
     @FXML
-    private TableColumn<ReadinglogModel, String> actionsColumn;
+    private TableColumn<ReadinglogModel, Void> actionsColumn;
     @FXML
     private Button addButton;
     @FXML
@@ -54,7 +58,7 @@ public class Readinglog {
     @FXML
     private TableColumn<ReadinglogModel, Integer> logidcol;
     @FXML
-    private TableColumn<ReadinglogModel, Integer> lrncol;
+    private TableColumn<ReadinglogModel, String> lrncol;
     @FXML
     private TableView<ReadinglogModel> readinglogtable;
     @FXML
@@ -63,19 +67,16 @@ public class Readinglog {
     private TextField searchField;
     @FXML
     private TableColumn<ReadinglogModel, String> urlcol;
-    private Readinglog tableController;
 
+    private Readinglog tableController;
     private final ObservableList<ReadinglogModel> readinglog = FXCollections.observableArrayList();
     private final dbFunctions db = new dbFunctions();
-
-
 
     @FXML
     void initialize() {
         setupTableColumns();
         refreshTable();
     }
-
 
     public void setTableController(Readinglog tableController) {
         this.tableController = tableController;
@@ -87,8 +88,8 @@ public class Readinglog {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addreadlogs.fxml"));
             Parent parent = loader.load();
 
-            AddReadinglog addResourceController = loader.getController();
-            addResourceController.setTableController(this); // This line should now work correctly
+            AddReadinglog addReadinglogController = loader.getController();
+            addReadinglogController.setTableController(this);
 
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
@@ -99,8 +100,6 @@ public class Readinglog {
             Logger.getLogger(Readinglog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
 
     @FXML
     void search(ActionEvent event) {
@@ -119,6 +118,54 @@ public class Readinglog {
         datestartedcol.setCellValueFactory(new PropertyValueFactory<>("dateStarted"));
         datefinishedcol.setCellValueFactory(new PropertyValueFactory<>("dateFinished"));
         commentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
+
+        actionsColumn.setCellFactory(new Callback<TableColumn<ReadinglogModel, Void>, TableCell<ReadinglogModel, Void>>() {
+            @Override
+            public TableCell<ReadinglogModel, Void> call(final TableColumn<ReadinglogModel, Void> param) {
+                return new TableCell<ReadinglogModel, Void>() {
+                    private final Button editButton = new Button("Edit");
+                    private final Button deleteButton = new Button("Delete");
+
+                    {
+                        editButton.getStyleClass().add("edit-button");
+                        deleteButton.getStyleClass().add("delete-button");
+
+                        editButton.setOnAction(event -> {
+                            ReadinglogModel readinglogModel = getTableView().getItems().get(getIndex());
+                            handleEdit(readinglogModel);
+                        });
+
+                        deleteButton.setOnAction(event -> {
+                            ReadinglogModel readinglogModel = getTableView().getItems().get(getIndex());
+                            handleDelete(readinglogModel);
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            HBox container = new HBox(editButton, deleteButton);
+                            HBox.setHgrow(editButton, Priority.ALWAYS);
+                            HBox.setHgrow(deleteButton, Priority.ALWAYS);
+                            editButton.setMaxWidth(Double.MAX_VALUE);
+                            deleteButton.setMaxWidth(Double.MAX_VALUE);
+                            setGraphic(container);
+                        }
+                    }
+                };
+            }
+        });
+    }
+
+    private void handleEdit(ReadinglogModel readinglogModel) {
+        // Implement edit functionality
+    }
+
+    private void handleDelete(ReadinglogModel readinglogModel) {
+        // Implement delete functionality
     }
 
     @FXML

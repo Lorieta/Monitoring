@@ -28,7 +28,7 @@
                   <TableColumn fx:id="urlcol" minWidth="0.0" prefWidth="100.0" text="URL" />
                   <TableColumn fx:id="languagetypecol" prefWidth="75.0" text="Language type" />
                   <TableColumn fx:id="resourcetypecol" prefWidth="75.0" text="Resource Type" />
-                  <TableColumn fx:id="durationcol" prefWidth="75.0" text="Duration" />
+                  <TableColumn fx:id="durationcol" prefWidth="75.0" text="Duration/Days" />
                   <TableColumn fx:id="datestartedcol" prefWidth="75.0" text="Date Started" />
                   <TableColumn fx:id="datefinishedcol" prefWidth="75.0" text="Date finished" />
                   <TableColumn fx:id="commentCol" prefWidth="75.0" text="Comment" />
