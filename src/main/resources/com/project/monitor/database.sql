@@ -103,3 +103,57 @@ VALUES
 (1, 'Effective Java', 'http://example.com/effectivejava', 'Joshua Bloch', '2018-01-01', 1),
 (2, 'Spanish Grammar', 'http://example.com/spanishgrammar', 'John Doe', '2019-06-15', 2),
 (3, 'French for Beginners', 'http://example.com/frenchbeginners', 'Jane Smith', '2020-09-10', 3);
+
+CREATE TABLE IF NOT EXISTS Result (
+  ResultID BIGSERIAL PRIMARY KEY,
+  LRN VARCHAR(255) NOT NULL REFERENCES Student_info(LRN),
+  TypeID INT NOT NULL REFERENCES Languagetype(LanguageID),
+  OralResult VARCHAR(255) NOT NULL,
+  SilentResult VARCHAR(255) NOT NULL,
+  DateRecorded DATE NOT NULL,
+  Remarks VARCHAR(255)
+);
+
+SELECT
+    lt.LanguageID,
+    lt.LanguageType,
+    o.orallID,
+    o.oralresult
+FROM
+    Languagetype lt
+JOIN
+    Result r ON lt.LanguageID = r.TypeID
+JOIN
+    oral o ON r.oralID = o.orallID
+WHERE
+    r.ResultID = (
+        SELECT MAX(ResultID)
+        FROM Result
+        WHERE TypeID = lt.LanguageID
+    )
+ORDER BY
+    lt.LanguageType;
+
+SELECT
+    r.ResultID,
+    r.LRN,
+    si.LastName,
+    o.oralresult AS OralResult,
+    s.silentresult AS SilentResult,
+    lt.Languagetype AS LanguageType,
+    r.DateRecorded,
+    r.Remarks
+FROM
+    Result r
+JOIN
+    oral o ON r.oralID = o.orallID
+JOIN
+    silent s ON r.silentID = s.SilentID
+JOIN
+    LanguageType lt ON r.LanguageID = lt.LanguageID
+JOIN
+    Student_info si ON r.LRN = si.LRN
+WHERE
+    lt.Languagetype IN ('English', 'Tagalog')
+ORDER BY
+    r.LRN, lt.Languagetype, r.DateRecorded;

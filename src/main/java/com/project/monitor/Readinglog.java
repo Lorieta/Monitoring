@@ -249,10 +249,10 @@ public class Readinglog extends Controller{
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Database Error", "Error occurred while deleting reading log: " + e.getMessage());
 
-            }
         }
-
     }
+
+}
     public void switchStudent(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("student.fxml"));
         stage = ((Stage) ((Node) event.getSource()).getScene().getWindow());
