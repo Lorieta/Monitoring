@@ -221,8 +221,54 @@ public class dbFunctions extends Controller {
         }
     }
 
+    public boolean addReadingLogToDatabase(Connection conn, String lrn, int materialId, Date dateStarted, Date dateFinished, int duration, String comments) {
+        String insertQuery = "INSERT INTO reading_log (lrn, materialid, datestarted, datefinished, duration, comment) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
+            pstmt.setString(1, lrn);
+            pstmt.setInt(2, materialId);
+            pstmt.setDate(3, dateStarted);
+            pstmt.setDate(4, dateFinished);
+            pstmt.setInt(5, duration);
+            pstmt.setString(6, comments);
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateReadinglogInDatabase(Connection conn, int logId, String lrn, int materialId, java.sql.Date dateStarted, java.sql.Date dateFinished, String duration, String comment) {
+        String updateQuery = "UPDATE reading_log SET lrn = ?, materialid = ?, datestarted = ?, datefinished = ?, duration = ?, comment = ? WHERE logid = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+            pstmt.setString(1, lrn);
+            pstmt.setInt(2, materialId);
+            pstmt.setDate(3, dateStarted);
+            pstmt.setDate(4, dateFinished);
+            pstmt.setString(5, duration);
+            pstmt.setString(6, comment);
+            pstmt.setInt(7, logId);
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
+
 
 }
+
+
+
 
 
 

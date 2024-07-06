@@ -14,11 +14,11 @@ public class App extends Application {
 
 
     private String css = this.getClass().getResource("application.css").toExternalForm();
-
+//qwe
     @Override
     public void start(Stage stage) throws IOException {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("Resource.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("reaadinglog.fxml"));
             Scene scene = new Scene(root);
             String css = this.getClass().getResource("application.css").toExternalForm();
             scene.getStylesheets().add(css);
@@ -28,11 +28,10 @@ public class App extends Application {
 
         }catch (Exception e){
             e.printStackTrace();
+            //
 
         }
-//wqeqweqweqweQWE
-        ///qweqweERRR
-        //WEQWQWE
+
     }
 
 

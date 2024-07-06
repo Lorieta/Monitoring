@@ -11,9 +11,11 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.ResourceController">
    <children>
-      <AnchorPane cacheShape="false" centerShape="false" layoutY="7.0" onMouseClicked="#addBtn" prefHeight="640.0" prefWidth="1368.0" scaleShape="false" stylesheets="@application.css">
+
+      <AnchorPane cacheShape="false" centerShape="false" layoutX="-9.0" layoutY="-14.0" prefHeight="625.0" prefWidth="1381.0" scaleShape="false" stylesheets="@application.css">
          <children>
-            <AnchorPane layoutY="90.0" prefHeight="58.0" prefWidth="1375.0" styleClass="button1">
+            <AnchorPane layoutX="7.0" layoutY="21.0" prefHeight="58.0" prefWidth="1515.0" styleClass="button1">
+
                <children>
                   <Button layoutX="108.0" layoutY="6.0" prefHeight="43" prefWidth="204" styleClass="button3" text="HOME" textFill="WHITE" />
                   <Button layoutX="320.0" layoutY="6.0" prefHeight="43" prefWidth="204" styleClass="button4" text="STUDENT" textFill="WHITE" />
@@ -34,7 +36,9 @@
                </children>
 
             </AnchorPane>
-            <TableView fx:id="MaterialTable" layoutX="236.0" layoutY="204.0" prefHeight="299.0" prefWidth="897.0" style="-fx-background-color: blue;" stylesheets="@table.css">
+            <Pane layoutX="307.0" layoutY="197.0" prefHeight="58.0" prefWidth="743.0" />
+            <Button layoutX="1408.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#addBtn" text="ADD" />
+            <TableView fx:id="MaterialTable" layoutX="22.0" layoutY="157.0" prefHeight="447.0" prefWidth="1478.0" style="-fx-background-color: blue;" stylesheets="@table.css">
                <columns>
                   <TableColumn fx:id="materialIDcol" prefWidth="75.0" text="MaterialID" />
                   <TableColumn fx:id="urlcol" prefWidth="100.0" text="URL" />
@@ -49,8 +53,6 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Pane layoutX="307.0" layoutY="197.0" prefHeight="58.0" prefWidth="743.0" />
-            <Button layoutX="664.0" layoutY="507.0" mnemonicParsing="false" onMouseClicked="#addBtn" text="ADD" />
          </children>
       </AnchorPane>
    </children>
