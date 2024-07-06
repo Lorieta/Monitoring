@@ -4,63 +4,121 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Editresource">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Editresource">
    <children>
-      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="596.0">
          <children>
-            <Pane layoutX="2.0" prefHeight="755.0" prefWidth="597.0" style="-fx-background-color: grey;">
+            <Pane layoutX="2.0" prefHeight="645.0" prefWidth="597.0" style="-fx-background-color: eeee4;">
                <children>
-                  <TextField fx:id="urlField" layoutX="241.0" layoutY="198.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
-                  <Text layoutX="31.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Resource Details">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="600.0" layoutX="19.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
+                  <TextField fx:id="urlField" layoutX="64.0" layoutY="189.0" prefHeight="37.0" prefWidth="452.0" style="-fx-background-color: DFD9D8;">
+                     <effect>
+                        <InnerShadow>
+                           <color>
+                              <Color red="0.6431372761726379" green="0.545098066329956" blue="0.545098066329956" />
+                           </color>
+                        </InnerShadow>
+                     </effect></TextField>
+                  <Text layoutX="174.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Resource Details">
                      <font>
-                        <Font size="45.0" />
+                        <Font size="27.0" />
                      </font>
                   </Text>
-                  <TextField  fx:id="titleField" layoutX="241.0" layoutY="138.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
-                  <TextField fx:id="authorField" layoutX="241.0" layoutY="258.0" prefHeight="37.0" prefWidth="328.0" style="-fx-background-color: white;" />
-                  <Text layoutX="21.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title:">
+                  <TextField fx:id="titleField" layoutX="64.0" layoutY="117.0" prefHeight="37.0" prefWidth="452.0" style="-fx-background-color: DFD9D8;">
+                     <effect>
+                        <InnerShadow>
+                           <color>
+                              <Color red="0.6431372761726379" green="0.545098066329956" blue="0.545098066329956" />
+                           </color>
+                        </InnerShadow>
+                     </effect></TextField>
+                  <TextField fx:id="authorField" layoutX="64.0" layoutY="268.0" prefHeight="37.0" prefWidth="452.0" style="-fx-background-color: DFD9D8;">
+                     <effect>
+                        <InnerShadow>
+                           <color>
+                              <Color red="0.6431372761726379" green="0.545098066329956" blue="0.545098066329956" />
+                           </color>
+                        </InnerShadow>
+                     </effect></TextField>
+                  <Text layoutX="96.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="21.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL:">
+                  <Text layoutX="97.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="21.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author/Publish:">
+                  <Text layoutX="95.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author/Publish:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="21.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Published:">
+                  <Text layoutX="66.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Published:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Button fx:id="addbtn" layoutX="241.0" layoutY="563.0" mnemonicParsing="false" onMouseClicked="#updateResource" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: lime;" text="Edit" />
-                  <Button fx:id="clearbtn" layoutX="465.0" layoutY="563.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: red;" text="Close" />
-                  <Text layoutX="20.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Language Type:">
+                  <Button fx:id="addbtn" layoutX="268.0" layoutY="555.0" mnemonicParsing="false" onMouseClicked="#updateResource" prefHeight="37.0" prefWidth="104.0" style="-fx-background-color: C3F396;" text="Edit">
+                     <effect>
+                        <Lighting diffuseConstant="2.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.8157894611358643" green="0.8157894611358643" blue="0.8157894611358643" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect></Button>
+                  <Button fx:id="clearbtn" layoutX="426.0" layoutY="555.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" style="-fx-background-color: F39696;" text="Close">
+                     <effect>
+                        <Lighting diffuseConstant="1.64">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect></Button>
+                  <Text layoutX="64.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Language Type:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="18.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resources Type:">
+                  <Text layoutX="64.0" layoutY="454.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resources Type:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="languageTypeChoice" layoutX="241.0" layoutY="385.0" prefHeight="25.0" prefWidth="328.0" />
-                  <ChoiceBox fx:id="resourceTypeChoice" layoutX="241.0" layoutY="452.0" prefHeight="25.0" prefWidth="328.0" />
-                  <DatePicker fx:id="datePublishedPicker" layoutX="241.0" layoutY="322.0" prefHeight="31.0" prefWidth="328.0" />
+                  <ChoiceBox fx:id="languageTypeChoice" layoutX="228.0" layoutY="384.0" prefHeight="30.0" prefWidth="287.0" />
+                  <ChoiceBox fx:id="resourceTypeChoice" layoutX="228.0" layoutY="432.0" prefHeight="30.0" prefWidth="287.0" />
+                  <DatePicker fx:id="datePublishedPicker" layoutX="228.0" layoutY="334.0" prefHeight="31.0" prefWidth="287.0" />
+                  <Line endX="450.0" layoutX="119.0" layoutY="74.0" startX="-100.0" />
                </children>
             </Pane>
          </children>
       </AnchorPane>
    </children>
+   <effect>
+      <DropShadow />
+   </effect>
 </AnchorPane>
