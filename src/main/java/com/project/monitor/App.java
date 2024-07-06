@@ -10,11 +10,8 @@ import java.io.IOException;
 
 
 public class App extends Application {
-
-
-
     private String css = this.getClass().getResource("application.css").toExternalForm();
-//qwe
+
     @Override
     public void start(Stage stage) throws IOException {
         try{

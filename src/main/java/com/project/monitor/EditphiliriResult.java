@@ -1,9 +1,11 @@
 package com.project.monitor;
 
+import Tables.ReadinglogModel;
 import Tables.Student;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 
 import java.net.URL;
@@ -13,13 +15,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AddPhiliriResult implements Initializable {
+public class EditphiliriResult implements Initializable {
 
     @FXML
     private ComboBox<Student> LRNfield;
 
     @FXML
-    private Button addbtn;
+    private Button updatebtn;
 
     @FXML
     private DatePicker daterecorded;
@@ -40,12 +42,11 @@ public class AddPhiliriResult implements Initializable {
     private ComboBox<String> silentcb;
 
     private PhiliriResults tableController;
-
     private static final String DATABASE = Config.DATABASE;
     private static final String USER = Config.USER;
     private static final String PASSWORD = Config.PASSWORD;
     private final dbFunctions db = new dbFunctions();
-    private
+    private int philiriResultID;
 
     @FXML
     void clearFields() {
@@ -84,8 +85,6 @@ public class AddPhiliriResult implements Initializable {
         setupLanguageTypeListener();
         LRNfield.setPromptText("Select a student");
     }
-
-
 
     private void loadLRNs() {
         String lrnQuery = "SELECT LRN, Firstname, Lastname FROM Student_info";
@@ -132,7 +131,7 @@ public class AddPhiliriResult implements Initializable {
     private void setupLRNSelectionListener() {
         LRNfield.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                String fullName = newValue.getFirstname() + " " + newValue.getLastname();
+                String fullName =  newValue.getFirstname() + " " + newValue.getLastname();
                 lnameField.setText(fullName);
             } else {
                 lnameField.clear();
@@ -140,11 +139,12 @@ public class AddPhiliriResult implements Initializable {
         });
     }
 
+
     private void setupLRNConverter() {
         StringConverter<Student> studentConverter = new StringConverter<Student>() {
             @Override
             public String toString(Student student) {
-                return student.getLrn() + " - " + student.getFirstname() + " " + student.getLastname();
+                return student.getFirstname() + " " + student.getLastname();
             }
 
             @Override
@@ -211,16 +211,16 @@ public class AddPhiliriResult implements Initializable {
     }
 
     @FXML
-    void addPhiliriResult() {
+    void updatePhiliriResult(MouseEvent event) {
         if (!validateInputs()) {
             showAlert(Alert.AlertType.ERROR, "Input Error", "Please fill all fields.");
             return;
         }
 
-        String query = "INSERT INTO Result (LRN, oralID, silentID, LanguageID, DateRecorded, Remarks) " +
-                "VALUES (?, (SELECT orallID FROM oral WHERE oralresult = ?), " +
-                "(SELECT SilentID FROM silent WHERE silentresult = ?), " +
-                "(SELECT LanguageID FROM LanguageType WHERE Languagetype = ?), ?, ?)";
+        String query = "UPDATE Result SET LRN = ?, oralID = (SELECT orallID FROM oral WHERE oralresult = ?), " +
+                "silentID = (SELECT SilentID FROM silent WHERE silentresult = ?), " +
+                "LanguageID = (SELECT LanguageID FROM LanguageType WHERE Languagetype = ?), " +
+                "DateRecorded = ?, Remarks = ? WHERE ResultID = ?";
 
         try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -231,21 +231,22 @@ public class AddPhiliriResult implements Initializable {
             pstmt.setString(4, languagetypecb.getValue());
             pstmt.setDate(5, java.sql.Date.valueOf(daterecorded.getValue()));
             pstmt.setString(6, remarks.getText());
+            pstmt.setInt(7, philiriResultID);
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Philiri result added successfully.");
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Philiri result updated successfully.");
                 clearFields();
                 if (tableController != null) {
                     tableController.refreshTable();  // Refresh the table
                 }
             } else {
-                showAlert(Alert.AlertType.ERROR, "Error", "Failed to add Philiri result.");
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to update Philiri result.");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Database Error", "Error adding Philiri result: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Database Error", "Error updating Philiri result: " + e.getMessage());
         }
     }
 
@@ -253,6 +254,55 @@ public class AddPhiliriResult implements Initializable {
         this.tableController = philiriResults;
     }
 
+    public void setPhiliriResultID(int philiriResultID) {
+        this.philiriResultID = philiriResultID;
+        loadPhiliriResultData();
+    }
 
+    private void loadPhiliriResultData() {
+        String query = "SELECT LRN, " +
+                "(SELECT oralresult FROM oral WHERE oral.orallID = Result.oralID), " +
+                "(SELECT silentresult FROM silent WHERE silent.SilentID = Result.silentID), " +
+                "(SELECT Languagetype FROM LanguageType WHERE LanguageType.LanguageID = Result.LanguageID), " +
+                "DateRecorded, Remarks FROM Result WHERE ResultID = ?";
 
+        try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, philiriResultID);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String lrn = rs.getString("LRN");
+                String oralResult = rs.getString(2);
+                String silentResult = rs.getString(3);
+                String languageType = rs.getString(4);
+                java.sql.Date dateRecorded = rs.getDate("DateRecorded");
+                String remarksText = rs.getString("Remarks");
+
+                // Set the LRN field
+                for (Student student : LRNfield.getItems()) {
+                    if (student.getLrn().equals(lrn)) {
+                        LRNfield.setValue(student);
+                        break;
+                    }
+                }
+
+                // Set other fields
+                oralcb.setValue(oralResult);
+                silentcb.setValue(silentResult);
+                languagetypecb.setValue(languageType);
+                daterecorded.setValue(dateRecorded.toLocalDate());
+                remarks.setText(remarksText);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Database Error", "Error loading Philiri result data: " + e.getMessage());
+        }
+    }
+
+    public void setReadinglog(ReadinglogModel readinglogModel) {
+
+    }
 }

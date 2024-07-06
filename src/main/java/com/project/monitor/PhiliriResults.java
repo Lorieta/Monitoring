@@ -10,13 +10,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +28,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PhiliriResults implements Initializable {
+public class PhiliriResults extends Controller implements Initializable {
 
     @FXML
     private TableColumn<PhiliriResultsModel, String> LRNcol;
@@ -74,7 +75,6 @@ public class PhiliriResults implements Initializable {
     public void setTableController(PhiliriResults tableController) {
         this.tableController = tableController;
     }
-
     private void setupTableColumns() {
         resultID.setCellValueFactory(new PropertyValueFactory<>("resultID"));
         LRNcol.setCellValueFactory(new PropertyValueFactory<>("lrn"));
@@ -84,8 +84,91 @@ public class PhiliriResults implements Initializable {
         languagecol.setCellValueFactory(new PropertyValueFactory<>("languageType"));
         datecol.setCellValueFactory(new PropertyValueFactory<>("dateRecorded"));
         remarkcol.setCellValueFactory(new PropertyValueFactory<>("remarks"));
-        // actioncol.setCellValueFactory(new PropertyValueFactory<>("action"));
-        // The 'action' column might need special handling, commented out for now
+
+        actioncol.setCellFactory(new Callback<TableColumn<PhiliriResultsModel, String>, TableCell<PhiliriResultsModel, String>>() {
+            @Override
+            public TableCell<PhiliriResultsModel, String> call(TableColumn<PhiliriResultsModel, String> param) {
+                return new TableCell<PhiliriResultsModel, String>() {
+                    private final Button editButton = new Button("Edit");
+                    private final Button deleteButton = new Button("Delete");
+
+                    {
+                        editButton.getStyleClass().add("edit-button");
+                        deleteButton.getStyleClass().add("delete-button");
+
+                        editButton.setOnAction(event -> {
+                            PhiliriResultsModel philiriResultsModel = getTableView().getItems().get(getIndex());
+                            handleEdit(philiriResultsModel);
+
+                        });
+
+                        deleteButton.setOnAction(event -> {
+                            PhiliriResultsModel philiriResultsModel = getTableView().getItems().get(getIndex());
+                            handleDelete(philiriResultsModel);
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            HBox container = new HBox(editButton, deleteButton);
+                            HBox.setHgrow(editButton, Priority.ALWAYS);
+                            HBox.setHgrow(deleteButton, Priority.ALWAYS);
+                            editButton.setMaxWidth(Double.MAX_VALUE);
+                            deleteButton.setMaxWidth(Double.MAX_VALUE);
+                            setGraphic(container);
+                        }
+                    }
+                };
+            }
+        });
+    }
+
+
+    private void handleEdit(PhiliriResultsModel philiriResultsModel) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("editphiliriresult.fxml"));
+            Parent parent = loader.load();
+
+
+            EditphiliriResult editPhiliriResultController = loader.getController();
+            editPhiliriResultController.setPhiliriResultID(philiriResultsModel.getResultID());
+            editPhiliriResultController.setTableController(this);
+
+            // Show the edit window
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY); // You can customize the stage style here
+            stage.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(PhiliriResults.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void handleDelete(PhiliriResultsModel philiriResultsModel) {
+        String query = "DELETE FROM Result WHERE ResultID = ?";
+
+        try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, philiriResultsModel.getResultID());
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Philiri result deleted successfully.");
+                refreshTable();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete Philiri result.");
+            }
+
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Database Error", "Error deleting Philiri result: " + e.getMessage());
+        }
     }
 
     public void refreshTable() {
@@ -148,10 +231,6 @@ public class PhiliriResults implements Initializable {
     }
 
 
-    @FXML
-    void searchtb(ActionEvent event) {
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
