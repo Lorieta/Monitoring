@@ -205,3 +205,19 @@ VALUES
 
 INSERT INTO DailySelection (LRN, LanguageTypeID, MaterialsId, Score)
 VALUES ('LRN123456', 1, 33, 95);
+
+SELECT
+  ds.SelectionID,
+  ds.LRN,
+  m.ResourceTitle,
+  m.URL,
+  lt.LanguageType,
+  ds.Score
+FROM
+  DailySelection ds
+JOIN
+  Materials m ON ds.MaterialsId = m.MaterialsId
+JOIN
+  Languagetype lt ON ds.LanguageTypeID = lt.LanguageID
+JOIN
+  student_info si ON ds.LRN = si.LRN;

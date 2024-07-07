@@ -6,18 +6,18 @@ import javafx.beans.property.SimpleStringProperty;
 public class SelectionModel {
     private SimpleIntegerProperty selectionID;
     private SimpleStringProperty LRN;
-    private SimpleIntegerProperty languageTypeID;
+    private SimpleStringProperty resourceTitle;
+    private SimpleStringProperty url;
+    private SimpleStringProperty languageType;
     private SimpleIntegerProperty score;
-    private SimpleIntegerProperty resultID;
-    private SimpleStringProperty title;
 
-    public SelectionModel(int selectionID, String LRN, int languageTypeID, int score, int resultID, String title) {
+    public SelectionModel(int selectionID, String LRN, String resourceTitle, String url, String languageType, int score) {
         this.selectionID = new SimpleIntegerProperty(selectionID);
         this.LRN = new SimpleStringProperty(LRN);
-        this.languageTypeID = new SimpleIntegerProperty(languageTypeID);
+        this.resourceTitle = new SimpleStringProperty(resourceTitle);
+        this.url = new SimpleStringProperty(url);
+        this.languageType = new SimpleStringProperty(languageType);
         this.score = new SimpleIntegerProperty(score);
-        this.resultID = new SimpleIntegerProperty(resultID);
-        this.title = new SimpleStringProperty(title);
     }
 
     public int getSelectionID() {
@@ -44,16 +44,40 @@ public class SelectionModel {
         return LRN;
     }
 
-    public int getLanguageTypeID() {
-        return languageTypeID.get();
+    public String getResourceTitle() {
+        return resourceTitle.get();
     }
 
-    public void setLanguageTypeID(int languageTypeID) {
-        this.languageTypeID.set(languageTypeID);
+    public void setResourceTitle(String resourceTitle) {
+        this.resourceTitle.set(resourceTitle);
     }
 
-    public SimpleIntegerProperty languageTypeIDProperty() {
-        return languageTypeID;
+    public SimpleStringProperty resourceTitleProperty() {
+        return resourceTitle;
+    }
+
+    public String getUrl() {
+        return url.get();
+    }
+
+    public void setUrl(String url) {
+        this.url.set(url);
+    }
+
+    public SimpleStringProperty urlProperty() {
+        return url;
+    }
+
+    public String getLanguageType() {
+        return languageType.get();
+    }
+
+    public void setLanguageType(String languageType) {
+        this.languageType.set(languageType);
+    }
+
+    public SimpleStringProperty languageTypeProperty() {
+        return languageType;
     }
 
     public int getScore() {
@@ -66,29 +90,5 @@ public class SelectionModel {
 
     public SimpleIntegerProperty scoreProperty() {
         return score;
-    }
-
-    public int getResultID() {
-        return resultID.get();
-    }
-
-    public void setResultID(int resultID) {
-        this.resultID.set(resultID);
-    }
-
-    public SimpleIntegerProperty resultIDProperty() {
-        return resultID;
-    }
-
-    public String getTitle() {
-        return title.get();
-    }
-
-    public void setTitle(String title) {
-        this.title.set(title);
-    }
-
-    public SimpleStringProperty titleProperty() {
-        return title;
     }
 }
