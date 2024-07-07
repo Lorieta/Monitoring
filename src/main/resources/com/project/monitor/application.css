@@ -142,3 +142,22 @@
     -fx-background-color: #ececec; /* Background color on hover */
 }
 
+/* SHOW ALERRT*/
+.alert-dialog {
+    -fx-background-color: #f0f0f0; /* Light gray background */
+}
+
+.alert .dialog-pane {
+    -fx-pref-width: 400px; /* Set preferred width */
+    -fx-pref-height: 200px; /* Set preferred height */
+}
+
+.alert .header-panel {
+    -fx-background-color: #3399ff; /* Blue header background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 16px; /* Font size */
+}
+
+.alert .content-panel {
+    -fx-font-size: 14px; /* Font size for content */
+}

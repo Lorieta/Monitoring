@@ -2,6 +2,8 @@ package Tables;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import java.time.LocalDate;
 
 public class SelectionModel {
     private SimpleIntegerProperty selectionID;
@@ -10,14 +12,16 @@ public class SelectionModel {
     private SimpleStringProperty url;
     private SimpleStringProperty languageType;
     private SimpleIntegerProperty score;
+    private SimpleObjectProperty<LocalDate> date;
 
-    public SelectionModel(int selectionID, String LRN, String resourceTitle, String url, String languageType, int score) {
+    public SelectionModel(int selectionID, String LRN, String resourceTitle, String url, String languageType, int score, LocalDate date) {
         this.selectionID = new SimpleIntegerProperty(selectionID);
         this.LRN = new SimpleStringProperty(LRN);
         this.resourceTitle = new SimpleStringProperty(resourceTitle);
         this.url = new SimpleStringProperty(url);
         this.languageType = new SimpleStringProperty(languageType);
         this.score = new SimpleIntegerProperty(score);
+        this.date = new SimpleObjectProperty<>(date);
     }
 
     public int getSelectionID() {
@@ -90,5 +94,17 @@ public class SelectionModel {
 
     public SimpleIntegerProperty scoreProperty() {
         return score;
+    }
+
+    public LocalDate getDate() {
+        return date.get();
+    }
+
+    public void setDate(LocalDate date) {
+        this.date.set(date);
+    }
+
+    public SimpleObjectProperty<LocalDate> dateProperty() {
+        return date;
     }
 }

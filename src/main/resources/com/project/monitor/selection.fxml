@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Selection">
    <children>
-      <AnchorPane cacheShape="false" centerShape="false" layoutX="8.0" layoutY="-18.0" prefHeight="625.0" prefWidth="1381.0" scaleShape="false" stylesheets="@application.css">
+      <AnchorPane cacheShape="false" centerShape="false" layoutX="4.0" prefHeight="625.0" prefWidth="1381.0" scaleShape="false" stylesheets="@application.css">
          <children>
             <AnchorPane layoutX="7.0" layoutY="21.0" prefHeight="58.0" prefWidth="1515.0" styleClass="button1">
                <children>
@@ -41,6 +41,8 @@
                   <TableColumn fx:id="urlCol" minWidth="0.0" prefWidth="100.0" text="URL" />
                   <TableColumn fx:id="languageTypeCol" prefWidth="75.0" text="Language Type" />
                   <TableColumn fx:id="scoreCol" prefWidth="75.0" text="Score" />
+                  <TableColumn fx:id="datecol" prefWidth="75.0" text="Date" />
+                  <TableColumn fx:id="action" prefWidth="75.0" text="Actions" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
