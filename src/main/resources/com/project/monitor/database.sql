@@ -182,3 +182,26 @@ WHERE
     lt.Languagetype IN ('English', 'Tagalog')
 ORDER BY
     r.LRN, lt.Languagetype, r.DateRecorded;
+
+CREATE TABLE DailySelection (
+  SelectionID SERIAL PRIMARY KEY,
+  LRN VARCHAR(255),
+  LanguageTypeID BIGINT,
+  MaterialsId BIGINT,
+  Score INT,
+  FOREIGN KEY (LRN) REFERENCES student_info(lrn),
+  FOREIGN KEY (LanguageTypeID) REFERENCES Languagetype(LanguageID),
+  FOREIGN KEY (MaterialsId) REFERENCES Materials(MaterialsId)
+);
+
+
+INSERT INTO DailySelection (SelectionID, LRN, LanguageTypeID, MaterialsId, Score)
+VALUES
+(DEFAULT, '10895634', 1, 31, 95),
+(DEFAULT, '12341523123533343', 1, 31, 88),
+(DEFAULT, '190123952', 1, 31, 92),
+(DEFAULT, '12312451235', 1, 31, 85);
+
+
+INSERT INTO DailySelection (LRN, LanguageTypeID, MaterialsId, Score)
+VALUES ('LRN123456', 1, 33, 95);
