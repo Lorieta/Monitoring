@@ -157,3 +157,28 @@ WHERE
     lt.Languagetype IN ('English', 'Tagalog')
 ORDER BY
     r.LRN, lt.Languagetype, r.DateRecorded;
+
+
+SELECT
+    r.ResultID,
+    r.LRN,
+    si.LastName,
+    o.oralresult AS OralResult,
+    s.silentresult AS SilentResult,
+    lt.Languagetype AS LanguageType,
+    r.DateRecorded,
+    r.Remarks
+FROM
+    Result r
+JOIN
+    oral o ON r.oralID = o.orallID
+JOIN
+    silent s ON r.silentID = s.SilentID
+JOIN
+    LanguageType lt ON r.LanguageID = lt.LanguageID
+JOIN
+    Student_info si ON r.LRN = si.LRN
+WHERE
+    lt.Languagetype IN ('English', 'Tagalog')
+ORDER BY
+    r.LRN, lt.Languagetype, r.DateRecorded;
