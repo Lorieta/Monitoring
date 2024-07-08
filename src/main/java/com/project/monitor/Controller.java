@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class Controller  {
@@ -77,18 +78,19 @@ public class Controller  {
         }
     }
 
-    @FXML
-    public void login(MouseEvent event) throws IOException {
+    public void login(MouseEvent event) throws IOException, SQLException {
         dbFunctions db = new dbFunctions();
-        Connection conn = db.connect_to_db("projectdb", "postgres", "123");
-        String employeeid = loginField.getText();
-        String password = loginPassField.getText();
-
+        Connection conn = null;
         try {
+            conn = db.connect_to_db("projectdb", "postgres", "123");
+            String employeeid = loginField.getText();
+            String password = loginPassField.getText();
+
             if (!checker(employeeid) && !checker(password)) {
                 dbFunctions.Teacher teacher = db.loginAndGetTeacher(conn, "teacher_info", employeeid, password);
                 if (teacher != null) {
                     // Successfully logged in
+                   String adviserID = employeeid; // Set adviser ID
                     navigateToDashboard(event, teacher);
                 } else {
                     showAlert(Alert.AlertType.INFORMATION, "Login failed. No account found with the provided credentials.", "Login Failed");
@@ -96,33 +98,34 @@ public class Controller  {
             } else {
                 showAlert(Alert.AlertType.INFORMATION, "Missing fields detected. Fill all fields.", "Missing Fields");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.INFORMATION, "An error occurred during login. Please try again.", "Login Error");
         } finally {
-            try {
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("Error closing connection: " + e.getMessage());
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error closing connection: " + e.getMessage());
+                }
             }
         }
     }
+
     private void navigateToDashboard(MouseEvent event, dbFunctions.Teacher teacher) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Homedashboard.fxml"));
         Parent root = loader.load();
 
         // Pass the logged-in teacher's ID and full name to the dashboard controller
         Homedashboard controller = loader.getController();
-        controller.setTeacherID(teacher.getId());
+        controller.setTeacherID(teacher.getId()); // Assuming setAdviserID exists in Homedashboard controller
         controller.setTeacherName(teacher.getFullName());
 
         // Set scene
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
     }
+
 
 
 
