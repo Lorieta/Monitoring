@@ -14,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="710.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Addselection">
 
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Addselection">
    <children>
-      <Pane layoutX="6.0" layoutY="7.0" prefHeight="702.0" prefWidth="597.0" style="-fx-background-color: F5F5F5;">
+      <Pane prefHeight="702.0" prefWidth="597.0" style="-fx-background-color: F5F5F5;">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcfcfc" height="629.0" layoutX="28.0" layoutY="23.0" stroke="BLACK" strokeType="INSIDE" width="542.0" />
-            <TextField fx:id="name" disable="true" layoutX="199.0" layoutY="190.0" prefHeight="37.0" prefWidth="314.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="name" disable="true" layoutX="212.0" layoutY="190.0" prefHeight="37.0" prefWidth="314.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow>
                      <color>
@@ -34,7 +34,7 @@
                   <Font size="27.0" />
                </font>
             </Text>
-            <TextField fx:id="url" disable="true" editable="false" layoutX="199.0" layoutY="300.0" prefHeight="37.0" prefWidth="314.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="url" disable="true" editable="false" layoutX="213.0" layoutY="300.0" prefHeight="37.0" prefWidth="314.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow>
                      <color>
@@ -43,22 +43,22 @@
                   </InnerShadow>
                </effect>
             </TextField>
-            <Text layoutX="83.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LRN:">
+            <Text layoutX="55.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LRN:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="83.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
+            <Text layoutX="55.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="70.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL:">
+            <Text layoutX="58.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Button fx:id="addbtn" layoutX="209.0" layoutY="546.0" mnemonicParsing="false" onMouseClicked="#addStudent" prefHeight="37.0" prefWidth="107.0" style="-fx-background-color: C3F396;" text="ADD">
+            <Button fx:id="addbtn" layoutX="257.0" layoutY="546.0" mnemonicParsing="false" onMouseClicked="#addStudent" prefHeight="37.0" prefWidth="107.0" style="-fx-background-color: C3F396;" text="ADD">
                <effect>
                   <Lighting diffuseConstant="1.68">
                      <bumpInput>
@@ -70,7 +70,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Button fx:id="close" layoutX="413.0" layoutY="546.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="37.0" prefWidth="109.0" style="-fx-background-color: F39696;" text="Close">
+            <Button fx:id="close" layoutX="421.0" layoutY="546.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="37.0" prefWidth="109.0" style="-fx-background-color: F39696;" text="Close">
                <effect>
                   <Lighting diffuseConstant="1.64">
                      <bumpInput>
@@ -82,7 +82,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <TextField fx:id="languagetype" disable="true" layoutX="199.0" layoutY="354.0" prefHeight="37.0" prefWidth="314.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="languagetype" disable="true" layoutX="214.0" layoutY="354.0" prefHeight="37.0" prefWidth="314.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow>
                      <color>
@@ -91,20 +91,20 @@
                   </InnerShadow>
                </effect>
             </TextField>
-            <Text layoutX="52.0" layoutY="381.0" strokeType="OUTSIDE" strokeWidth="0.0" text="langauge type">
+            <Text layoutX="58.0" layoutY="381.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Langauge type">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
             <Line endX="441.0" layoutX="128.0" layoutY="92.0" startX="-100.0" />
-            <ComboBox fx:id="lrncb" layoutX="199.0" layoutY="142.0" prefHeight="25.0" prefWidth="314.0" />
-            <ComboBox fx:id="selectioncb" layoutX="199.0" layoutY="252.0" prefHeight="25.0" prefWidth="314.0" />
-            <Text layoutX="55.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="selection Title">
+            <ComboBox fx:id="lrncb" layoutX="212.0" layoutY="142.0" prefHeight="25.0" prefWidth="314.0" />
+            <ComboBox fx:id="selectioncb" layoutX="213.0" layoutY="252.0" prefHeight="25.0" prefWidth="314.0" />
+            <Text layoutX="55.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selection Title">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <TextField fx:id="scoretb" layoutX="199.0" layoutY="441.0" prefHeight="37.0" prefWidth="314.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="scoretb" layoutX="329.0" layoutY="451.0" prefHeight="37.0" prefWidth="199.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow>
                      <color>
@@ -113,7 +113,7 @@
                   </InnerShadow>
                </effect>
             </TextField>
-            <Text layoutX="52.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score">
+            <Text layoutX="251.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score">
                <font>
                   <Font size="22.0" />
                </font>
