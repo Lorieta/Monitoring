@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="664.0" prefWidth="1141.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Homedashboard">
+   <left>
+      <HBox fx:id="mainContent" prefHeight="664.0" prefWidth="1141.0" spacing="0" BorderPane.alignment="CENTER">
+         <VBox fx:id="slider" layoutY="-1.0" prefHeight="654.0" prefWidth="190.0" style="-fx-background-color: grey;">
+            <children>
+               <AnchorPane prefHeight="118.0" prefWidth="170.0">
+                  <children>
+                     <Label fx:id="username" layoutX="14.0" layoutY="14.0" text="USER">
+                        <font>
+                           <Font size="20.0" />
+                        </font>
+                     </Label>
+                  </children>
+               </AnchorPane>
+               <Button fx:id="hbtn" prefHeight="43" prefWidth="204" styleClass="button3" text="HOME" textFill="WHITE" />
+               <Button fx:id="sdbtn" onMouseClicked="#showSTD" prefHeight="43.0" prefWidth="212.0" styleClass="button4" text="STUDENT" textFill="WHITE" />
+               <Button fx:id="asbtn" prefHeight="43.0" prefWidth="190.0" styleClass="button4" text="ASSESSMENT" textFill="WHITE" />
+               <Button fx:id="rlbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="READING LOGS" textFill="WHITE" />
+               <Button fx:id="phbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="PHILIRI" textFill="WHITE" />
+               <Button fx:id="dcbtn" prefHeight="43.0" prefWidth="212.0" styleClass="button4" text="DAILY COMPREHENSION" textFill="WHITE">
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+               </Button>
+               <AnchorPane prefHeight="387.0" prefWidth="190.0">
+                  <children>
+                     <Button fx:id="logout" layoutX="20.0" layoutY="344.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="LOGOUT" />
+                  </children>
+               </AnchorPane>
+            </children>
+         </VBox>
+      </HBox>
+   </left>
+</BorderPane>

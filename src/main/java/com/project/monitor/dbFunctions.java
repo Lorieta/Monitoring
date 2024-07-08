@@ -27,25 +27,29 @@ public class dbFunctions extends Controller {
     }
 
     //LOGIN
-    public boolean login(Connection conn, String tablename, String employeeid, String password) {
-        String query = String.format("SELECT * FROM %s WHERE employeeid = ? AND password = ?;", tablename);
+    public Teacher loginAndGetTeacher(Connection conn, String tablename, String employeeid, String password) {
+        String query = String.format("SELECT * FROM %s WHERE employeeid = ? AND password = ?", tablename);
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, employeeid);
             preparedStatement.setString(2, password);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet.next(); // If there is a next row, login is successful
+                if (resultSet.next()) {
+                    // Teacher found, retrieve teacher's information
+                    String fname = resultSet.getString("teacherfname");
+                    String lname = resultSet.getString("teacherlname");
+
+                    // Construct and return a Teacher object with ID, full name, etc.
+                    return new Teacher(employeeid, fname + " " + lname);
+                } else {
+                    // No teacher found with the given credentials
+                    return null;
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error during login: " + e.getMessage());
-            return false;
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing connection: " + e.getMessage());
-            }
+            return null;
         }
     }
 
@@ -262,10 +266,27 @@ public class dbFunctions extends Controller {
 
 
 
+    public static class Teacher {
+        private String id;
+        private String fullName;
 
+        public Teacher(String id, String fullName) {
+            this.id = id;
+            this.fullName = fullName;
+        }
 
+        public String getId() {
+            return id;
+        }
 
+        public String getFullName() {
+            return fullName;
+        }
+    }
 }
+
+
+
 
 
 
