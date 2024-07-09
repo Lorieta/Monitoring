@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -53,17 +54,26 @@ public class Homedashboard implements Initializable {
     @FXML
     private VBox slider;
 
+    @FXML
+    private AreaChart<String, Number> areaChart;
+
     private boolean isHidden = true;
     private GaussianBlur blur = new GaussianBlur(10);
     private String teacherID;
     private String teacherName;
 
+    private static final String DATABASE = Config.DATABASE;
+    private static final String USER = Config.USER;
+    private static final String PASSWORD = Config.PASSWORD;
+
+    private dbFunctions db = new dbFunctions();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         slider.setTranslateX(-190); // Initially hide the slider
 
-        // Add event handlers for mouse enter and exit on the main content area
-        slider.setOnMouseMoved(event -> showSlider());
+        // Add event handlers for mouse enter and exit on the slider
+        slider.setOnMouseEntered(event -> showSlider());
         slider.setOnMouseExited(event -> hideSlider());
     }
 
@@ -79,7 +89,6 @@ public class Homedashboard implements Initializable {
     private void showSlider() {
         if (isHidden) {
             animateSlider(0); // Show slider
-            animateMainContent(0); // Slide main content to make space for slider
             isHidden = false;
         }
     }
@@ -87,7 +96,6 @@ public class Homedashboard implements Initializable {
     private void hideSlider() {
         if (!isHidden) {
             animateSlider(-190); // Hide slider
-            animateMainContent(0); // Slide main content back to its original position
             isHidden = true;
         }
     }
@@ -97,13 +105,6 @@ public class Homedashboard implements Initializable {
         slide.setToX(targetX);
         slide.setInterpolator(Interpolator.EASE_BOTH);
         slide.play();
-    }
-
-    private void animateMainContent(double targetX) {
-        TranslateTransition mainSlide = new TranslateTransition(Duration.seconds(0.4), mainContent);
-        mainSlide.setToX(targetX);
-        mainSlide.setInterpolator(Interpolator.EASE_BOTH);
-        mainSlide.play();
     }
 
     @FXML
@@ -123,6 +124,9 @@ public class Homedashboard implements Initializable {
             // Remove blur effect on stage close
             stage.setOnHidden(e -> mainContent.setEffect(null));
 
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
+
         } catch (IOException e) {
             showAlert("Error", "Failed to load Student View: " + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
@@ -137,6 +141,9 @@ public class Homedashboard implements Initializable {
 
             ResourceController controller = loader.getController();
             Stage stage = createAndShowStage(root, "Resource View");
+
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
 
         } catch (IOException e) {
             showAlert("Error", "Failed to load Resource View: " + e.getMessage(), Alert.AlertType.ERROR);
@@ -156,11 +163,10 @@ public class Homedashboard implements Initializable {
             // Refresh the table after setting the currentAdviserID
             controller.refreshTable();
 
-            System.out.println(teacherID);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Selection View");
-            stage.show();
+            Stage stage = createAndShowStage(root, "Selection View");
+
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,9 +174,39 @@ public class Homedashboard implements Initializable {
         }
     }
 
+    @FXML
+    void readlogsShow(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("reaadinglog.fxml"));
+            Parent root = loader.load();
 
+            Stage stage = createAndShowStage(root, "Reading Log View");
 
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Reading Log View: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    void showphiliri(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("philiri.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = createAndShowStage(root, "Philiri View");
+
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Philiri View: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 
     @FXML
     void logout(MouseEvent event) {
@@ -183,12 +219,12 @@ public class Homedashboard implements Initializable {
         stage.setTitle(title);
 
         Stage currentStage = (Stage) mainContent.getScene().getWindow();
-        double newWidth = currentStage.getWidth() * 0.8;
-        double newHeight = currentStage.getHeight() * 0.8;
-        stage.setWidth(newWidth);
-        stage.setHeight(newHeight);
-        stage.setX(currentStage.getX() + (currentStage.getWidth() - newWidth) / 2);
-        stage.setY(currentStage.getY() + (currentStage.getHeight() - newHeight) / 2);
+        double currentWidth = currentStage.getWidth();
+        double currentHeight = currentStage.getHeight();
+        stage.setWidth(currentWidth * 0.8);
+        stage.setHeight(currentHeight * 0.8);
+        stage.setX(currentStage.getX() + (currentWidth - stage.getWidth()) / 2);
+        stage.setY(currentStage.getY() + (currentHeight - stage.getHeight()) / 2);
 
         stage.show();
         return stage;
@@ -200,5 +236,16 @@ public class Homedashboard implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void closeWindowOnClickOutside(Stage stage) {
+        Stage currentStage = (Stage) mainContent.getScene().getWindow();
+
+        // Add a mouse click filter to the current stage
+        currentStage.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            if (!stage.getScene().getRoot().getBoundsInParent().contains(event.getSceneX() - stage.getX(), event.getSceneY() - stage.getY())) {
+                stage.close();
+            }
+        });
     }
 }

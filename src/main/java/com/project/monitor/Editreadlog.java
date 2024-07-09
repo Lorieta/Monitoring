@@ -89,7 +89,8 @@ public class Editreadlog implements Initializable {
                 showAlert(Alert.AlertType.ERROR, "Update Failed", "Failed to update reading log.");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Database Error", "Error occurred while updating reading log: " + e.getMessage());
         } finally {
             if (conn != null) {
                 try {

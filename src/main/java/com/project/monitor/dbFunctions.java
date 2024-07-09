@@ -1,5 +1,7 @@
 package com.project.monitor;
 
+import javafx.scene.chart.XYChart;
+
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -226,7 +228,8 @@ public class dbFunctions extends Controller {
     }
 
     public boolean addReadingLogToDatabase(Connection conn, String lrn, int materialId, Date dateStarted, Date dateFinished, int duration, String comments) {
-        String insertQuery = "INSERT INTO reading_log (lrn, materialid, datestarted, datefinished, duration, comment) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO reading_log (lrn, materialid, datestarted, datefinished, duration, comment, adviserid) " +
+                "VALUES (?, ?, ?, ?, ?, ?, (SELECT adviserid FROM student_info WHERE lrn = ?))";
 
         try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
             pstmt.setString(1, lrn);
@@ -235,6 +238,7 @@ public class dbFunctions extends Controller {
             pstmt.setDate(4, dateFinished);
             pstmt.setInt(5, duration);
             pstmt.setString(6, comments);
+            pstmt.setString(7, lrn); // Set LRN for the subquery
 
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
@@ -244,8 +248,10 @@ public class dbFunctions extends Controller {
         }
     }
 
+
     public boolean updateReadinglogInDatabase(Connection conn, int logId, String lrn, int materialId, java.sql.Date dateStarted, java.sql.Date dateFinished, String duration, String comment) {
-        String updateQuery = "UPDATE reading_log SET lrn = ?, materialid = ?, datestarted = ?, datefinished = ?, duration = ?, comment = ? WHERE logid = ?";
+        String updateQuery = "UPDATE reading_log SET lrn = ?, materialid = ?, datestarted = ?, datefinished = ?, duration = ?, comment = ?, " +
+                "adviserid = (SELECT adviserid FROM student_info WHERE lrn = ?) WHERE logid = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
             pstmt.setString(1, lrn);
@@ -254,7 +260,8 @@ public class dbFunctions extends Controller {
             pstmt.setDate(4, dateFinished);
             pstmt.setString(5, duration);
             pstmt.setString(6, comment);
-            pstmt.setInt(7, logId);
+            pstmt.setString(7, lrn); // Set LRN for the subquery
+            pstmt.setInt(8, logId);
 
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
@@ -263,6 +270,9 @@ public class dbFunctions extends Controller {
             return false;
         }
     }
+
+
+
 
 
 
@@ -283,6 +293,9 @@ public class dbFunctions extends Controller {
             return fullName;
         }
     }
+
+
+
 }
 
 

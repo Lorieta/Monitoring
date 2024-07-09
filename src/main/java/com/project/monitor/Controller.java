@@ -110,13 +110,15 @@ public class Controller  {
     }
 
     private void navigateToDashboard(MouseEvent event, dbFunctions.Teacher teacher) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Homedashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("homedashboard.fxml"));
         Parent root = loader.load();
 
         // Pass the logged-in teacher's ID and full name to the dashboard controller
         Homedashboard controller = loader.getController();
         controller.setTeacherID(teacher.getId()); // Assuming setAdviserID exists in Homedashboard controller
         controller.setTeacherName(teacher.getFullName());
+
+
 
         // Set scene
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

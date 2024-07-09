@@ -1,8 +1,7 @@
 package Tables;
 
-import javafx.beans.property.*;
-
 import java.sql.Date;
+import javafx.beans.property.*;
 
 public class ReadinglogModel {
     private final IntegerProperty logid;
@@ -18,7 +17,9 @@ public class ReadinglogModel {
     private final ObjectProperty<Date> dateFinished;
     private final StringProperty comment;
 
-    public ReadinglogModel(int logid, String lrn, String fname, String lname, String resourceTitle, String url, String languageType, String resourceType, String duration, Date dateStarted, Date dateFinished, String comment) {
+    public ReadinglogModel(int logid, String lrn, String fname, String lname, String resourceTitle, String url,
+                           String languageType, String resourceType, String duration, Date dateStarted,
+                           Date dateFinished, String comment) {
         this.logid = new SimpleIntegerProperty(logid);
         this.lrn = new SimpleStringProperty(lrn);
         this.fname = new SimpleStringProperty(fname);
@@ -33,101 +34,52 @@ public class ReadinglogModel {
         this.comment = new SimpleStringProperty(comment);
     }
 
-    // Getters for each property
+    // Getters and setters for all properties
+    public int getLogid() { return logid.get(); }
+    public void setLogid(int value) { logid.set(value); }
+    public IntegerProperty logidProperty() { return logid; }
 
-    public int getLogid() {
-        return logid.get();
-    }
+    public String getLrn() { return lrn.get(); }
+    public void setLrn(String value) { lrn.set(value); }
+    public StringProperty lrnProperty() { return lrn; }
 
-    public IntegerProperty logidProperty() {
-        return logid;
-    }
+    public String getFname() { return fname.get(); }
+    public void setFname(String value) { fname.set(value); }
+    public StringProperty fnameProperty() { return fname; }
 
-    public String getLrn() {
-        return lrn.get();
-    }
+    public String getLname() { return lname.get(); }
+    public void setLname(String value) { lname.set(value); }
+    public StringProperty lnameProperty() { return lname; }
 
-    public StringProperty lrnProperty() {
-        return lrn;
-    }
+    public String getResourceTitle() { return resourceTitle.get(); }
+    public void setResourceTitle(String value) { resourceTitle.set(value); }
+    public StringProperty resourceTitleProperty() { return resourceTitle; }
 
-    public String getFname() {
-        return fname.get();
-    }
+    public String getUrl() { return url.get(); }
+    public void setUrl(String value) { url.set(value); }
+    public StringProperty urlProperty() { return url; }
 
-    public StringProperty fnameProperty() {
-        return fname;
-    }
+    public String getLanguageType() { return languageType.get(); }
+    public void setLanguageType(String value) { languageType.set(value); }
+    public StringProperty languageTypeProperty() { return languageType; }
 
-    public String getLname() {
-        return lname.get();
-    }
+    public String getResourceType() { return resourceType.get(); }
+    public void setResourceType(String value) { resourceType.set(value); }
+    public StringProperty resourceTypeProperty() { return resourceType; }
 
-    public StringProperty lnameProperty() {
-        return lname;
-    }
+    public String getDuration() { return duration.get(); }
+    public void setDuration(String value) { duration.set(value); }
+    public StringProperty durationProperty() { return duration; }
 
-    public String getResourceTitle() {
-        return resourceTitle.get();
-    }
+    public Date getDateStarted() { return dateStarted.get(); }
+    public void setDateStarted(Date value) { dateStarted.set(value); }
+    public ObjectProperty<Date> dateStartedProperty() { return dateStarted; }
 
-    public StringProperty resourceTitleProperty() {
-        return resourceTitle;
-    }
+    public Date getDateFinished() { return dateFinished.get(); }
+    public void setDateFinished(Date value) { dateFinished.set(value); }
+    public ObjectProperty<Date> dateFinishedProperty() { return dateFinished; }
 
-    public String getUrl() {
-        return url.get();
-    }
-
-    public StringProperty urlProperty() {
-        return url;
-    }
-
-    public String getLanguageType() {
-        return languageType.get();
-    }
-
-    public StringProperty languageTypeProperty() {
-        return languageType;
-    }
-
-    public String getResourceType() {
-        return resourceType.get();
-    }
-
-    public StringProperty resourceTypeProperty() {
-        return resourceType;
-    }
-
-    public String getDuration() {
-        return duration.get();
-    }
-
-    public StringProperty durationProperty() {
-        return duration;
-    }
-
-    public Date getDateStarted() {
-        return dateStarted.get();
-    }
-
-    public ObjectProperty<Date> dateStartedProperty() {
-        return dateStarted;
-    }
-
-    public Date getDateFinished() {
-        return dateFinished.get();
-    }
-
-    public ObjectProperty<Date> dateFinishedProperty() {
-        return dateFinished;
-    }
-
-    public String getComment() {
-        return comment.get();
-    }
-
-    public StringProperty commentProperty() {
-        return comment;
-    }
+    public String getComment() { return comment.get(); }
+    public void setComment(String value) { comment.set(value); }
+    public StringProperty commentProperty() { return comment; }
 }

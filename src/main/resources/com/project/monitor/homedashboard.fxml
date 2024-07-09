@@ -1,49 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="664.0" prefWidth="1141.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Homedashboard">
    <left>
-      <HBox fx:id="mainContent" prefHeight="672.0" prefWidth="826.0" spacing="0" BorderPane.alignment="CENTER">
+      <HBox fx:id="mainContent" prefHeight="664.0" prefWidth="201.0" spacing="0" BorderPane.alignment="CENTER">
          <VBox fx:id="slider" layoutY="-1.0" prefHeight="654.0" prefWidth="190.0" style="-fx-background-color: grey;">
             <children>
-               <AnchorPane prefHeight="118.0" prefWidth="170.0">
+               <AnchorPane prefHeight="79.0" prefWidth="203.0" />
+               <VBox prefHeight="538.0" prefWidth="203.0" VBox.vgrow="ALWAYS">
                   <children>
-                     <Label fx:id="username" layoutX="14.0" layoutY="14.0" text="USER" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="129.0" AnchorPane.topAnchor="14.0">
-                        <font>
-                           <Font size="20.0" />
-                        </font>
-                     </Label>
+                     <Button fx:id="hbtn" prefHeight="75.0" prefWidth="203.0" styleClass="button3" text="HOME" textFill="WHITE" />
+                     <Button fx:id="sdbtn" onMouseClicked="#showStudentView" prefHeight="79.0" prefWidth="203.0" styleClass="button4" text="STUDENT" textFill="WHITE" />
+                     <Button fx:id="phbtn" onMouseClicked="#showphiliri" prefHeight="66.0" prefWidth="203.0" styleClass="button4" text="PHILIRI" textFill="WHITE" />
+                     <Button fx:id="rlbtn" onMouseClicked="#readlogsShow" prefHeight="77.0" prefWidth="203.0" styleClass="button4" text="READING LOGS" textFill="WHITE" />
+                     <Button fx:id="dcbtn" onMouseClicked="#showSelectionView" prefHeight="67.0" prefWidth="203.0" styleClass="button4" text="DAILY COMPREHENSION" textFill="WHITE">
+                        <VBox.margin>
+                           <Insets />
+                        </VBox.margin>
+                     </Button>
+                     <Button fx:id="materialbtn" onMouseClicked="#showResourceView" prefHeight="81.0" prefWidth="203.0" styleClass="button4" text="MATERIALS" textFill="WHITE" />
                   </children>
-               </AnchorPane>
-               <Button fx:id="hbtn" prefHeight="43" prefWidth="204" styleClass="button3" text="HOME" textFill="WHITE" />
-               <Button fx:id="sdbtn" prefHeight="43.0" prefWidth="212.0" styleClass="button4" text="STUDENT" textFill="WHITE" />
-               <Button fx:id="materialbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="MATERIALS" textFill="WHITE" />
-               <Button fx:id="dcbtn" onMouseClicked="#showSelectionView" prefHeight="43.0" prefWidth="212.0" styleClass="button4" text="DAILY COMPREHENSION" textFill="WHITE">
-                  <VBox.margin>
-                     <Insets />
-                  </VBox.margin>
-               </Button>
-               <Button fx:id="rlbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="READING LOGS" textFill="WHITE" />
-               <Button fx:id="phbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="PHILIRI" textFill="WHITE" />
-               <AnchorPane prefHeight="387.0" prefWidth="190.0">
-                  <children>
-                     <Button fx:id="logout" layoutX="20.0" layoutY="342.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="LOGOUT" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="342.0" />
-                  </children>
-               </AnchorPane>
+               </VBox>
             </children>
          </VBox>
       </HBox>
    </left>
+   <top>
+      <Pane prefHeight="42.0" prefWidth="1141.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER" />
+   </top>
    <center>
-      <PieChart fx:id="studentpie" prefWidth="340.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView layoutX="58.0" layoutY="351.0" prefHeight="192.0" prefWidth="387.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="696.0" AnchorPane.topAnchor="351.0">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="C1" />
+                  <TableColumn prefWidth="75.0" text="C2" />
+               </columns>
+            </TableView>
+            <Pane layoutX="48.0" layoutY="37.0" prefHeight="134.0" prefWidth="842.0" style="-fx-background-color: grey;" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="251.0" AnchorPane.topAnchor="37.0">
+               <children>
+                  <Label fx:id="username" layoutX="106.0" layoutY="20.0" prefHeight="39.0" prefWidth="509.0" text="USER">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="33.0" layoutY="20.0" text="Hello,">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="33.0" layoutY="67.0" prefHeight="27.0" prefWidth="490.0" text="Welcome! you are  logged in as a teacher">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <HBox layoutX="58.0" layoutY="204.0" prefHeight="100.0" prefWidth="832.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="251.0" AnchorPane.topAnchor="204.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="196.0" text="NO. Students" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="213.0" text="Materials" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="247.0" text="PHILIRI" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="255.0" text="SELECTION" HBox.hgrow="ALWAYS" />
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </HBox>
+            <ScrollPane layoutX="514.0" layoutY="347.0" prefHeight="196.0" prefWidth="379.0" AnchorPane.bottomAnchor="121.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="347.0">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="463.0" prefWidth="360.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                        <Button layoutY="128.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                        <Button layoutY="388.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                        <Button layoutY="515.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                        <Button layoutY="264.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
    </center>
 </BorderPane>

@@ -64,7 +64,7 @@ public class Addselection implements Initializable {
         loadLRNComboBox();
     }
 
-    private void loadLRNComboBox() {
+    public void loadLRNComboBox() {
         lrncb.getItems().clear();
         List<String> lrnList = new ArrayList<>();
 
