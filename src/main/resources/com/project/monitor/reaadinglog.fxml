@@ -13,7 +13,7 @@
          <children>
             <AnchorPane cacheShape="false" centerShape="false" layoutX="-67.0" prefHeight="686.0" prefWidth="1303.0" scaleShape="false" style="-fx-background-color: white;" stylesheets="@application.css">
                <children>
-                  <Button fx:id="addButton" layoutX="789.0" layoutY="624.0" mnemonicParsing="false" onMouseClicked="#addBtn" text="ADD" />
+                  <Button fx:id="addButton" layoutX="789.0" layoutY="624.0" mnemonicParsing="false"  text="ADD" />
                   <TableView fx:id="readinglogtable" layoutX="46.0" layoutY="24.0" prefHeight="593.0" prefWidth="1561.0" style="-fx-background-color: white;" stylesheets="@table.css">
                      <columns>
                         <TableColumn fx:id="logidcol" prefWidth="75.0" text="LogID" />
