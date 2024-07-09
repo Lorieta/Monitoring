@@ -5,8 +5,13 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -14,57 +19,106 @@
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Pane layoutX="-14.0" layoutY="-13.0" prefHeight="962.0" prefWidth="873.0" style="-fx-background-color: grey;">
+            <Pane layoutX="-14.0" layoutY="-13.0" prefHeight="913.0" prefWidth="783.0" style="-fx-background-color: F5F5F5;">
                <children>
-                  <TextField fx:id="fnameField" editable="false" layoutX="244.0" layoutY="194.0" prefHeight="37.0" prefWidth="578.0" style="-fx-background-color: white;" />
-                  <Text layoutX="31.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resource Details">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="836.0" layoutX="45.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="695.0" />
+                  <TextField fx:id="fnameField" editable="false" layoutX="244.0" layoutY="194.0" prefHeight="30.0" prefWidth="454.0" style="-fx-background-color: DFD9D8;">
+                     <effect>
+                        <Lighting bumpInput="$null" diffuseConstant="1.8">
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect></TextField>
+                  <Text layoutX="282.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="READLOGS Details">
                      <font>
-                        <Font size="45.0" />
+                        <Font size="27.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="lnameField" editable="false" layoutX="244.0" layoutY="254.0" prefHeight="37.0" prefWidth="586.0" style="-fx-background-color: white;" />
-                  <Text layoutX="21.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LRN:">
+                  <TextField fx:id="lnameField" editable="false" layoutX="244.0" layoutY="254.0" prefHeight="30.0" prefWidth="454.0" style="-fx-background-color: DFD9D8;">
+                     <effect>
+                        <Lighting diffuseConstant="1.68">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect></TextField>
+                  <Text layoutX="81.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LRN:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="21.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
+                  <Text layoutX="80.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="21.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
+                  <Text layoutX="81.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="21.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resource Title:">
+                  <Text layoutX="82.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resource Title:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Button fx:id="addbtn" layoutX="550.0" layoutY="803.0" mnemonicParsing="false" onMouseClicked="#addbtn" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: lime;" text="ADD" />
-                  <Button layoutX="726.0" layoutY="803.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: red;" text="Close" />
-                  <ComboBox fx:id="resourcecb" layoutX="247.0" layoutY="323.0" prefHeight="25.0" prefWidth="586.0" />
-                  <Text layoutX="21.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Started:">
+                  <Button fx:id="addbtn" layoutX="423.0" layoutY="816.0" mnemonicParsing="false" onMouseClicked="#addbtn" prefHeight="36.0" prefWidth="107.0" style="-fx-background-color: C3F396;" text="ADD">
+                     <effect>
+                        <Lighting diffuseConstant="1.61">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect></Button>
+                  <Button layoutX="597.0" layoutY="816.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="107.0" style="-fx-background-color: F39696;" text="Close">
+                     <effect>
+                        <Lighting diffuseConstant="1.71">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect></Button>
+                  <ComboBox fx:id="resourcecb" layoutX="244.0" layoutY="309.0" prefHeight="30.0" prefWidth="454.0" />
+                  <Text layoutX="82.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Started:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="21.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Finished:">
+                  <Text layoutX="81.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Finished:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="22.0" layoutY="524.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remarks:">
+                  <Text layoutX="82.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remarks:">
                      <font>
-                        <Font size="29.0" />
+                        <Font size="22.0" />
                      </font>
                   </Text>
-                  <TextArea fx:id="remarks" layoutX="257.0" layoutY="504.0" prefHeight="267.0" prefWidth="586.0" />
-                  <DatePicker fx:id="datestarted" layoutX="247.0" layoutY="377.0" prefHeight="25.0" prefWidth="586.0" />
-                  <DatePicker fx:id="datefinished" layoutX="247.0" layoutY="447.0" prefHeight="25.0" prefWidth="586.0" />
-                  <ComboBox fx:id="LRNfield" layoutX="244.0" layoutY="139.0" prefHeight="25.0" prefWidth="578.0" />
+                  <TextArea fx:id="remarks" layoutX="82.0" layoutY="529.0" prefHeight="267.0" prefWidth="622.0" style="-fx-background-color: E9E8E8;">
+                     <effect>
+                        <Lighting diffuseConstant="1.35" surfaceScale="0.32">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect></TextArea>
+                  <DatePicker fx:id="datestarted" layoutX="245.0" layoutY="368.0" prefHeight="30.0" prefWidth="454.0" />
+                  <DatePicker fx:id="datefinished" layoutX="244.0" layoutY="425.0" prefHeight="30.0" prefWidth="454.0" />
+                  <ComboBox fx:id="LRNfield" layoutX="244.0" layoutY="139.0" prefHeight="30.0" prefWidth="454.0" />
+                  <Line endX="595.0" layoutX="145.0" layoutY="89.0" startX="-100.0" />
                </children>
             </Pane>
          </children>

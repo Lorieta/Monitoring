@@ -10,17 +10,15 @@ import java.io.IOException;
 
 
 public class App extends Application {
-
-
-
     private String css = this.getClass().getResource("application.css").toExternalForm();
-//qwe
+
     @Override
     public void start(Stage stage) throws IOException {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("reaadinglog.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
             Scene scene = new Scene(root);
             String css = this.getClass().getResource("application.css").toExternalForm();
+
             scene.getStylesheets().add(css);
             stage.setTitle("Monitoring");
             stage.setScene(scene);
@@ -33,8 +31,5 @@ public class App extends Application {
         }
 
     }
-
-
-
-
 }
+
