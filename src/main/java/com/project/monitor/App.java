@@ -15,7 +15,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("philiri.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
             Scene scene = new Scene(root);
             String css = this.getClass().getResource("application.css").toExternalForm();
 
