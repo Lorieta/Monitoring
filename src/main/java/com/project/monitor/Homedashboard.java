@@ -1,5 +1,6 @@
 package com.project.monitor;
 
+import Tables.Student;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -20,6 +21,9 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class Homedashboard implements Initializable {
@@ -67,6 +71,8 @@ public class Homedashboard implements Initializable {
     private GaussianBlur blur = new GaussianBlur(10);
     private String teacherID;
     private String teacherName;
+
+    private dbFunctions db = new dbFunctions();
 
     String Database = Config.DATABASE;
     String lUser = Config.USER;
@@ -287,4 +293,6 @@ public class Homedashboard implements Initializable {
         // Remove the blur effect from the entire root component of the HomeDashboard
         mainContent.getScene().getRoot().setEffect(null);
     }
+
+
 }
