@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -45,46 +43,46 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView layoutX="58.0" layoutY="351.0" prefHeight="192.0" prefWidth="387.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="696.0" AnchorPane.topAnchor="351.0">
+            <TableView layoutX="14.0" layoutY="219.0" prefHeight="304.0" prefWidth="470.0" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="456.0" AnchorPane.topAnchor="219.0">
                <columns>
                   <TableColumn prefWidth="75.0" text="C1" />
                   <TableColumn prefWidth="75.0" text="C2" />
                </columns>
             </TableView>
-            <Pane layoutX="48.0" layoutY="37.0" prefHeight="134.0" prefWidth="842.0" style="-fx-background-color: grey;" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="251.0" AnchorPane.topAnchor="37.0">
+            <AnchorPane layoutY="42.0" prefHeight="127.0" prefWidth="939.0" style="-fx-background-color: grey;">
                <children>
-                  <Label fx:id="username" layoutX="106.0" layoutY="20.0" prefHeight="39.0" prefWidth="509.0" text="USER">
+                  <Label fx:id="username" layoutX="150.0" layoutY="14.0" prefHeight="39.0" prefWidth="509.0" text="USER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label layoutX="33.0" layoutY="20.0" text="Hello,">
+                  <Label layoutX="68.0" layoutY="14.0" text="Hello,">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label layoutX="33.0" layoutY="67.0" prefHeight="27.0" prefWidth="490.0" text="Welcome! you are  logged in as a teacher">
+                  <Label layoutX="68.0" layoutY="64.0" prefHeight="27.0" prefWidth="490.0" text="Welcome! you are  logged in as a teacher">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
-            </Pane>
-            <HBox layoutX="58.0" layoutY="204.0" prefHeight="100.0" prefWidth="832.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="251.0" AnchorPane.topAnchor="204.0">
+            </AnchorPane>
+            <AnchorPane layoutX="513.0" layoutY="211.0" prefHeight="117.0" prefWidth="400.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="196.0" text="NO. Students" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="213.0" text="Materials" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="247.0" text="PHILIRI" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="255.0" text="SELECTION" HBox.hgrow="ALWAYS" />
+                  <AnchorPane layoutX="6.0" prefHeight="118.0" prefWidth="179.0" style="-fx-background-color: blue;">
+                     <children>
+                        <Label fx:id="lblstudent" layoutX="29.0" layoutY="25.0" text="NUMBER OF STUDENTS" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="212.0" layoutY="1.0" prefHeight="117.0" prefWidth="188.0" style="-fx-background-color: green;">
+                     <children>
+                        <Label fx:id="lblmaterials" layoutX="22.0" layoutY="21.0" text="NUMBER OF MATERIALS" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
                </children>
-               <effect>
-                  <DropShadow />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="DEFAULT" />
-               </cursor>
-            </HBox>
-            <ScrollPane layoutX="514.0" layoutY="347.0" prefHeight="196.0" prefWidth="379.0" AnchorPane.bottomAnchor="121.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="347.0">
+            </AnchorPane>
+            <ScrollPane layoutX="524.0" layoutY="371.0" prefHeight="196.0" prefWidth="379.0" AnchorPane.bottomAnchor="97.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="371.0">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="463.0" prefWidth="360.0">
                      <children>
@@ -97,6 +95,8 @@
                   </AnchorPane>
                </content>
             </ScrollPane>
+            <Label layoutX="524.0" layoutY="346.0" text="ANALYTICAL OVERVIEW" />
+            <Label layoutX="14.0" layoutY="194.0" text="CURRENT POPULATION" />
          </children>
       </AnchorPane>
    </center>

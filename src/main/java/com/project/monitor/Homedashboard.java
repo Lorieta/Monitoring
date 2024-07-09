@@ -55,12 +55,23 @@ public class Homedashboard implements Initializable {
     private VBox slider;
 
     @FXML
+    private Label lblmaterials;
+
+    @FXML
+    private Label lblstudent;
+
+    @FXML
     private AreaChart<String, Number> areaChart;
 
     private boolean isHidden = true;
     private GaussianBlur blur = new GaussianBlur(10);
     private String teacherID;
     private String teacherName;
+
+    String Database = Config.DATABASE;
+    String lUser = Config.USER;
+    String Password = Config.PASSWORD;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
