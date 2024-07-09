@@ -10,15 +10,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Addselection extends Selection implements Initializable {
+public class Addselection implements Initializable {
 
     @FXML
     private Button addbtn;
@@ -43,6 +41,7 @@ public class Addselection extends Selection implements Initializable {
 
     @FXML
     private TextField url;
+
     private Selection selectionController;
 
     private static final String DATABASE = Config.DATABASE;
@@ -52,7 +51,7 @@ public class Addselection extends Selection implements Initializable {
     private final dbFunctions db = new dbFunctions();
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL location, ResourceBundle resources) {
         loadLRNComboBox();
         loadSelectionComboBox();
         setupLRNSelectionListener();
@@ -61,23 +60,32 @@ public class Addselection extends Selection implements Initializable {
 
     public void setSelectionController(Selection selectionController) {
         this.selectionController = selectionController;
+        // Ensure to load data based on the current adviser ID once the controller is set
+        loadLRNComboBox();
     }
 
-    private void loadLRNComboBox() {
-        lrncb.getItems().clear(); // Clear existing items
+    public void loadLRNComboBox() {
+        lrncb.getItems().clear();
         List<String> lrnList = new ArrayList<>();
 
-        String query = "SELECT LRN FROM Student_info";
+        if (selectionController == null || selectionController.getCurrentAdviserID() == null) {
+
+            return;
+        }
+
+        String currentAdviser = selectionController.getCurrentAdviserID();
+
+        String query = "SELECT LRN FROM Student_info WHERE AdviserID = ?";
 
         try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
-             PreparedStatement preparedStatement = conn.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+
+            preparedStatement.setString(1, currentAdviser);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                String lrn = resultSet.getString("LRN");
-                lrnList.add(lrn);
+                lrnList.add(resultSet.getString("LRN"));
             }
-
             lrncb.getItems().addAll(lrnList);
 
         } catch (SQLException e) {
@@ -87,17 +95,16 @@ public class Addselection extends Selection implements Initializable {
     }
 
     private void loadSelectionComboBox() {
-        selectioncb.getItems().clear(); // Clear existing items
+        selectioncb.getItems().clear();
 
-        String query = "SELECT ResourceTitle FROM Materials"; // Adjust as per your database schema
+        String query = "SELECT ResourceTitle FROM Materials";
 
         try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
              PreparedStatement preparedStatement = conn.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                String resourceTitle = resultSet.getString("ResourceTitle");
-                selectioncb.getItems().add(resourceTitle);
+                selectioncb.getItems().add(resultSet.getString("ResourceTitle"));
             }
 
         } catch (SQLException e) {
@@ -126,11 +133,9 @@ public class Addselection extends Selection implements Initializable {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                String firstname = resultSet.getString("Firstname");
-                String lastname = resultSet.getString("Lastname");
-                name.setText(firstname + " " + lastname);
+                name.setText(resultSet.getString("Firstname") + " " + resultSet.getString("Lastname"));
             } else {
-                name.setText(""); // Clear name if LRN is not found
+                name.setText("");
             }
 
         } catch (SQLException e) {
@@ -162,10 +167,8 @@ public class Addselection extends Selection implements Initializable {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                String resourceURL = resultSet.getString("url");
-                String langType = resultSet.getString("languagetype");
-                url.setText(resourceURL);
-                languagetype.setText(langType);
+                url.setText(resultSet.getString("url"));
+                languagetype.setText(resultSet.getString("languagetype"));
             } else {
                 clearResourceDetails();
             }
@@ -183,41 +186,54 @@ public class Addselection extends Selection implements Initializable {
 
     @FXML
     void addStudent(MouseEvent event) {
+        if (selectionController == null || selectionController.getCurrentAdviserID() == null) {
+            showAlert("Error", "No current adviser ID found.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        String currentAdviser = selectionController.getCurrentAdviserID();
+
         String selectedLRN = lrncb.getValue();
         String selectedSelection = selectioncb.getValue();
 
-        if (selectedLRN != null && !selectedLRN.isEmpty() &&
-                selectedSelection != null && !selectedSelection.isEmpty()) {
+        if (isValidForm(selectedLRN, selectedSelection)) {
+            LocalDate currentDate = LocalDate.now();
 
-            if (!isValidScore(scoretb.getText())) {
-                showAlert("Invalid Input", "Please enter a valid score.", Alert.AlertType.WARNING);
-                return;
-            }
+            fetchResourceDetails(selectedSelection);
+            String resourceUrl = url.getText();
+            String languageType = languagetype.getText();
 
-            String query = "INSERT INTO DailySelection (LRN, LanguageTypeID, MaterialsId, Score) " +
-                    "VALUES (?, " +
-                    "(SELECT LanguageID FROM LanguageType WHERE LanguageType = ? LIMIT 1), " +
-                    "(SELECT MaterialsID FROM Materials WHERE ResourceTitle = ? LIMIT 1), " +
-                    "?)";
+            String query = "INSERT INTO DailySelection (LRN, AdviserID, LanguageTypeID, MaterialsID, Score, Date) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
 
             try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
-                 PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+                 PreparedStatement preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
                 preparedStatement.setString(1, selectedLRN);
-                preparedStatement.setString(2, languagetype.getText()); // Assuming this field is populated
-                preparedStatement.setString(3, selectedSelection);
-                preparedStatement.setInt(4, Integer.parseInt(scoretb.getText())); // Assuming this field is populated with score
+                preparedStatement.setString(2, currentAdviser);
+                preparedStatement.setInt(3, 1); // Assuming LanguageTypeID is hardcoded or managed elsewhere
+                preparedStatement.setInt(4, 31); // Assuming MaterialsID is hardcoded or managed elsewhere
+                preparedStatement.setInt(5, Integer.parseInt(scoretb.getText()));
+                preparedStatement.setDate(6, Date.valueOf(currentDate));
 
                 int affectedRows = preparedStatement.executeUpdate();
 
                 if (affectedRows > 0) {
+                    ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        int selectionID = generatedKeys.getInt(1);
+                        System.out.println("Inserted Selection ID: " + selectionID);
+                    }
+
                     showAlert("Success", "Selection added successfully.", Alert.AlertType.INFORMATION);
+
                     if (selectionController != null) {
                         selectionController.refreshTable();
                     } else {
                         System.err.println("Selection controller is null");
                     }
-                    clearForm(); // Clear the form after successful addition
+
+                    clearForm();
                 } else {
                     showAlert("Error", "Failed to add selection.", Alert.AlertType.ERROR);
                 }
@@ -226,7 +242,6 @@ public class Addselection extends Selection implements Initializable {
                 showAlert("Error", "Error adding selection: " + e.getMessage(), Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
-
         } else {
             showAlert("Incomplete Data", "Please select LRN, Selection, and enter Score.", Alert.AlertType.WARNING);
         }
@@ -236,6 +251,12 @@ public class Addselection extends Selection implements Initializable {
     void exit(MouseEvent event) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();
+    }
+
+    private boolean isValidForm(String selectedLRN, String selectedSelection) {
+        return selectedLRN != null && !selectedLRN.isEmpty() &&
+                selectedSelection != null && !selectedSelection.isEmpty() &&
+                isValidScore(scoretb.getText());
     }
 
     private boolean isValidScore(String score) {
@@ -264,4 +285,3 @@ public class Addselection extends Selection implements Initializable {
         scoretb.clear();
     }
 }
-

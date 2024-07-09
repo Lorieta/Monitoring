@@ -19,6 +19,7 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class Selection {
@@ -27,42 +28,35 @@ public class Selection {
     private TableColumn<SelectionModel, Void> action;
     @FXML
     private TableColumn<SelectionModel, Date> datecol;
-
     @FXML
     private TableView<SelectionModel> Selectiontable;
-
     @FXML
     private TableColumn<SelectionModel, Integer> selectionidCol;
-
     @FXML
     private TableColumn<SelectionModel, String> lrnCol;
-
     @FXML
     private TableColumn<SelectionModel, String> materialtitleCol;
-
     @FXML
     private TableColumn<SelectionModel, String> urlCol;
-
     @FXML
     private TableColumn<SelectionModel, String> languageTypeCol;
-
     @FXML
     private TableColumn<SelectionModel, Integer> scoreCol;
-
     @FXML
     private TextField searchField;
 
+    private String currentAdviserID; // Placeholder for current adviser ID
     private final ObservableList<SelectionModel> selectionModelList = FXCollections.observableArrayList();
     private static final String DATABASE = Config.DATABASE;
     private static final String USER = Config.USER;
     private static final String PASSWORD = Config.PASSWORD;
-
     private final dbFunctions db = new dbFunctions();
 
     @FXML
     public void initialize() {
         setupTableColumns();
         refreshTable();
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> handleSearch());
     }
 
     private void setupTableColumns() {
@@ -74,12 +68,12 @@ public class Selection {
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
         datecol.setCellValueFactory(new PropertyValueFactory<>("date"));
 
+        // Action column with delete button
         action.setCellFactory(new Callback<TableColumn<SelectionModel, Void>, TableCell<SelectionModel, Void>>() {
             @Override
             public TableCell<SelectionModel, Void> call(final TableColumn<SelectionModel, Void> param) {
                 return new TableCell<SelectionModel, Void>() {
                     private final Button deleteButton = new Button("Delete");
-
 
                     {
                         deleteButton.setOnAction(event -> {
@@ -105,7 +99,7 @@ public class Selection {
             }
         });
 
-        // Make the score column editable
+        // Enable editing for score column
         scoreCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         scoreCol.setOnEditCommit(event -> {
             SelectionModel selectionModel = event.getRowValue();
@@ -133,7 +127,7 @@ public class Selection {
 
                 if (rowsAffected > 0) {
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Selection entry deleted successfully.");
-                    refreshTable(); // Refresh the table after deletion
+                    refreshTable();
                 } else {
                     showAlert(Alert.AlertType.ERROR, "Delete Failed", "Failed to delete selection entry.");
                 }
@@ -141,10 +135,8 @@ public class Selection {
             } catch (SQLException e) {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Database Error", "Error occurred while deleting selection entry: " + e.getMessage());
-
             }
         }
-
     }
 
     private void updateScoreInDatabase(SelectionModel selectionModel) {
@@ -167,23 +159,29 @@ public class Selection {
     public void refreshTable() {
         selectionModelList.clear();
 
-        String query = "SELECT ds.SelectionID, ds.LRN, m.ResourceTitle, m.URL, lt.LanguageType, ds.Score, ds.date " +
+        String query = "SELECT ds.SelectionID, ds.LRN, si.Firstname, si.Lastname, ti.TeacherFname, ti.TeacherLname, lt.LanguageType, m.ResourceTitle, m.URL, ds.Score, ds.date " +
                 "FROM DailySelection ds " +
                 "JOIN Materials m ON ds.MaterialsId = m.MaterialsId " +
                 "JOIN Languagetype lt ON ds.LanguageTypeID = lt.LanguageID " +
-                "JOIN student_info si ON ds.LRN = si.LRN";
+                "JOIN student_info si ON ds.LRN = si.LRN " +
+                "JOIN teacher_info ti ON ds.AdviserID = ti.EmployeeID " +
+                "WHERE ds.AdviserID = ?";  // Filter by adviser ID
 
         try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
-             PreparedStatement preparedStatement = conn.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+
+            preparedStatement.setString(1, currentAdviserID); // Set the current adviser ID
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 selectionModelList.add(new SelectionModel(
                         resultSet.getInt("SelectionID"),
                         resultSet.getString("LRN"),
+                        resultSet.getString("Firstname") + " " + resultSet.getString("Lastname"),
+                        resultSet.getString("TeacherFname") + " " + resultSet.getString("TeacherLname"),
                         resultSet.getString("ResourceTitle"),
-                        resultSet.getString("URL"),
                         resultSet.getString("LanguageType"),
+                        resultSet.getString("URL"), // Include URL here
                         resultSet.getInt("Score"),
                         resultSet.getDate("date").toLocalDate()
                 ));
@@ -197,13 +195,26 @@ public class Selection {
         }
     }
 
+
+    @FXML
+    private void handleSearch() {
+        String searchText = searchField.getText().toLowerCase();
+        ObservableList<SelectionModel> filteredList = selectionModelList.filtered(selection ->
+                selection.getLRN().toLowerCase().contains(searchText) ||
+                        selection.getStudentName().toLowerCase().contains(searchText) ||
+                        selection.getResourceTitle().toLowerCase().contains(searchText) ||
+                        selection.getLanguageType().toLowerCase().contains(searchText)
+        );
+        Selectiontable.setItems(filteredList);
+    }
+
     @FXML
     private void openAddSelection(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Addselection.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addselection.fxml"));
             Parent root = loader.load();
             Addselection controller = loader.getController();
-            controller.setSelectionController(this); // Set the current controller as the selectionController
+            controller.setSelectionController(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -218,5 +229,14 @@ public class Selection {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    public void setCurrentAdviserID(String adviserID) {
+        this.currentAdviserID = adviserID;
+    }
+
+
+
+    public String getCurrentAdviserID() {
+        return currentAdviserID;
     }
 }

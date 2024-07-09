@@ -1,4 +1,5 @@
-package com.project.monitor;
+
+        package com.project.monitor;
 
 import Tables.Student;
 import javafx.fxml.FXML;
@@ -28,6 +29,7 @@ public class AddReadinglog implements Initializable {
     @FXML private TextArea remarks;
 
     private Readinglog tableController;
+    private Homedashboard control;
 
     public void setTableController(Readinglog tableController) {
         this.tableController = tableController;
@@ -152,6 +154,7 @@ public class AddReadinglog implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Database Error", "Error loading LRN data: " + e.getMessage());
         }
     }
+
 
     private void loadResources() {
         String resourceQuery = "SELECT ResourceTitle FROM Materials";

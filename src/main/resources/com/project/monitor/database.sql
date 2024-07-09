@@ -203,21 +203,86 @@ VALUES
 (DEFAULT, '12312451235', 1, 31, 85);
 
 
-INSERT INTO DailySelection (LRN, LanguageTypeID, MaterialsId, Score)
-VALUES ('LRN123456', 1, 33, 95);
 
 SELECT
-  ds.SelectionID,
-  ds.LRN,
-  m.ResourceTitle,
-  m.URL,
-  lt.LanguageType,
-  ds.Score
+    rl.logid,
+    si.lrn,
+    si.firstname,
+    si.lastname,
+    m.resourcetitle,
+    m.url,
+    lt.languagetype,
+    rt.resourcetype,
+    rl.duration,
+    rl.datestarted,
+    rl.datefinished,
+    rl.comment
 FROM
-  DailySelection ds
+    reading_log rl
 JOIN
-  Materials m ON ds.MaterialsId = m.MaterialsId
+    student_info si ON rl.lrn = si.lrn
 JOIN
-  Languagetype lt ON ds.LanguageTypeID = lt.LanguageID
+    materials m ON rl.materialid = m.materialsid
 JOIN
-  student_info si ON ds.LRN = si.LRN;
+    languagetype lt ON m.typeid = lt.languageid
+JOIN
+    resourcetype rt ON m.resourceid = rt.resourceid
+JOIN
+    sectionclasslist scl ON si.lrn = scl.lrn
+WHERE
+    scl.teacherid = teacherId
+ORDER BY
+    rl.datestarted DESC
+
+SELECT
+    ds.selectionid,
+    ds.lrn,
+    si.firstname,
+    si.lastname,
+    ti.teacherfname,
+    ti.teacherlname,
+    lt.languagetype,
+    m.resourcetitle,
+    m.url, -- Include the URL field from Materials table
+    ds.score,
+    ds.date
+FROM
+    dailyselection ds
+JOIN
+    student_info si ON ds.lrn = si.lrn
+JOIN
+    teacher_info ti ON ds.adviserid = ti.employeeid
+JOIN
+    languagetype lt ON ds.languagetypeid = lt.languageid
+JOIN
+    materials m ON ds.materialsid = m.materialsid
+WHERE
+    ds.adviserid = '123';
+
+CREATE TABLE dailyselection (
+    selectionid INT PRIMARY KEY,
+    lrn VARCHAR(255),
+    adviserid VARCHAR(255), -- Assuming adviserid is a VARCHAR in teacher_info table
+    languagetypeid INT, -- Assuming languagetypeid is an INT in languagetype table
+    materialsid INT, -- Assuming materialsid is an INT in materials table
+    score INT,
+    date DATE,
+    FOREIGN KEY (lrn) REFERENCES student_info(lrn),
+    FOREIGN KEY (adviserid) REFERENCES teacher_info(employeeid),
+    FOREIGN KEY (languagetypeid) REFERENCES languagetype(languageid),
+    FOREIGN KEY (materialsid) REFERENCES materials(materialsid)
+);
+
+CREATE TABLE dailyselection (
+    selectionid BIGSERIAL PRIMARY KEY,
+    lrn VARCHAR(255),
+    adviserid VARCHAR(255), -- Assuming adviserid is a VARCHAR in teacher_info table
+    languagetypeid INT, -- Assuming languagetypeid is an INT in languagetype table
+    materialsid INT, -- Assuming materialsid is an INT in materials table
+    score INT,
+    date DATE,
+    FOREIGN KEY (lrn) REFERENCES student_info(lrn),
+    FOREIGN KEY (adviserid) REFERENCES teacher_info(employeeid),
+    FOREIGN KEY (languagetypeid) REFERENCES languagetype(languageid),
+    FOREIGN KEY (materialsid) REFERENCES materials(materialsid)
+);

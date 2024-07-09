@@ -17,7 +17,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f7582f43-67e4-4421-bed0-8957327d4c20">
-      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[pg_dump]]></console>
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT * FROM student_info]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
