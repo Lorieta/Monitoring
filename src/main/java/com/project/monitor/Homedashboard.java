@@ -62,12 +62,6 @@ public class Homedashboard implements Initializable {
     private String teacherID;
     private String teacherName;
 
-    private static final String DATABASE = Config.DATABASE;
-    private static final String USER = Config.USER;
-    private static final String PASSWORD = Config.PASSWORD;
-
-    private dbFunctions db = new dbFunctions();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         slider.setTranslateX(-190); // Initially hide the slider
@@ -118,11 +112,11 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Student View");
 
-            // Apply blur effect to main content
-            mainContent.setEffect(blur);
+            // Apply blur effect to the entire window
+            applyBlurEffect();
 
             // Remove blur effect on stage close
-            stage.setOnHidden(e -> mainContent.setEffect(null));
+            stage.setOnHidden(e -> removeBlurEffect());
 
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
@@ -141,6 +135,12 @@ public class Homedashboard implements Initializable {
 
             ResourceController controller = loader.getController();
             Stage stage = createAndShowStage(root, "Resource View");
+
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
 
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
@@ -165,6 +165,12 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Selection View");
 
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
+
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
 
@@ -182,6 +188,12 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Reading Log View");
 
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
+
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
 
@@ -198,6 +210,12 @@ public class Homedashboard implements Initializable {
             Parent root = loader.load();
 
             Stage stage = createAndShowStage(root, "Philiri View");
+
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
 
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
@@ -247,5 +265,15 @@ public class Homedashboard implements Initializable {
                 stage.close();
             }
         });
+    }
+
+    private void applyBlurEffect() {
+        // Apply the blur effect to the entire root component of the HomeDashboard
+        mainContent.getScene().getRoot().setEffect(blur);
+    }
+
+    private void removeBlurEffect() {
+        // Remove the blur effect from the entire root component of the HomeDashboard
+        mainContent.getScene().getRoot().setEffect(null);
     }
 }

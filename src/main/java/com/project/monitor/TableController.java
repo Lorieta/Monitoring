@@ -116,6 +116,10 @@ public class TableController extends Controller implements Initializable {
         });
     }
 
+
+
+
+
     private void setupSearchFilter() {
         FilteredList<Student> filteredData = new FilteredList<>(StudentList, b -> true);
 
@@ -188,19 +192,20 @@ public class TableController extends Controller implements Initializable {
     @FXML
     void addBtn(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("addStudent.fxml"));
-            Parent parent = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addstudent.fxml"));
+            Parent root = loader.load();
 
             AddStudent addStudentController = loader.getController();
             addStudentController.setTableController(this);
+            addStudentController.setAdviserID(this.teacherID);
+            System.out.println("TableController - opening AddStudent with teacherID: " + this.teacherID); // Debug print
 
-            Scene scene = new Scene(parent);
             Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.initStyle(StageStyle.UTILITY);
+            stage.setScene(new Scene(root));
+            stage.setTitle("Add Student");
             stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(TableController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
