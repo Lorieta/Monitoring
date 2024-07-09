@@ -1,5 +1,7 @@
 package com.project.monitor;
 
+import javafx.scene.chart.XYChart;
+
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -272,6 +274,8 @@ public class dbFunctions extends Controller {
 
 
 
+
+
     public static class Teacher {
         private String id;
         private String fullName;
@@ -289,6 +293,9 @@ public class dbFunctions extends Controller {
             return fullName;
         }
     }
+
+
+
 }
 
 
