@@ -25,18 +25,18 @@
                   </children>
                </AnchorPane>
                <Button fx:id="hbtn" prefHeight="43" prefWidth="204" styleClass="button3" text="HOME" textFill="WHITE" />
-               <Button fx:id="sdbtn" prefHeight="43.0" prefWidth="212.0" styleClass="button4" text="STUDENT" textFill="WHITE" />
-               <Button fx:id="materialbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="MATERIALS" textFill="WHITE" />
+               <Button fx:id="sdbtn" onMouseClicked="#showStudentView" prefHeight="43.0" prefWidth="212.0" styleClass="button4" text="STUDENT" textFill="WHITE" />
+               <Button fx:id="materialbtn" onMouseClicked="#showResourceView" prefHeight="43" prefWidth="204" styleClass="button4" text="MATERIALS" textFill="WHITE" />
                <Button fx:id="dcbtn" onMouseClicked="#showSelectionView" prefHeight="43.0" prefWidth="212.0" styleClass="button4" text="DAILY COMPREHENSION" textFill="WHITE">
                   <VBox.margin>
                      <Insets />
                   </VBox.margin>
                </Button>
-               <Button fx:id="rlbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="READING LOGS" textFill="WHITE" />
-               <Button fx:id="phbtn" prefHeight="43" prefWidth="204" styleClass="button4" text="PHILIRI" textFill="WHITE" />
+               <Button fx:id="rlbtn" onMouseClicked="#readlogsShow" prefHeight="43" prefWidth="204" styleClass="button4" text="READING LOGS" textFill="WHITE" />
+               <Button fx:id="phbtn" onMouseClicked="#showphiliri" prefHeight="43" prefWidth="204" styleClass="button4" text="PHILIRI" textFill="WHITE" />
                <AnchorPane prefHeight="387.0" prefWidth="190.0">
                   <children>
-                     <Button fx:id="logout" layoutX="20.0" layoutY="342.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="LOGOUT" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="342.0" />
+                     <Button fx:id="logout" layoutX="20.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="25.0" prefWidth="150.0" text="LOGOUT" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="342.0" />
                   </children>
                </AnchorPane>
             </children>

@@ -169,8 +169,47 @@ public class Homedashboard implements Initializable {
     }
 
 
+    @FXML
+    void readlogsShow(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("reaadinglog.fxml"));
+            Parent root = loader.load();
 
 
+
+            System.out.println(teacherID);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Selection View");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Selection View: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+
+
+    }
+
+    @FXML
+    void showphiliri(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("philiri.fxml"));
+            Parent root = loader.load();
+
+
+
+            System.out.println(teacherID);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Selection View: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 
     @FXML
     void logout(MouseEvent event) {
