@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -14,58 +13,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane cacheShape="false" centerShape="false" prefHeight="1080.0" prefWidth="1400.0" scaleShape="false" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.TableController">
-    <AnchorPane prefHeight="72.0" prefWidth="1920.0" style="-fx-background-color: #c3c3c3;" styleClass="button1">
-        <children>
-            <Label layoutX="36.0" layoutY="23.0" prefHeight="27" prefWidth="34.0" styleClass="label" text="Logo" />
-            <Button layoutX="509.0" layoutY="15.0" prefHeight="43" prefWidth="204" style="-fx-background-color: #00008b; -fx-text-fill: white; -fx-background-radius: 10;" text="HOME" stylesheets="@application.css">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-            <effect>
-               <DropShadow height="15.0" offsetX="3.0" offsetY="3.0" radius="7.0" width="15.0">
-                  <color>
-                     <Color red="0.10000000149011612" green="0.03799999877810478" blue="0.03799999877810478" opacity="0.5229007601737976" />
-                  </color>
-               </DropShadow>
-            </effect>
-         </Button>
-            <Button layoutX="743.0" layoutY="15.0" prefHeight="43" prefWidth="204" style="-fx-background-color: #00008b; -fx-text-fill: white; -fx-background-radius: 10;" text="STUDENT">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-            <effect>
-               <DropShadow height="15.0" offsetX="3.0" offsetY="3.0" radius="7.0" width="15.0">
-                  <color>
-                     <Color red="0.10000000149011612" green="0.03799999877810478" blue="0.03799999877810478" opacity="0.5229007601737976" />
-                  </color>
-               </DropShadow>
-            </effect></Button>
-            <Button layoutX="975.0" layoutY="15.0" prefHeight="43" prefWidth="204" style="-fx-background-color: #00008b; -fx-text-fill: white; -fx-background-radius: 10;" text="READING LOGS">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-            <effect>
-               <DropShadow height="15.0" offsetX="3.0" offsetY="3.0" radius="7.0" width="15.0">
-                  <color>
-                     <Color red="0.10000000149011612" green="0.03799999877810478" blue="0.03799999877810478" opacity="0.5229007601737976" />
-                  </color>
-               </DropShadow>
-            </effect></Button>
-            <Button layoutX="1208.0" layoutY="15.0" prefHeight="43" prefWidth="204" style="-fx-background-color: #00008b; -fx-text-fill: white; -fx-background-radius: 10;" text="ASSESSMENT">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-            <effect>
-               <DropShadow height="15.0" offsetX="3.0" offsetY="3.0" radius="7.0" width="15.0">
-                  <color>
-                     <Color red="0.10000000149011612" green="0.03799999877810478" blue="0.03799999877810478" opacity="0.5229007601737976" />
-                  </color>
-               </DropShadow>
-            </effect></Button>
-        </children>
-    </AnchorPane>
-    <TableView id="table" fx:id="studentTable" layoutX="225.0" layoutY="184.0" prefHeight="713.0" prefWidth="1470.0" style="-fx-background-color: white;" stylesheets="@table.css">
+<AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="1495.0" scaleShape="false" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.TableController">
+    <TableView id="table" fx:id="studentTable" layoutX="13.0" layoutY="69.0" prefHeight="713.0" prefWidth="1470.0" style="-fx-background-color: white;" stylesheets="@table.css">
         <columns>
             <TableColumn fx:id="LRNColumn" prefWidth="75.0" style="-fx-background-color: white;" text="LRN" />
             <TableColumn fx:id="firstnameColumn" prefWidth="100.0" style="-fx-background-color: white;" text="First Name" />
@@ -79,9 +28,9 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
-    <Pane layoutX="798.0" layoutY="112.0" prefHeight="72.0" prefWidth="897.0">
+    <Pane layoutX="597.0" layoutY="8.0" prefHeight="60.0" prefWidth="897.0">
         <children>
-            <Button fx:id="addButton" layoutX="330.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#addBtn" prefHeight="37.0" prefWidth="80.0" style="-fx-background-color: #00008b; -fx-text-fill: white; -fx-background-radius: 5;" stylesheets="@application.css" text="ADD">
+            <Button fx:id="addButton" layoutX="330.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#addBtn" prefHeight="37.0" prefWidth="80.0" stylesheets="@application.css" text="ADD">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>
@@ -95,7 +44,7 @@
             <padding>
                <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
             </padding></Button>
-         <Button layoutX="421.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#refreshTable" prefHeight="37.0" prefWidth="103.0" style="-fx-background-color: #00008b; -fx-text-fill: white;" text="REFRESH">
+         <Button layoutX="421.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#refreshTable" prefHeight="37.0" prefWidth="103.0" styleClass="button4" stylesheets="@application.css" text="REFRESH">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>

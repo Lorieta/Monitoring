@@ -64,6 +64,15 @@
     -fx-cursor: hand;
 }
 
+.newButton {
+    -fx-background-color: #00008b;
+    -fx-text-fill: white;
+}
+.newButton:hover {
+    -fx-background-color: black;
+    -fx-cursor: hand;
+}
+
 .button5:hover {
     -fx-background-color: #ececec;
 }
