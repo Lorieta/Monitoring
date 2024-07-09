@@ -1,0 +1,122 @@
+/* General TableView Styling */
+.table-view {
+    -fx-background-color: whitesmoke; /* Background color for the table */
+    -fx-border-color: #ccc; /* Border color */
+    -fx-border-radius: 4; /* Border radius */
+    -fx-background-radius: 4; /* Background radius */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 2, 4); /* Drop shadow effect */
+}
+
+/* Column Header Styling */
+.table-view .column-header-background {
+    -fx-background-color: #00008b; /* Header background color */
+    -fx-padding: 20 35 20 35;
+
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: #00008b; /* Header background color */
+
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white; /* Header text color */
+    -fx-font-weight: bold;
+    -fx-background-color: #00008b;
+}
+
+/* Row and Cell Styling */
+.table-view .table-row-cell {
+    -fx-border-color: whitesmoke; /* Color of the space between rows */
+    -fx-border-width: 5px 0; /* Top and bottom border width to create space */
+    -fx-border-style: solid; /* Border style */
+    -fx-padding: 5px 0; /* Add vertical padding */
+    -fx-background-color: whitesmoke; /* Background color for padding area */
+    -fx-cursor: hand; /* Change cursor to hand */
+}
+
+.table-view .table-cell {
+    -fx-background-color: white; /* Background color for cell content */
+    -fx-border-color: #ccc; /* Border color around cell */
+    -fx-border-width: 0 1px; /* Border width to create column separation */
+    -fx-border-style: solid; /* Border style */
+    -fx-padding: 8px; /* Cell padding */
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #f5f5f5; /* Background color for even rows */
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #ffffff; /* Background color for odd rows */
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #ececec; /* Background color on hover */
+    -fx-opacity: 10;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #3399ff; /* Background color for selected row */
+    -fx-text-fill: white; /* Text color for selected row */
+}
+
+/* Change cursor to hand when hovering over buttons */
+.button, .edit-button, .delete-button {
+    -fx-cursor: hand;
+}
+
+/* Styling for other buttons */
+.button3, .button4 {
+    -fx-background-color: #00008b;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.50), 5, 0.25, 1, 2);
+}
+
+.button3:hover, .button4:hover {
+    -fx-opacity: 0.5;
+}
+
+.button5 {
+    -fx-background-color: #F4F3F3;
+    -fx-border-radius: 15;
+    -fx-background-radius: 100;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,.30), 5, 0.50, 1, 2);
+    -fx-cursor: hand; /* Change cursor to hand */
+}
+
+.button5:hover {
+    -fx-background-color: #ececec;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 400;
+    -fx-text-fill: black;
+}
+
+.edit-button {
+    -fx-background-color: #4CAF50; /* Green background */
+    -fx-text-fill: white; /* White text */
+    -fx-padding: 5 10 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand; /* Change cursor to hand */
+}
+
+.edit-button:hover {
+    -fx-background-color: #45a049; /* Darker green when hovered */
+}
+
+.delete-button {
+    -fx-background-color: #f44336; /* Red background */
+    -fx-text-fill: white; /* White text */
+    -fx-padding: 5 10 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand; /* Change cursor to hand */
+}
+
+.delete-button:hover {
+    -fx-background-color: #d32f2f; /* Darker red when hovered */
+}
