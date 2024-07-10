@@ -64,7 +64,7 @@ public class Controller  {
 
     public void signUpGetter(MouseEvent event) {
         dbFunctions db = new dbFunctions();
-        Connection conn = db.connect_to_db("projectdb","postgres","123");
+        Connection conn = db.connect_to_db(Config.DATABASE,Config.USER,Config.PASSWORD);
         String teacherID = teacherIDField.getText();
         String fname = fnameField.getText();
         String lname = lnameField.getText();
@@ -82,7 +82,7 @@ public class Controller  {
         dbFunctions db = new dbFunctions();
         Connection conn = null;
         try {
-            conn = db.connect_to_db("projectdb", "postgres", "123");
+            conn = db.connect_to_db(Config.DATABASE,Config.USER,Config.PASSWORD);
             String employeeid = loginField.getText();
             String password = loginPassField.getText();
 

@@ -14,8 +14,8 @@
                <children>
                   <Label layoutX="115.0" layoutY="11.0" prefHeight="27" prefWidth="34.0" styleClass="label" text="Logo" />
                   <Button layoutX="188.0" layoutY="3.0" prefHeight="43" prefWidth="204" styleClass="button3" text="HOME" textFill="WHITE" />
-                  <Button layoutX="416.0" layoutY="4.0"  prefHeight="43" prefWidth="204" styleClass="button4" text="STUDENT" textFill="WHITE" />
-                  <Button layoutX="664.0" layoutY="3.0"  prefHeight="43" prefWidth="204" styleClass="button4" text="READING LOGS" textFill="WHITE" />
+                  <Button layoutX="416.0" layoutY="4.0" onMouseClicked="#switchStudent" prefHeight="43" prefWidth="204" styleClass="button4" text="STUDENT" textFill="WHITE" />
+                  <Button layoutX="664.0" layoutY="3.0" onMouseClicked="#switchToMaterials" prefHeight="43" prefWidth="204" styleClass="button4" text="READING LOGS" textFill="WHITE" />
                   <Button layoutX="905.0" layoutY="3.0" prefHeight="43" prefWidth="204" styleClass="button4" text="ASSESSMENT" />
                </children>
             </AnchorPane>
