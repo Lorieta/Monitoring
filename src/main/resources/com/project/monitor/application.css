@@ -14,8 +14,7 @@
     -fx-background-radius: 4;
 }
 
-.button-login, .button-signup {
-    -fx-background-color: #00008b;
+.firstButton {
     -fx-text-fill: white;
     -fx-padding: 10;
     -fx-border-radius: 20;
@@ -56,7 +55,7 @@
 .button {
     -fx-text-fill: white;
     -fx-padding: 10 25 10 25;
-    -fx-background-color: #00008b;
+    -fx-background-color: #d90429;
     -fx-background-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.50), 5, 0.25, 1, 2);
 }
@@ -146,8 +145,8 @@
 
 .bg {
     -fx-background-radius: 20;
-    -fx-background-color: #00008b;
-    -fx-text-fill: black;
+    -fx-background-color: #d90429;
+    -fx-text-fill: white;
     -fx-border-width: 1px;
     -fx-border-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.50), 5, 0.25, 1, 2);
@@ -156,4 +155,13 @@
 .bg:hover{
     -fx-text-fill: #c3c3c3;
     -fx-border-color: white;
+}
+
+.text {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 25;
+}
+.new {
+
 }
