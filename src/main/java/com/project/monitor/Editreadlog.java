@@ -133,7 +133,7 @@ public class Editreadlog implements Initializable {
                 String placeholder = "N/A";
                 int placeholderInt = 0;
 
-                Student student = new Student(lrn, firstName, lastName, placeholder, placeholderInt, placeholder);
+                Student student = new Student(lrn, firstName, lastName, placeholder, placeholderInt, placeholder,"N/A");
                 LRNfield.getItems().add(student);
             }
 
@@ -215,7 +215,7 @@ public class Editreadlog implements Initializable {
     public void setReadinglog(ReadinglogModel readinglog) {
         this.readinglog = readinglog;
         // You might need to load LRN from database again to match it with the combo box items
-        LRNfield.setValue(new Student(readinglog.getLrn(), readinglog.getFname(), readinglog.getLname(), "", 0, ""));
+        LRNfield.setValue(new Student(readinglog.getLrn(), readinglog.getFname(), readinglog.getLname(), "N/A", 0, "N/A","N/A"));
         resourcecb.setValue(readinglog.getResourceType());
         datestarted.setValue(readinglog.getDateStarted().toLocalDate());
         if (readinglog.getDateFinished() != null) {

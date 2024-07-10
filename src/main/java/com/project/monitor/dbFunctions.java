@@ -90,9 +90,9 @@ public class dbFunctions extends Controller {
 
 
     //INSERT STUDENT PROFILE
-    public void AddStudent(Connection conn, String table_name, String lrn, String firstName, String lastName, String gender, String age, String adviserID) throws SQLException {
+    public void AddStudent(Connection conn, String table_name, String lrn, String firstName, String lastName, String gender, String age, String adviserID, String email) throws SQLException {
         System.out.println("dbFunctions - AddStudent called with adviserID: " + adviserID); // Debug print
-        String sql = "INSERT INTO " + table_name + " (lrn, firstname, lastname, gender, age, adviserid) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO " + table_name + " (lrn, firstname, lastname, gender, age, adviserid, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, lrn);
             pstmt.setString(2, firstName);
@@ -100,20 +100,21 @@ public class dbFunctions extends Controller {
             pstmt.setString(4, gender);
             pstmt.setString(5, age);
             pstmt.setString(6, adviserID);
+            pstmt.setString(7, email); // Bind the email parameter
             pstmt.executeUpdate();
         }
     }
 
-
-    public void updateStudentInDatabase(Connection conn, String tableName, String firstName, String lastName, String gender, int age, String lrn) throws SQLException {
+    public void updateStudentInDatabase(Connection conn, String tableName, String firstName, String lastName, String gender, int age, String lrn, String email) throws SQLException {
         System.out.println("dbFunctions - updateStudentInDatabase called for LRN: " + lrn); // Debug print
-        String sql = "UPDATE " + tableName + " SET firstname = ?, lastname = ?, gender = ?, age = ? WHERE lrn = ?";
+        String sql = "UPDATE " + tableName + " SET firstname = ?, lastname = ?, gender = ?, age = ?, email = ? WHERE lrn = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, firstName);
             pstmt.setString(2, lastName);
             pstmt.setString(3, gender);
             pstmt.setInt(4, age);
-            pstmt.setString(5, lrn);
+            pstmt.setString(5, email); // Bind the email parameter
+            pstmt.setString(6, lrn);
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Student updated successfully.");

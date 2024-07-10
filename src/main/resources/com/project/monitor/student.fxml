@@ -14,12 +14,13 @@
 <?import javafx.scene.paint.Color?>
 
 <AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="1495.0" scaleShape="false" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.TableController">
-    <TableView id="table" fx:id="studentTable" layoutX="13.0" layoutY="69.0" prefHeight="713.0" prefWidth="1470.0" style="-fx-background-color: white;" stylesheets="@table.css">
+    <TableView id="table" fx:id="studentTable" layoutX="88.0" layoutY="69.0" prefHeight="713.0" prefWidth="1395.0" style="-fx-background-color: white;" stylesheets="@table.css">
         <columns>
             <TableColumn fx:id="LRNColumn" prefWidth="75.0" style="-fx-background-color: white;" text="LRN" />
             <TableColumn fx:id="firstnameColumn" prefWidth="100.0" style="-fx-background-color: white;" text="First Name" />
             <TableColumn fx:id="lastnameColumn" prefWidth="100.0" style="-fx-background-color: white;" text="Last Name" />
-            <TableColumn fx:id="GenderColumn" prefWidth="100.0" style="-fx-background-color: white;" text="Gender" />
+         <TableColumn fx:id="emailcol" prefWidth="75.0" text="Email" />
+            <TableColumn fx:id="GenderColumn" prefWidth="100.0" style="-fx-background-color: white;" text="Sex" />
             <TableColumn fx:id="ageColumn" minWidth="0.0" prefWidth="100.0" style="-fx-background-color: white;" text="Age" />
          <TableColumn fx:id="gradeandSectionCol" prefWidth="75.0" style="-fx-background-color: white;" text="Grade and Section" />
             <TableColumn fx:id="actionsColumn" prefWidth="120.0" style="-fx-background-color: white;" text="Actions" />
@@ -30,7 +31,7 @@
     </TableView>
     <Pane layoutX="597.0" layoutY="8.0" prefHeight="60.0" prefWidth="897.0">
         <children>
-            <Button fx:id="addButton" layoutX="330.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#addBtn" prefHeight="37.0" prefWidth="80.0" stylesheets="@application.css" text="ADD">
+            <Button fx:id="addButton" layoutX="97.0" mnemonicParsing="false" onMouseClicked="#addBtn" prefHeight="37.0" prefWidth="80.0" stylesheets="@application.css" text="ADD">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>
@@ -44,7 +45,7 @@
             <padding>
                <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
             </padding></Button>
-         <Button layoutX="421.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#refreshTable" prefHeight="37.0" prefWidth="103.0" styleClass="button4" stylesheets="@application.css" text="REFRESH">
+         <Button layoutX="352.0" layoutY="-3.0" mnemonicParsing="false" onMouseClicked="#refreshTable" prefHeight="37.0" prefWidth="103.0" styleClass="button4" stylesheets="@application.css" text="REFRESH">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>

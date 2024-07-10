@@ -109,6 +109,42 @@ public class Selection {
         });
 
         Selectiontable.setEditable(true);
+
+        // Set LRN column click event handler
+        lrnCol.setCellFactory(column -> {
+            return new TableCell<SelectionModel, String>() {
+                @Override
+                protected void updateItem(String lrn, boolean empty) {
+                    super.updateItem(lrn, empty);
+                    if (lrn == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(lrn);
+                        setOnMouseClicked(event -> {
+                            if (event.getClickCount() == 1) { // Single click
+                                openSelectionLinegraph(lrn);
+                            }
+                        });
+                    }
+                }
+            };
+        });
+    }
+
+    private void openSelectionLinegraph(String lrn) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectionLinegraph.fxml"));
+            Parent root = loader.load();
+
+            SelectionLinegraph controller = loader.getController();
+            controller.setLRN(lrn); // Pass LRN to SelectionLinegraph controller
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleDelete(SelectionModel selectionModel) {
@@ -196,7 +232,6 @@ public class Selection {
         }
     }
 
-
     @FXML
     private void handleSearch() {
         String searchText = searchField.getText().toLowerCase();
@@ -231,10 +266,10 @@ public class Selection {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     public void setCurrentAdviserID(String adviserID) {
         this.currentAdviserID = adviserID;
     }
-
 
     public String getCurrentAdviserID() {
         return currentAdviserID;

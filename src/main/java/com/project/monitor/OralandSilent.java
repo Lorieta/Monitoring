@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 public class OralandSilent implements Initializable {
@@ -118,11 +119,20 @@ public class OralandSilent implements Initializable {
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, currentAdviserID); // Set the current adviser ID
             try (ResultSet rs = stmt.executeQuery()) {
+                int total = 0;
                 while (rs.next()) {
                     String category = rs.getString("ResultCategory");
                     int count = rs.getInt("Count");
-                    PieChart.Data data = new PieChart.Data(category, count);
+                    total += count;
+                    PieChart.Data data = new PieChart.Data(category + " (" + count + ")", count);
                     pieChartData.add(data);
+                }
+
+                // Calculate percentages
+                DecimalFormat df = new DecimalFormat("#.##");
+                for (PieChart.Data data : pieChartData) {
+                    double percentage = (data.getPieValue() / total) * 100;
+                    data.setName(data.getName() + " - " + df.format(percentage) + "%");
                 }
             }
         } catch (SQLException e) {
@@ -137,7 +147,6 @@ public class OralandSilent implements Initializable {
 
     public void setCurrentAdviserID(String adviserID) {
         this.currentAdviserID = adviserID;
-
     }
 
     public String getCurrentAdviserID() {

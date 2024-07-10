@@ -2,23 +2,31 @@ package com.project.monitor;
 
 import Tables.Student;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.sql.Connection;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class EditStudent {
+public class EditStudent implements Initializable {
 
     @FXML
     private TextField agetb;
 
+    @FXML
+    private TextField email; // Added email field
 
     @FXML
     private TextField fnametb;
 
     @FXML
-    private TextField gendertb;
+    private ComboBox<String> gendertb; // Changed ComboBox type to String
 
     @FXML
     private TextField lnametb;
@@ -46,8 +54,9 @@ public class EditStudent {
         lrntb.setText(student.getLrn());
         fnametb.setText(student.getFirstname());
         lnametb.setText(student.getLastname());
-        gendertb.setText(student.getGender());
+        gendertb.setValue(student.getGender()); // Set value for ComboBox
         agetb.setText(String.valueOf(student.getAge()));
+        email.setText(student.getEmail()); // Set email field
     }
 
     public boolean isSaveClicked() {
@@ -62,14 +71,15 @@ public class EditStudent {
             student.setLrn(lrntb.getText());
             student.setFirstname(fnametb.getText());
             student.setLastname(lnametb.getText());
-            student.setGender(gendertb.getText());
+            student.setGender(gendertb.getValue()); // Get selected value from ComboBox
             student.setAge(age);
+            student.setEmail(email.getText()); // Set email
 
             db = new dbFunctions();
             Connection conn = db.connect_to_db(Database, lUser, Password);
 
             if (conn != null) {
-                db.updateStudentInDatabase(conn, "student_info", student.getFirstname(), student.getLastname(), student.getGender(), student.getAge(), student.getLrn());
+                db.updateStudentInDatabase(conn, "student_info", student.getFirstname(), student.getLastname(), student.getGender(), student.getAge(), student.getLrn(),student.getEmail());
                 saveClicked = true;
                 conn.close(); // Close the connection
                 dialogStage.close();
@@ -93,5 +103,11 @@ public class EditStudent {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        List<String> genders = Arrays.asList("Male", "Female");
+      gendertb.getItems().addAll(genders);
     }
 }

@@ -98,7 +98,7 @@ public class EditphiliriResult implements Initializable {
                 String firstName = lrnRs.getString("Firstname");
                 String lastName = lrnRs.getString("Lastname");
 
-                Student student = new Student(lrn, firstName, lastName, "N/A", 0, "N/A");
+                Student student = new Student(lrn, firstName, lastName, "N/A", 0, "N/A","N/A");
                 LRNfield.getItems().add(student);
             }
 

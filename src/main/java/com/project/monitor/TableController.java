@@ -35,6 +35,8 @@ public class TableController extends Controller implements Initializable {
     String Password = Config.PASSWORD;
 
     @FXML
+    private TableColumn<Student, String> emailcol;
+    @FXML
     private TableColumn<Student, String> GenderColumn;
     @FXML
     private TableColumn<Student, String> LRNColumn;
@@ -71,7 +73,7 @@ public class TableController extends Controller implements Initializable {
         lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         GenderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
-
+        emailcol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         gradeandSectionCol.setCellValueFactory(cellData -> cellData.getValue().grade_sectionProperty());
 
@@ -142,6 +144,8 @@ public class TableController extends Controller implements Initializable {
                 } else if (student.getGender().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (student.getGrade_section().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (student.getEmail().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else {
                     return false;
@@ -214,16 +218,14 @@ public class TableController extends Controller implements Initializable {
     public void refreshTable() {
         StudentList.clear();
         try {
-
             Connection conn = db.connect_to_db(Database, lUser, Password);
             String query = "SELECT student_info.lrn, student_info.firstname, student_info.lastname, " +
-                    "student_info.gender, student_info.age, teacher_info.grade_section " +
+                    "student_info.gender, student_info.age, teacher_info.grade_section, student_info.email " +
                     "FROM student_info " +
                     "JOIN teacher_info ON teacher_info.employeeID = student_info.adviserID " +
                     "WHERE teacher_info.employeeID = ?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
-            System.out.println(teacherID);
             preparedStatement.setString(1, teacherID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -234,7 +236,8 @@ public class TableController extends Controller implements Initializable {
                         resultSet.getString("lastname"),
                         resultSet.getString("gender"),
                         resultSet.getInt("age"),
-                        resultSet.getString("grade_section")  // Assuming grade_section is a string
+                        resultSet.getString("grade_section"),
+                        resultSet.getString("email") // Adding email retrieval
                 ));
             }
 
@@ -250,6 +253,7 @@ public class TableController extends Controller implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     public void setTeacherID(String teacherID) {
         this.teacherID = teacherID;

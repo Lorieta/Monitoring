@@ -149,7 +149,7 @@ public class AddReadinglog implements Initializable {
                     String placeholder = "N/A";
                     int placeholderInt = 0;
 
-                    Student student = new Student(lrn, firstName, lastName, placeholder, placeholderInt, placeholder);
+                    Student student = new Student(lrn, firstName, lastName, placeholder, placeholderInt, placeholder,"N/A");
                     LRNfield.getItems().add(student);
                 }
             }

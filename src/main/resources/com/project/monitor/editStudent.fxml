@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
@@ -17,9 +18,9 @@
 
 <AnchorPane prefHeight="515.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.EditStudent">
    <children>
-      <Pane layoutY="-1.0" prefHeight="538.0" prefWidth="486.0" style="-fx-background-color: F5F5F5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutY="-1.0" prefHeight="634.0" prefWidth="487.0" style="-fx-background-color: F5F5F5;" AnchorPane.bottomAnchor="-119.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="469.0" layoutX="23.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" width="439.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="588.0" layoutX="24.0" layoutY="93.0" stroke="BLACK" strokeType="INSIDE" width="439.0" />
             <TextField fx:id="lrntb" disable="true" layoutX="161.0" layoutY="122.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow />
@@ -34,27 +35,27 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="44.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
+            <Text layoutX="44.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="45.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
+            <Text layoutX="45.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="47.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender:">
+            <Text layoutX="47.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="47.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age:">
+            <Text layoutX="47.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Button fx:id="confirmbtn" layoutX="161.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#saveChanges" prefHeight="30.0" prefWidth="99.0" style="-fx-background-color: C3F396;" text="CONFIRM">
+            <Button fx:id="confirmbtn" layoutX="162.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#saveChanges" prefHeight="30.0" prefWidth="99.0" style="-fx-background-color: C3F396;" text="CONFIRM">
                <effect>
                   <Lighting diffuseConstant="1.71">
                      <bumpInput>
@@ -65,7 +66,7 @@
                      </light>
                   </Lighting>
                </effect></Button>
-            <Button fx:id="cancelbtn" layoutX="338.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#cancelEdit" prefHeight="30.0" prefWidth="92.0" style="-fx-background-color: F39696;" text="CANCEL">
+            <Button fx:id="cancelbtn" layoutX="339.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#cancelEdit" prefHeight="30.0" prefWidth="92.0" style="-fx-background-color: F39696;" text="CANCEL">
                <effect>
                   <Lighting diffuseConstant="1.71">
                      <bumpInput>
@@ -76,7 +77,7 @@
                      </light>
                   </Lighting>
                </effect></Button>
-            <TextField fx:id="fnametb" layoutX="161.0" layoutY="170.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="fnametb" layoutX="161.0" layoutY="207.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow>
                      <color>
@@ -84,7 +85,7 @@
                      </color>
                   </InnerShadow>
                </effect></TextField>
-            <TextField fx:id="lnametb" layoutX="161.0" layoutY="215.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="lnametb" layoutX="161.0" layoutY="252.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow>
                      <color>
@@ -92,15 +93,7 @@
                      </color>
                   </InnerShadow>
                </effect></TextField>
-            <TextField fx:id="gendertb" layoutX="161.0" layoutY="259.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
-               <effect>
-                  <InnerShadow>
-                     <color>
-                        <Color red="0.6431372761726379" green="0.545098066329956" blue="0.545098066329956" />
-                     </color>
-                  </InnerShadow>
-               </effect></TextField>
-            <TextField fx:id="agetb" layoutX="161.0" layoutY="304.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="agetb" layoutX="161.0" layoutY="341.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
                <effect>
                   <InnerShadow>
                      <color>
@@ -109,6 +102,21 @@
                   </InnerShadow>
                </effect></TextField>
             <Line endX="339.0" layoutX="123.0" layoutY="73.0" startX="-100.0" />
+            <ComboBox fx:id="gendertb" layoutX="161.0" layoutY="296.0" prefHeight="25.0" prefWidth="269.0" />
+            <Text layoutX="44.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <TextField fx:id="email" layoutX="161.0" layoutY="165.0" prefHeight="30.0" prefWidth="269.0" style="-fx-background-color: DFD9D8;">
+               <effect>
+                  <InnerShadow>
+                     <color>
+                        <Color red="0.6431372761726379" green="0.545098066329956" blue="0.545098066329956" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+            </TextField>
          </children>
       </Pane>
    </children>

@@ -10,14 +10,29 @@ public class Student {
     private final SimpleStringProperty gender;
     private final SimpleIntegerProperty age;
     private final SimpleStringProperty grade_section;
+    private final SimpleStringProperty email;
 
-    public Student(String lrn, String firstname, String lastname, String gender, int age, String gradeSection) {
+    public Student(String lrn, String firstname, String lastname, String gender, int age, String gradeSection, String email) {
         this.lrn = new SimpleStringProperty(lrn);
         this.firstname = new SimpleStringProperty(firstname);
         this.lastname = new SimpleStringProperty(lastname);
         this.gender = new SimpleStringProperty(gender);
         this.age = new SimpleIntegerProperty(age);
         this.grade_section = new SimpleStringProperty(gradeSection);
+        this.email = new SimpleStringProperty(email);
+    }
+
+
+
+    public void setEmail(String email) {
+            this.email.set(email);
+    }
+    public String getEmail() {
+        return email.get();
+    }
+
+    public SimpleStringProperty emailProperty() {
+        return email;
     }
 
     public String getLrn() {
