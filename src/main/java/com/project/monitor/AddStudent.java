@@ -45,6 +45,14 @@ public class AddStudent {
         return str == null || str.trim().isEmpty();
     }
 
+    private String adviserID;  //
+
+    public void setAdviserID(String adviserID) {
+        this.adviserID = adviserID;
+        System.out.println("AddStudent - adviserID set: " + this.adviserID); // Debug print
+    }
+
+
     @FXML
     void addStudent(MouseEvent event) {
         String lrn = lrnTb.getText();
@@ -63,7 +71,7 @@ public class AddStudent {
             if (isLRNUnique(lrn)) {
                 dbFunctions db = new dbFunctions();
                 Connection conn = db.connect_to_db(Database, lUser, Password);
-                db.AddStudent(conn, "student_info", lrn, fname, lname, gender, age);
+                db.AddStudent(conn, "student_info", lrn, fname, lname, gender, age, adviserID);
                 conn.close();
                 clearFields();
 
@@ -127,4 +135,5 @@ public class AddStudent {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.project.monitor;
 
+import Tables.Student;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -20,6 +21,9 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class Homedashboard implements Initializable {
@@ -55,6 +59,12 @@ public class Homedashboard implements Initializable {
     private VBox slider;
 
     @FXML
+    private Label lblmaterials;
+
+    @FXML
+    private Label lblstudent;
+
+    @FXML
     private AreaChart<String, Number> areaChart;
 
     private boolean isHidden = true;
@@ -62,11 +72,12 @@ public class Homedashboard implements Initializable {
     private String teacherID;
     private String teacherName;
 
-    private static final String DATABASE = Config.DATABASE;
-    private static final String USER = Config.USER;
-    private static final String PASSWORD = Config.PASSWORD;
-
     private dbFunctions db = new dbFunctions();
+
+    String Database = Config.DATABASE;
+    String lUser = Config.USER;
+    String Password = Config.PASSWORD;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -118,11 +129,11 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Student View");
 
-            // Apply blur effect to main content
-            mainContent.setEffect(blur);
+            // Apply blur effect to the entire window
+            applyBlurEffect();
 
             // Remove blur effect on stage close
-            stage.setOnHidden(e -> mainContent.setEffect(null));
+            stage.setOnHidden(e -> removeBlurEffect());
 
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
@@ -141,6 +152,12 @@ public class Homedashboard implements Initializable {
 
             ResourceController controller = loader.getController();
             Stage stage = createAndShowStage(root, "Resource View");
+
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
 
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
@@ -165,6 +182,12 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Selection View");
 
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
+
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
 
@@ -182,6 +205,12 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Reading Log View");
 
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
+
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
 
@@ -198,6 +227,12 @@ public class Homedashboard implements Initializable {
             Parent root = loader.load();
 
             Stage stage = createAndShowStage(root, "Philiri View");
+
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
 
             // Close the new window when clicking outside of it
             closeWindowOnClickOutside(stage);
@@ -248,4 +283,16 @@ public class Homedashboard implements Initializable {
             }
         });
     }
+
+    private void applyBlurEffect() {
+        // Apply the blur effect to the entire root component of the HomeDashboard
+        mainContent.getScene().getRoot().setEffect(blur);
+    }
+
+    private void removeBlurEffect() {
+        // Remove the blur effect from the entire root component of the HomeDashboard
+        mainContent.getScene().getRoot().setEffect(null);
+    }
+
+
 }
