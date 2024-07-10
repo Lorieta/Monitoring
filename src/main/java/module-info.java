@@ -10,4 +10,6 @@ module com.project.monitor {
     exports com.project.monitor;
     exports Tables;
     opens Tables to javafx.fxml;
+    exports com.project.monitor.Graphs;
+    opens com.project.monitor.Graphs to javafx.fxml;
 }

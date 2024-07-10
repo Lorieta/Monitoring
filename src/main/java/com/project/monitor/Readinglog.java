@@ -66,19 +66,22 @@ public class Readinglog extends Controller{
     @FXML
     private TableColumn<ReadinglogModel, String> urlcol;
 
+    private String currentAdviserID;
+
     private Readinglog tableController;
     private final ObservableList<ReadinglogModel> readinglog = FXCollections.observableArrayList();
     private final dbFunctions db = new dbFunctions();
 
     @FXML
     void initialize() {
+        // Ensure this returns the correct ID
+
         setupTableColumns();
         refreshTable();
+        getLoggedInTeacherID();
+
     }
 
-    public void setTableController(Readinglog tableController) {
-        this.tableController = tableController;
-    }
 
     @FXML
     void addBtn(MouseEvent event) {
@@ -88,6 +91,8 @@ public class Readinglog extends Controller{
 
             AddReadinglog addReadinglogController = loader.getController();
             addReadinglogController.setTableController(this);
+            addReadinglogController.setCurrentAdviserID(this.currentAdviserID);
+            System.out.println("Current Adviser ID in Homedashboard: " + this.currentAdviserID);
 
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
@@ -105,6 +110,7 @@ public class Readinglog extends Controller{
     }
 
     private void setupTableColumns() {
+
         logidcol.setCellValueFactory(new PropertyValueFactory<>("logid"));
         lrncol.setCellValueFactory(new PropertyValueFactory<>("lrn"));
         fnamecol.setCellValueFactory(new PropertyValueFactory<>("fname"));
@@ -181,7 +187,6 @@ public class Readinglog extends Controller{
         }
     }
 
-    @FXML
     public void refreshTable() {
         readinglog.clear();
 
@@ -192,36 +197,41 @@ public class Readinglog extends Controller{
                 "JOIN Materials m ON rl.MaterialID = m.MaterialsId " +
                 "JOIN Languagetype lt ON m.TypeID = lt.LanguageID " +
                 "JOIN Resourcetype rt ON m.ResourceID = rt.ResourceID " +
+                "WHERE si.AdviserID = ? " +  // Add the condition for AdviserID
                 "ORDER BY rl.DateStarted DESC";
 
         try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
-             PreparedStatement preparedStatement = conn.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
 
-            while (resultSet.next()) {
-                readinglog.add(new ReadinglogModel(
-                        resultSet.getInt("LogID"),
-                        resultSet.getString("LRN"),
-                        resultSet.getString("Firstname"),
-                        resultSet.getString("Lastname"),
-                        resultSet.getString("ResourceTitle"),
-                        resultSet.getString("URL"),
-                        resultSet.getString("LanguageType"),
-                        resultSet.getString("ResourceType"),
-                        resultSet.getString("Duration"),
-                        resultSet.getDate("DateStarted"),
-                        resultSet.getDate("DateFinished"),
-                        resultSet.getString("Comment")
-                ));
+            preparedStatement.setString(1, getCurrentAdviserID()); // Set the AdviserID parameter
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    readinglog.add(new ReadinglogModel(
+                            resultSet.getInt("LogID"),
+                            resultSet.getString("LRN"),
+                            resultSet.getString("Firstname"),
+                            resultSet.getString("Lastname"),
+                            resultSet.getString("ResourceTitle"),
+                            resultSet.getString("URL"),
+                            resultSet.getString("LanguageType"),
+                            resultSet.getString("ResourceType"),
+                            resultSet.getString("Duration"),
+                            resultSet.getDate("DateStarted"),
+                            resultSet.getDate("DateFinished"),
+                            resultSet.getString("Comment")
+                    ));
+                }
             }
 
             readinglogtable.setItems(readinglog);
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error during data refresh: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
     private void handleDelete(ReadinglogModel readinglogModel) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -269,5 +279,14 @@ public class Readinglog extends Controller{
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
+    }
+    public void setCurrentAdviserID(String adviserID) {
+        this.currentAdviserID = adviserID;
+        refreshTable();
+    }
+
+
+    public String getCurrentAdviserID() {
+        return currentAdviserID;
     }
 }

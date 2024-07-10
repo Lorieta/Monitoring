@@ -27,6 +27,7 @@ public class AddReadinglog implements Initializable {
     @FXML private DatePicker datestarted;
     @FXML private DatePicker datefinished;
     @FXML private TextArea remarks;
+    private String currentAdviserID;
 
     private Readinglog tableController;
     private Homedashboard control;
@@ -130,23 +131,27 @@ public class AddReadinglog implements Initializable {
     }
 
     private void loadLRNs() {
-        String lrnQuery = "SELECT LRN, Firstname, Lastname FROM Student_info";
+        String lrnQuery = "SELECT LRN, Firstname, Lastname, AdviserID FROM Student_info WHERE AdviserID = ?";
 
         try (Connection conn = db.connect_to_db(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
-             PreparedStatement lrnStmt = conn.prepareStatement(lrnQuery);
-             ResultSet lrnRs = lrnStmt.executeQuery()) {
+             PreparedStatement lrnStmt = conn.prepareStatement(lrnQuery)) {
+            System.out.println(currentAdviserID);
+            lrnStmt.setString(1, currentAdviserID); // Set AdviserID parameter
 
-            while (lrnRs.next()) {
-                String lrn = lrnRs.getString("LRN");
-                String firstName = lrnRs.getString("Firstname");
-                String lastName = lrnRs.getString("Lastname");
+            try (ResultSet lrnRs = lrnStmt.executeQuery()) {
+                while (lrnRs.next()) {
+                    String lrn = lrnRs.getString("LRN");
+                    String firstName = lrnRs.getString("Firstname");
+                    String lastName = lrnRs.getString("Lastname");
+                    // AdviserID = lrnRs.getString("AdviserID"); // Uncomment if needed
 
-                // Use placeholder values for the unused fields
-                String placeholder = "N/A";
-                int placeholderInt = 0;
+                    // Use placeholder values for the unused fields
+                    String placeholder = "N/A";
+                    int placeholderInt = 0;
 
-                Student student = new Student(lrn, firstName, lastName, placeholder, placeholderInt, placeholder);
-                LRNfield.getItems().add(student);
+                    Student student = new Student(lrn, firstName, lastName, placeholder, placeholderInt, placeholder);
+                    LRNfield.getItems().add(student);
+                }
             }
 
         } catch (SQLException e) {
@@ -154,6 +159,7 @@ public class AddReadinglog implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Database Error", "Error loading LRN data: " + e.getMessage());
         }
     }
+
 
 
     private void loadResources() {
@@ -221,5 +227,14 @@ public class AddReadinglog implements Initializable {
     private int calculateDuration(java.sql.Date startDate, java.sql.Date endDate) {
         long differenceInMillis = endDate.getTime() - startDate.getTime();
         return (int) (differenceInMillis / (1000 * 60 * 60 * 24));
+    }
+    public void setCurrentAdviserID(String adviserID) {
+        this.currentAdviserID = adviserID;
+        loadLRNs();
+    }
+
+
+    public String getCurrentAdviserID() {
+        return currentAdviserID;
     }
 }

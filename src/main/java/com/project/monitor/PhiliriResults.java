@@ -24,6 +24,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,8 @@ public class PhiliriResults extends Controller implements Initializable {
     private static final String DATABASE = Config.DATABASE;
     private static final String USER = Config.USER;
     private static final String PASSWORD = Config.PASSWORD;
+
+    private String currentAdviserID;
 
     private PhiliriResults tableController;
     private final ObservableList<PhiliriResultsModel>  philiriResults = FXCollections.observableArrayList();
@@ -173,6 +176,7 @@ public class PhiliriResults extends Controller implements Initializable {
 
     public void refreshTable() {
         philiriResults.clear();
+        System.out.println("Current Adviser ID in refreshTable: " + currentAdviserID);
 
         String query = "SELECT r.ResultID, r.LRN, si.LastName, o.oralresult AS OralResult, " +
                 "s.silentresult AS SilentResult, lt.Languagetype AS LanguageType, " +
@@ -183,32 +187,41 @@ public class PhiliriResults extends Controller implements Initializable {
                 "JOIN LanguageType lt ON r.LanguageID = lt.LanguageID " +
                 "JOIN Student_info si ON r.LRN = si.LRN " +
                 "WHERE lt.Languagetype IN ('English', 'Tagalog') " +
+                "AND si.AdviserID = ? " +  // Add the condition for AdviserID
                 "ORDER BY r.LRN, lt.Languagetype, r.DateRecorded";
 
         try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
-             PreparedStatement preparedStatement = conn.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
 
-            while (resultSet.next()) {
-                philiriResults.add(new PhiliriResultsModel(
-                        resultSet.getInt("resultid"),
-                        resultSet.getString("lrn"),
-                        resultSet.getString("LastName"),
-                        resultSet.getString("OralResult"),
-                        resultSet.getString("SilentResult"),
-                        resultSet.getString("LanguageType"),
-                        resultSet.getDate("DateRecorded"),
-                        resultSet.getString("Remarks")
-                ));
+            preparedStatement.setString(1, currentAdviserID); // Set AdviserID parameter
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    philiriResults.add(new PhiliriResultsModel(
+                            resultSet.getInt("resultid"),
+                            resultSet.getString("lrn"),
+                            resultSet.getString("LastName"),
+                            resultSet.getString("OralResult"),
+                            resultSet.getString("SilentResult"),
+                            resultSet.getString("LanguageType"),
+                            resultSet.getDate("DateRecorded"),
+                            resultSet.getString("Remarks")
+                    ));
+                }
+
+                PhiliriTable.setItems(philiriResults);
+
+            } catch (SQLException e) {
+                System.err.println("Error retrieving data from ResultSet: " + e.getMessage());
+                e.printStackTrace();
             }
 
-            PhiliriTable.setItems(philiriResults);
-
-        } catch (Exception e) {
-            System.err.println("Error during data refresh: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error executing SQL query: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
 
     @FXML
@@ -217,8 +230,10 @@ public class PhiliriResults extends Controller implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addphiliriResults.fxml"));
             Parent parent = loader.load();
 
-            AddPhiliriResult addPhiliriResultController = loader.getController();
-            addPhiliriResultController.setTableController(this);  // Pass the PhiliriResults controller
+            AddPhiliriResult controller = loader.getController();
+            System.out.println("Before setting in OralandSilent: " + controller.getCurrentAdviserID());
+            controller.setCurrentAdviserID(this.currentAdviserID);
+            System.out.println("After setting in OralandSilent: " + controller.getCurrentAdviserID());
 
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
@@ -236,5 +251,15 @@ public class PhiliriResults extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
         refreshTable();
+    }
+
+    public void setCurrentAdviserID(String adviserID) {
+        this.currentAdviserID = adviserID;
+        refreshTable();
+    }
+
+
+    public String getCurrentAdviserID() {
+        return currentAdviserID;
     }
 }

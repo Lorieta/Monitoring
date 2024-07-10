@@ -58,9 +58,11 @@ public class TableController extends Controller implements Initializable {
     private String teacherID; // Variable to store teacherID
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         setupTableColumns();
         setupSearchFilter(); // Add this line
-        refreshTable();  // Initial data load
+        refreshTable();
+        System.out.println(teacherID);// Initial data load
     }
 
     private void setupTableColumns() {
@@ -221,6 +223,7 @@ public class TableController extends Controller implements Initializable {
                     "WHERE teacher_info.employeeID = ?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
+            System.out.println(teacherID);
             preparedStatement.setString(1, teacherID);
             ResultSet resultSet = preparedStatement.executeQuery();
 

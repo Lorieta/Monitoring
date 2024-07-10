@@ -54,6 +54,7 @@ public class Selection {
 
     @FXML
     public void initialize() {
+        System.out.println(currentAdviserID);
         setupTableColumns();
         refreshTable();
         searchField.textProperty().addListener((observable, oldValue, newValue) -> handleSearch());
@@ -233,7 +234,6 @@ public class Selection {
     public void setCurrentAdviserID(String adviserID) {
         this.currentAdviserID = adviserID;
     }
-
 
 
     public String getCurrentAdviserID() {

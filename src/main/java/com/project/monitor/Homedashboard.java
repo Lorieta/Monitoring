@@ -65,7 +65,8 @@ public class Homedashboard implements Initializable {
     private Label lblstudent;
 
     @FXML
-    private AreaChart<String, Number> areaChart;
+    private Button readingResults;
+
 
     private boolean isHidden = true;
     private GaussianBlur blur = new GaussianBlur(10);
@@ -86,16 +87,12 @@ public class Homedashboard implements Initializable {
         // Add event handlers for mouse enter and exit on the slider
         slider.setOnMouseEntered(event -> showSlider());
         slider.setOnMouseExited(event -> hideSlider());
+
+
+
     }
 
-    public void setTeacherID(String id) {
-        this.teacherID = id;
-    }
 
-    public void setTeacherName(String name) {
-        this.teacherName = name;
-        username.setText(name); // Set the name in the Label
-    }
 
     private void showSlider() {
         if (isHidden) {
@@ -176,7 +173,7 @@ public class Homedashboard implements Initializable {
 
             Selection controller = loader.getController();
             controller.setCurrentAdviserID(this.teacherID);
-
+            System.out.println("Current Adviser ID in Homedashboard: " + this.teacherID);
             // Refresh the table after setting the currentAdviserID
             controller.refreshTable();
 
@@ -205,6 +202,16 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Reading Log View");
 
+            Readinglog controller = loader.getController();
+            System.out.println("Before setting in OralandSilent: " + controller.getCurrentAdviserID());
+            controller.setCurrentAdviserID(this.teacherID);
+            System.out.println("After setting in OralandSilent: " + controller.getCurrentAdviserID());
+
+
+
+
+
+
             // Apply blur effect to the entire window
             applyBlurEffect();
 
@@ -228,7 +235,10 @@ public class Homedashboard implements Initializable {
 
             Stage stage = createAndShowStage(root, "Philiri View");
 
-            // Apply blur effect to the entire window
+            PhiliriResults controller = loader.getController();
+            controller.setCurrentAdviserID(this.teacherID);
+            System.out.println("Current Adviser ID in Homedashboard: " + this.teacherID);
+
             applyBlurEffect();
 
             // Remove blur effect on stage close
@@ -294,5 +304,44 @@ public class Homedashboard implements Initializable {
         mainContent.getScene().getRoot().setEffect(null);
     }
 
+    @FXML
+    void showreadingresult(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("OralandSilent.fxml"));
+            Parent root = loader.load();
+
+            OralandSilent controller = loader.getController();
+            System.out.println("Before setting in OralandSilent: " + controller.getCurrentAdviserID());
+            controller.setCurrentAdviserID(this.teacherID);
+            System.out.println("After setting in OralandSilent: " + controller.getCurrentAdviserID());
+
+
+
+            Stage stage = createAndShowStage(root, "Philiri View");
+
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
+
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Philiri View: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+
+    }
+    public void setTeacherID(String id) {
+        this.teacherID = id;
+        System.out.println("Teacher ID set in Homedashboard: " + this.teacherID);
+    }
+
+
+    public void setTeacherName(String name) {
+        this.teacherName = name;
+    }
 
 }

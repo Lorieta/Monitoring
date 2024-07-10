@@ -45,7 +45,7 @@ public class AddPhiliriResult implements Initializable {
     private static final String USER = Config.USER;
     private static final String PASSWORD = Config.PASSWORD;
     private final dbFunctions db = new dbFunctions();
-    private
+    private String currentAdviserID;
 
     @FXML
     void clearFields() {
@@ -88,19 +88,22 @@ public class AddPhiliriResult implements Initializable {
 
 
     private void loadLRNs() {
-        String lrnQuery = "SELECT LRN, Firstname, Lastname FROM Student_info";
+        String lrnQuery = "SELECT LRN, Firstname, Lastname FROM Student_info WHERE AdviserID = ?";
 
-        try (Connection conn = db.connect_to_db(DATABASE, USER, PASSWORD);
-             PreparedStatement lrnStmt = conn.prepareStatement(lrnQuery);
-             ResultSet lrnRs = lrnStmt.executeQuery()) {
+        try (Connection conn = db.connect_to_db(DATABASE,USER,PASSWORD);
+             PreparedStatement lrnStmt = conn.prepareStatement(lrnQuery)) {
 
-            while (lrnRs.next()) {
-                String lrn = lrnRs.getString("LRN");
-                String firstName = lrnRs.getString("Firstname");
-                String lastName = lrnRs.getString("Lastname");
+            lrnStmt.setString(1, currentAdviserID); // Set AdviserID parameter
 
-                Student student = new Student(lrn, firstName, lastName, "N/A", 0, "N/A");
-                LRNfield.getItems().add(student);
+            try (ResultSet lrnRs = lrnStmt.executeQuery()) {
+                while (lrnRs.next()) {
+                    String lrn = lrnRs.getString("LRN");
+                    String firstName = lrnRs.getString("Firstname");
+                    String lastName = lrnRs.getString("Lastname");
+
+                    Student student = new Student(lrn, firstName, lastName, "N/A", 0, "N/A");
+                    LRNfield.getItems().add(student);
+                }
             }
 
         } catch (SQLException e) {
@@ -108,6 +111,7 @@ public class AddPhiliriResult implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Database Error", "Error loading LRN data: " + e.getMessage());
         }
     }
+
 
     private void loadLanguageTypes() {
         String query = "SELECT Languagetype FROM LanguageType";
@@ -253,6 +257,15 @@ public class AddPhiliriResult implements Initializable {
         this.tableController = philiriResults;
     }
 
+    public void setCurrentAdviserID(String adviserID) {
+        this.currentAdviserID = adviserID;
+     loadLRNs();
+    }
+
+
+    public String getCurrentAdviserID() {
+        return currentAdviserID;
+    }
 
 
 }
