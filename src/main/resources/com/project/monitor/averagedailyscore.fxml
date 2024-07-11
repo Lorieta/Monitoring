@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Averagedailyscore">
+    <children>
+        <LineChart fx:id="averagescoredaily" prefHeight="400.0" prefWidth="600.0" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <HBox alignment="CENTER" spacing="10" AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <Button fx:id="dailyButton" text="Daily" onAction="#switchToDaily"/>
+            <Button fx:id="monthlyButton" text="Monthly" onAction="#switchToMonthly"/>
+            <Button fx:id="yearlyButton" text="Yearly" onAction="#switchToYearly"/>
+        </HBox>
+    </children>
+</AnchorPane>

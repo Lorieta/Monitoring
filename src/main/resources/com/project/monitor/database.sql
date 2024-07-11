@@ -286,3 +286,19 @@ CREATE TABLE dailyselection (
     FOREIGN KEY (languagetypeid) REFERENCES languagetype(languageid),
     FOREIGN KEY (materialsid) REFERENCES materials(materialsid)
 );
+
+SELECT
+    ds.LRN,
+    ds.adviserid,
+    CONCAT(si.Firstname, ' ', si.Lastname) AS Name,
+    SUM(ds.Score) AS TotalScore
+FROM
+    dailyselection ds
+JOIN
+    student_info si ON ds.LRN = si.LRN
+JOIN
+    result pr ON ds.LRN = pr.LRN
+WHERE
+    ds.adviserid = '123'
+GROUP BY
+    ds.LRN, ds.adviserid, si.Firstname, si.Lastname;

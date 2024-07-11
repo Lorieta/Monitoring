@@ -1,6 +1,7 @@
 package com.project.monitor;
 
 import Tables.Student;
+import Tables.rankingScore;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -9,9 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -24,6 +24,10 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Homedashboard implements Initializable {
@@ -67,32 +71,42 @@ public class Homedashboard implements Initializable {
     @FXML
     private Button readingResults;
 
+    @FXML
+    private TableColumn<rankingScore, String> lrncol;
+
+    @FXML
+    private TableColumn<rankingScore, String> namecol;
+
+    @FXML
+    private TableColumn<rankingScore, Integer> totalscorecol;
+
+    @FXML
+    private TableView<rankingScore> scoreRanking;
+
+    private List<rankingScore> students = new ArrayList<>();
+    private dbFunctions db = new dbFunctions();
 
     private boolean isHidden = true;
     private GaussianBlur blur = new GaussianBlur(10);
     private String teacherID;
     private String teacherName;
 
-    private dbFunctions db = new dbFunctions();
-
-    String Database = Config.DATABASE;
-    String lUser = Config.USER;
-    String Password = Config.PASSWORD;
-
+    private static final String DATABASE = Config.DATABASE;
+    private static final String USER = Config.USER;
+    private static final String PASSWORD = Config.PASSWORD;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setupTableColumns();
         slider.setTranslateX(-190); // Initially hide the slider
 
         // Add event handlers for mouse enter and exit on the slider
         slider.setOnMouseEntered(event -> showSlider());
         slider.setOnMouseExited(event -> hideSlider());
 
-
-
+        // Refresh the table when initializing
+        refresh();
     }
-
-
 
     private void showSlider() {
         if (isHidden) {
@@ -207,11 +221,6 @@ public class Homedashboard implements Initializable {
             controller.setCurrentAdviserID(this.teacherID);
             System.out.println("After setting in OralandSilent: " + controller.getCurrentAdviserID());
 
-
-
-
-
-
             // Apply blur effect to the entire window
             applyBlurEffect();
 
@@ -252,6 +261,38 @@ public class Homedashboard implements Initializable {
             showAlert("Error", "Failed to load Philiri View: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
+    @FXML
+    void showaveragedaily(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("averagedailyscore.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = createAndShowStage(root, "Average Daily Score View");
+
+            // Get the controller instance
+            Averagedailyscore controller = loader.getController();
+
+            // Set current adviser ID
+            controller.setCurrentAdviserID(this.teacherID);
+            System.out.println("Current Adviser ID in Homedashboard: " + this.teacherID);
+
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
+
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Average Daily Score View: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+
 
     @FXML
     void logout(MouseEvent event) {
@@ -315,8 +356,6 @@ public class Homedashboard implements Initializable {
             controller.setCurrentAdviserID(this.teacherID);
             System.out.println("After setting in OralandSilent: " + controller.getCurrentAdviserID());
 
-
-
             Stage stage = createAndShowStage(root, "Philiri View");
 
             // Apply blur effect to the entire window
@@ -332,16 +371,57 @@ public class Homedashboard implements Initializable {
             e.printStackTrace();
             showAlert("Error", "Failed to load Philiri View: " + e.getMessage(), Alert.AlertType.ERROR);
         }
-
     }
+
     public void setTeacherID(String id) {
         this.teacherID = id;
         System.out.println("Teacher ID set in Homedashboard: " + this.teacherID);
+        refresh();
+        setupTableColumns();
     }
-
 
     public void setTeacherName(String name) {
         this.teacherName = name;
     }
 
+    public void refresh() {
+        students.clear(); // Clear previous data
+
+        String query = "SELECT ds.LRN, ds.adviserid, CONCAT(si.Firstname, ' ', si.Lastname) AS Name, SUM(ds.Score) AS TotalScore " +
+                "FROM dailyselection ds " +
+                "JOIN student_info si ON ds.LRN = si.LRN " +
+                "JOIN result pr ON ds.LRN = pr.LRN " +
+                "WHERE ds.adviserid = ? " +
+                "GROUP BY ds.LRN, ds.adviserid, si.Firstname, si.Lastname";
+
+        try (Connection connection = db.connect_to_db(DATABASE, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, teacherID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String lrn = resultSet.getString("LRN");
+                String adviserid = resultSet.getString("adviserid");
+                String name = resultSet.getString("Name");
+                int totalScore = resultSet.getInt("TotalScore");
+
+                students.add(new rankingScore(lrn, adviserid, name, totalScore));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        scoreRanking.getItems().setAll(students); // Update the table with the new data
+    }
+
+    private void setupTableColumns() {
+        lrncol.setCellValueFactory(new PropertyValueFactory<>("lrn"));
+        namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        totalscorecol.setCellValueFactory(new PropertyValueFactory<>("totalScore"));
+        totalscorecol.setComparator(Comparator.reverseOrder());
+
+
+        scoreRanking.getSortOrder().add(totalscorecol);
+    }
 }

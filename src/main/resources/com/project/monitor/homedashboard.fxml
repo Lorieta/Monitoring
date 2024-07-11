@@ -45,10 +45,11 @@
     <center>
         <AnchorPane prefHeight="700.0" prefWidth="700.0" BorderPane.alignment="CENTER">
             <children>
-                <TableView layoutX="130.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="500.0" stylesheets="@table.css" AnchorPane.bottomAnchor="142.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="583.0" AnchorPane.topAnchor="260.0">
+                <TableView fx:id="scoreRanking" layoutX="130.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="500.0" stylesheets="@table.css" AnchorPane.bottomAnchor="142.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="583.0" AnchorPane.topAnchor="260.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="C1" />
-                        <TableColumn prefWidth="88.0" text="C2" />
+                        <TableColumn fx:id="lrncol" prefWidth="75.0" text="LRN" />
+                        <TableColumn fx:id="namecol" prefWidth="88.0" text="Name" />
+                  <TableColumn fx:id="totalscorecol" prefWidth="104.0" text="Total Score" />
                     </columns>
                 </TableView>
                 <AnchorPane layoutX="208.0" layoutY="31.0" prefHeight="127.0" prefWidth="749.0" styleClass="bg" stylesheets="@application.css">
@@ -101,12 +102,12 @@
                         </AnchorPane>
                     </children>
                 </AnchorPane>
-                <ScrollPane layoutX="764.0" layoutY="388.0" prefHeight="128.0" prefWidth="382.0" stylesheets="@application.css" AnchorPane.bottomAnchor="162.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="388.0">
+                <ScrollPane layoutX="391.0" layoutY="171.0" prefHeight="454.0" prefWidth="382.0" stylesheets="@application.css" AnchorPane.bottomAnchor="53.0" AnchorPane.rightAnchor="392.0" AnchorPane.topAnchor="171.0">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="372.0" prefWidth="360.0">
                             <children>
                                 <Button fx:id="readingResults" mnemonicParsing="false" onMouseClicked="#showreadingresult" prefHeight="107.0" prefWidth="361.0" stylesheets="@application.css" text="Oral and Silent" />
-                                <Button layoutY="128.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                                <Button fx:id="Averagebtn" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#showaveragedaily" prefHeight="107.0" prefWidth="361.0" text="Average Daily Score" />
                                 <Button layoutY="388.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
                                 <Button layoutY="515.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
                                 <Button layoutY="264.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
@@ -114,7 +115,7 @@
                         </AnchorPane>
                     </content>
                 </ScrollPane>
-                <Label layoutX="43.0" layoutY="230.0" text="CURRENT POPULATION" />
+                <Label layoutX="43.0" layoutY="230.0" text="CURRENT POPULATION and Selection Ranking" />
                 <Text layoutX="902.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Analytics Review" />
             </children>
         </AnchorPane>

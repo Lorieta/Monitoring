@@ -147,6 +147,10 @@ public class OralandSilent implements Initializable {
 
     public void setCurrentAdviserID(String adviserID) {
         this.currentAdviserID = adviserID;
+        loadData(currentResultType);
+        setUpClickEvents();
+        // Set your adviser ID here
+        System.out.println(currentAdviserID);
     }
 
     public String getCurrentAdviserID() {
