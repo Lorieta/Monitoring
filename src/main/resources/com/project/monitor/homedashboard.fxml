@@ -108,9 +108,9 @@
                             <children>
                                 <Button fx:id="readingResults" mnemonicParsing="false" onMouseClicked="#showreadingresult" prefHeight="107.0" prefWidth="361.0" stylesheets="@application.css" text="Oral and Silent" />
                                 <Button fx:id="Averagebtn" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#showaveragedaily" prefHeight="107.0" prefWidth="361.0" text="Average Daily Score" />
-                                <Button layoutY="388.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                                <Button layoutY="388.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Send Feedback" />
                                 <Button layoutY="515.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
-                                <Button layoutY="264.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="361.0" text="Button" />
+                                <Button fx:id="showmvf" layoutY="264.0" mnemonicParsing="false" onMouseClicked="#showmvfreading" prefHeight="107.0" prefWidth="361.0" text="Male vs Female Reading Frequency" />
                             </children>
                         </AnchorPane>
                     </content>

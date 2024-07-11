@@ -424,4 +424,34 @@ public class Homedashboard implements Initializable {
 
         scoreRanking.getSortOrder().add(totalscorecol);
     }
+
+
+    @FXML
+    void showmvfreading(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("malevsfemale.fxml"));
+            Parent root = loader.load();
+
+            Malevsfemale controller = loader.getController();
+            System.out.println("Before setting in OralandSilent: " + controller.getCurrentAdviserID());
+            controller.setCurrentAdviserID(this.teacherID);
+            System.out.println("After setting in OralandSilent: " + controller.getCurrentAdviserID());
+
+            Stage stage = createAndShowStage(root, "Philiri View");
+
+            // Apply blur effect to the entire window
+            applyBlurEffect();
+
+            // Remove blur effect on stage close
+            stage.setOnHidden(e -> removeBlurEffect());
+
+            // Close the new window when clicking outside of it
+            closeWindowOnClickOutside(stage);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Philiri View: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+
+    }
 }
