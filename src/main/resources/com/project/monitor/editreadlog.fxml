@@ -5,6 +5,8 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
@@ -18,57 +20,50 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Editreadlog">
    <children>
-      <Pane layoutX="-4.0" layoutY="-3.0" prefHeight="946.0" prefWidth="795.0" style="-fx-background-color: white;">
+      <Pane layoutX="-4.0" layoutY="-3.0" prefHeight="946.0" prefWidth="795.0" style="-fx-background-color: whitesmoke;">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="853.0" layoutX="50.0" layoutY="49.0" stroke="BLACK" strokeType="INSIDE" width="698.0" />
-            <TextField fx:id="fnameField" editable="false" layoutX="245.0" layoutY="194.0" prefHeight="30.0" prefWidth="454.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="fnameField" editable="false" layoutX="256.0" layoutY="315.0" prefHeight="37.0" prefWidth="454.0" style="-fx-background-color: white;">
                <effect>
-                  <Lighting diffuseConstant="1.66">
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant />
-                     </light>
-                  </Lighting>
+                  <InnerShadow>
+                     <color>
+                        <Color opacity="0.5" />
+                     </color>
+                  </InnerShadow>
                </effect></TextField>
-            <Text layoutX="299.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resource Details">
+            <Text layoutX="299.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Resource Details">
                <font>
                   <Font size="27.0" />
                </font>
             </Text>
-            <TextField fx:id="lnameField" editable="false" layoutX="246.0" layoutY="254.0" prefHeight="30.0" prefWidth="454.0" style="-fx-background-color: DFD9D8;">
+            <TextField fx:id="lnameField" editable="false" layoutX="257.0" layoutY="364.0" prefHeight="37.0" prefWidth="454.0" style="-fx-background-color: white;">
                <effect>
-                  <Lighting diffuseConstant="1.68">
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant />
-                     </light>
-                  </Lighting>
+                  <InnerShadow>
+                     <color>
+                        <Color opacity="0.5" />
+                     </color>
+                  </InnerShadow>
                </effect></TextField>
-            <Text layoutX="96.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LRN:">
+            <Text layoutX="76.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="LRN:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="95.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
+            <Text layoutX="75.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="First Name:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="96.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
+            <Text layoutX="77.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Last Name:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="96.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resource Title:">
+            <Text layoutX="76.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Resource Title:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Button fx:id="addbtn" layoutX="437.0" layoutY="825.0" mnemonicParsing="false" onMouseClicked="#updateReadinglog" prefHeight="43.0" prefWidth="96.0" style="-fx-background-color: C3F396;" text="ADD">
+            <Button fx:id="addbtn" layoutX="610.0" layoutY="812.0" mnemonicParsing="false" onMouseClicked="#updateReadinglog" prefHeight="43.0" prefWidth="107.0" stylesheets="@application.css" text="EDIT">
                <effect>
                   <Lighting diffuseConstant="1.68">
                      <bumpInput>
@@ -79,52 +74,67 @@
                      </light>
                   </Lighting>
                </effect></Button>
-            <Button layoutX="612.0" layoutY="825.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="96.0" style="-fx-background-color: F39696;" text="Close">
+            <ComboBox fx:id="resourcecb" layoutX="257.0" layoutY="414.0" prefHeight="37.0" prefWidth="454.0">
                <effect>
-                  <Lighting diffuseConstant="1.68">
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant />
-                     </light>
-                  </Lighting>
-               </effect></Button>
-            <ComboBox fx:id="resourcecb" layoutX="247.0" layoutY="314.0" prefHeight="30.0" prefWidth="454.0" />
-            <Text layoutX="97.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Started:">
+                  <DropShadow offsetX="3.0" offsetY="3.0">
+                     <color>
+                        <Color red="0.5" green="0.5" blue="0.5" opacity="0.5" />
+                     </color>
+                  </DropShadow>
+               </effect></ComboBox>
+            <Text layoutX="76.0" layoutY="492.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Date Started:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="97.0" layoutY="459.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Finished:">
+            <Text layoutX="78.0" layoutY="539.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Date Finished:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="97.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remarks:">
+            <Text layoutX="77.0" layoutY="608.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Remarks:">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <TextArea fx:id="remarks" layoutX="97.0" layoutY="530.0" prefHeight="267.0" prefWidth="610.0">
+            <TextArea fx:id="remarks" layoutX="82.0" layoutY="623.0" prefHeight="159.0" prefWidth="635.0">
                <effect>
-                  <Lighting diffuseConstant="1.61" surfaceScale="0.32">
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant>
-                           <color>
-                              <Color red="0.8026315569877625" green="0.8026315569877625" blue="0.8026315569877625" />
-                           </color>
-                        </Light.Distant>
-                     </light>
-                  </Lighting>
+                  <InnerShadow>
+                     <color>
+                        <Color opacity="0.30000001192092896" />
+                     </color>
+                  </InnerShadow>
                </effect></TextArea>
-            <DatePicker fx:id="datestarted" layoutX="247.0" layoutY="375.0" prefHeight="30.0" prefWidth="454.0" />
-            <DatePicker fx:id="datefinished" layoutX="247.0" layoutY="435.0" prefHeight="30.0" prefWidth="454.0" />
-            <ComboBox fx:id="LRNfield" accessibleRole="TEXT_FIELD" disable="true" layoutX="244.0" layoutY="139.0" prefHeight="30.0" prefWidth="454.0" />
-            <Line endX="598.0" layoutX="150.0" layoutY="92.0" startX="-100.0" />
+            <DatePicker fx:id="datestarted" layoutX="255.0" layoutY="465.0" prefHeight="37.0" prefWidth="454.0">
+               <effect>
+                  <InnerShadow>
+                     <color>
+                        <Color opacity="0.5" />
+                     </color>
+                  </InnerShadow>
+               </effect></DatePicker>
+            <DatePicker fx:id="datefinished" layoutX="255.0" layoutY="512.0" prefHeight="37.0" prefWidth="454.0">
+               <effect>
+                  <InnerShadow>
+                     <color>
+                        <Color opacity="0.5" />
+                     </color>
+                  </InnerShadow>
+               </effect></DatePicker>
+            <ComboBox fx:id="LRNfield" accessibleRole="TEXT_FIELD" disable="true" layoutX="255.0" layoutY="267.0" prefHeight="37.0" prefWidth="454.0" style="-fx-border-color: grey; -fx-border-width: 0.5;">
+               <effect>
+                  <DropShadow offsetX="4.0" offsetY="4.0">
+                     <color>
+                        <Color red="0.2763157784938812" green="0.11896929889917374" blue="0.11896929889917374" opacity="0.5" />
+                     </color>
+                  </DropShadow>
+               </effect></ComboBox>
+            <Line endX="525.0" layoutX="191.0" layoutY="239.0" startX="-100.0" style="-fx-font-weight: bold;" />
+            <Pane layoutX="1.0" layoutY="2.0" prefHeight="54.0" prefWidth="795.0" style="-fx-background-color: #374951;">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#641212" height="54.0" layoutX="598.0" stroke="BLACK" strokeType="INSIDE" width="107.0" />
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>

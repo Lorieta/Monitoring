@@ -55,12 +55,12 @@
 .button {
     -fx-text-fill: white;
     -fx-padding: 10 25 10 25;
-    -fx-background-color: #d90429;
+    -fx-background-color: #374951;
     -fx-background-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.50), 5, 0.25, 1, 2);
 }
 .button:hover{
-    -fx-background-color: black;
+    -fx-background-color: #556e79;
     -fx-cursor: hand;
 }
 
@@ -135,17 +135,16 @@
 }
 
 .sidebar {
-    -fx-background-color: #00008b;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.50), 5, 0.25, 1, 2);
+    -fx-background-color: #374951;
+    -fx-font-size: 9;
 }
 
 .sidebar:hover {
-    -fx-background-color: white;
+    -fx-background-color: #641212;
 }
 
 .bg {
-    -fx-background-radius: 20;
-    -fx-background-color: #d90429;
+    -fx-background-color: #374951;
     -fx-text-fill: white;
     -fx-border-width: 1px;
     -fx-border-radius: 10;
@@ -153,15 +152,12 @@
 }
 
 .bg:hover{
-    -fx-text-fill: #c3c3c3;
     -fx-border-color: white;
 }
 
-.text {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-font-size: 25;
-}
-.new {
 
+.pop {
+    -fx-background-radius: 5;
+    -fx-background-color: #374951;
+    -fx-padding: 50 70 50 70;
 }

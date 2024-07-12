@@ -1,28 +1,29 @@
 /* General TableView Styling */
 .table-view {
     -fx-background-color: whitesmoke; /* Background color for the table */
-    -fx-border-color: #ccc; /* Border color */
-    -fx-border-radius: 4; /* Border radius */
-    -fx-background-radius: 4; /* Background radius */
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 2, 4); /* Drop shadow effect */
+    -fx-font-size: 12;
 }
 
 /* Column Header Styling */
 .table-view .column-header-background {
-    -fx-background-color: #00008b; /* Header background color */
+    -fx-background-color: #374951; /* Header background color */
     -fx-padding: 20 35 20 35;
-
 }
 
 .table-view .column-header, .table-view .filler {
-    -fx-background-color: #00008b; /* Header background color */
-
+    -fx-background-color: #374951; /* Header background color */
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: white; /* Header text color */
     -fx-font-weight: bold;
-    -fx-background-color: #00008b;
+    -fx-text-fill: white; /* Header text color */
+    -fx-background-color: #374951;
+    -fx-alignment: CENTER; /* Center align header text */
+    -fx-font-size: 12;
 }
 
 /* Row and Cell Styling */
@@ -41,6 +42,8 @@
     -fx-border-width: 0 1px; /* Border width to create column separation */
     -fx-border-style: solid; /* Border style */
     -fx-padding: 8px; /* Cell padding */
+    -fx-alignment: CENTER-LEFT; /* Align text to the left within cell */
+    -fx-font-size: 14px; /* Cell font size */
 }
 
 .table-view .table-row-cell:even {
@@ -75,7 +78,6 @@
 .button3:hover, .button4:hover {
     -fx-opacity: 0.5;
 }
-
 .button5 {
     -fx-background-color: #F4F3F3;
     -fx-border-radius: 15;
@@ -96,7 +98,7 @@
 }
 
 .edit-button {
-    -fx-background-color: #4CAF50; /* Green background */
+    -fx-background-color: #374951; /* Green background */
     -fx-text-fill: white; /* White text */
     -fx-padding: 5 10 5 10;
     -fx-border-radius: 5;
@@ -105,11 +107,11 @@
 }
 
 .edit-button:hover {
-    -fx-background-color: #45a049; /* Darker green when hovered */
+    -fx-background-color: #54707c; /* Darker green when hovered */
 }
 
 .delete-button {
-    -fx-background-color: #f44336; /* Red background */
+    -fx-background-color: #641212; /* Red background */
     -fx-text-fill: white; /* White text */
     -fx-padding: 5 10 5 10;
     -fx-border-radius: 5;
@@ -118,5 +120,7 @@
 }
 
 .delete-button:hover {
-    -fx-background-color: #d32f2f; /* Darker red when hovered */
+    -fx-background-color: #c2142e; /* Darker red when hovered */
 }
+
+
