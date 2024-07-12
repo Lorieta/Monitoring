@@ -5,24 +5,24 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.EditphiliriResult">
-   <children>
-      <Pane layoutX="10.0" layoutY="10.0" prefHeight="906.0" prefWidth="801.0" style="-fx-background-color: F5F5F5;">
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.EditphiliriResult">
+   <center>
+      <Pane prefHeight="906.0" prefWidth="801.0" style="-fx-background-color: F5F5F5;">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="844.0" layoutX="37.0" layoutY="27.0" stroke="BLACK" strokeType="INSIDE" width="721.0" />
-            <Text layoutX="284.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT PHILIRI Details">
+            <Text layoutX="285.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT PHILIRI Details">
                <font>
                   <Font size="27.0" />
                </font>
@@ -34,7 +34,8 @@
                         <Color red="0.6184210777282715" green="0.6184210777282715" blue="0.6184210777282715" />
                      </color>
                   </InnerShadow>
-               </effect></TextField>
+               </effect>
+            </TextField>
             <Text layoutX="87.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LRN:">
                <font>
                   <Font size="22.0" />
@@ -50,15 +51,16 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Button fx:id="addbtn" layoutX="463.0" layoutY="803.0" mnemonicParsing="false" onMouseClicked="#updatePhiliriResult" prefHeight="36.0" prefWidth="101.0" style="-fx-background-color: C3F396;" text="ADD">
+            <Button fx:id="addbtn" layoutX="463.0" layoutY="803.0" mnemonicParsing="false" onMouseClicked="#updatePhiliriResult" prefHeight="36.0" prefWidth="101.0" styleClass="addphi" stylesheets="@student.css" text="ADD" textFill="WHITE">
                <effect>
                   <Lighting bumpInput="$null" diffuseConstant="1.64">
                      <light>
                         <Light.Distant />
                      </light>
                   </Lighting>
-               </effect></Button>
-            <Button layoutX="600.0" layoutY="803.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="104.0" style="-fx-background-color: F39696;" text="Close">
+               </effect>
+            </Button>
+            <Button layoutX="600.0" layoutY="803.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="104.0" styleClass="clophi" stylesheets="@student.css" text="Close" textFill="WHITE">
                <effect>
                   <Lighting diffuseConstant="1.62">
                      <bumpInput>
@@ -68,7 +70,8 @@
                         <Light.Distant />
                      </light>
                   </Lighting>
-               </effect></Button>
+               </effect>
+            </Button>
             <ComboBox fx:id="languagetypecb" layoutX="244.0" layoutY="239.0" prefHeight="30.0" prefWidth="454.0" />
             <Text layoutX="86.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Recorded">
                <font>
@@ -94,7 +97,8 @@
                         </Light.Distant>
                      </light>
                   </Lighting>
-               </effect></TextArea>
+               </effect>
+            </TextArea>
             <DatePicker fx:id="daterecorded" layoutX="244.0" layoutY="395.0" prefHeight="30.0" prefWidth="454.0" />
             <ComboBox fx:id="LRNfield" disable="true" layoutX="244.0" layoutY="139.0" prefHeight="30.0" prefWidth="454.0" />
             <Text layoutX="87.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oral result">
@@ -109,10 +113,16 @@
                </font>
             </Text>
             <ComboBox fx:id="silentcb" layoutX="244.0" layoutY="342.0" prefHeight="30.0" prefWidth="454.0" />
+            <Line endX="548.0" layoutX="167.0" layoutY="95.0" startX="-100.0" />
          </children>
       </Pane>
-   </children>
-   <effect>
-      <DropShadow />
-   </effect>
-</AnchorPane>
+   </center>
+   <top>
+      <Pane prefHeight="70.0" prefWidth="801.0" BorderPane.alignment="CENTER">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#343e52" height="105.0" layoutX="-8.0" layoutY="-30.0" stroke="BLACK" strokeType="INSIDE" width="853.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#641212" height="117.0" layoutX="571.0" layoutY="-44.0" stroke="BLACK" strokeType="INSIDE" width="130.0" />
+         </children>
+      </Pane>
+   </top>
+</BorderPane>
