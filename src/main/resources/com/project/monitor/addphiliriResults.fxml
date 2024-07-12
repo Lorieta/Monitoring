@@ -9,7 +9,7 @@
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
@@ -17,12 +17,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="882.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.AddPhiliriResult">
-   <children>
-      <Pane layoutX="-8.0" prefHeight="882.0" prefWidth="835.0" style="-fx-background-color: F5F5F5;">
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.AddPhiliriResult">
+   <center>
+      <Pane prefHeight="882.0" prefWidth="835.0" style="-fx-background-color: F5F5F5;">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="798.0" layoutX="58.0" layoutY="39.0" stroke="BLACK" strokeType="INSIDE" width="731.0" />
-            <Text layoutX="360.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PHILIRI Details">
+            <Text layoutX="338.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PHILIRI Details">
                <font>
                   <Font size="27.0" />
                </font>
@@ -37,7 +37,8 @@
                         <Light.Distant />
                      </light>
                   </Lighting>
-               </effect></TextField>
+               </effect>
+            </TextField>
             <Text layoutX="128.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LRN:">
                <font>
                   <Font size="22.0" />
@@ -53,7 +54,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Button fx:id="addbtn" layoutX="434.0" layoutY="773.0" mnemonicParsing="false" onMouseClicked="#addPhiliriResult" prefHeight="36.0" prefWidth="101.0" style="-fx-background-color: C3F396;" text="ADD">
+            <Button fx:id="addbtn" layoutX="434.0" layoutY="773.0" mnemonicParsing="false" onMouseClicked="#addPhiliriResult" prefHeight="36.0" prefWidth="101.0" styleClass="addcom" stylesheets="@student.css" text="ADD" textFill="WHITE">
                <effect>
                   <Lighting diffuseConstant="1.68">
                      <bumpInput>
@@ -63,8 +64,9 @@
                         <Light.Distant />
                      </light>
                   </Lighting>
-               </effect></Button>
-            <Button layoutX="606.0" layoutY="773.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="101.0" style="-fx-background-color: F39696;" text="Close">
+               </effect>
+            </Button>
+            <Button layoutX="606.0" layoutY="773.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="101.0" styleClass="clophi" stylesheets="@student.css" text="Close" textFill="WHITE">
                <effect>
                   <Lighting diffuseConstant="1.68">
                      <bumpInput>
@@ -74,7 +76,8 @@
                         <Light.Distant />
                      </light>
                   </Lighting>
-               </effect></Button>
+               </effect>
+            </Button>
             <ComboBox fx:id="languagetypecb" layoutX="284.0" layoutY="240.0" prefHeight="30.0" prefWidth="418.0" />
             <Text layoutX="126.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Recorded">
                <font>
@@ -90,7 +93,11 @@
                <effect>
                   <Lighting diffuseConstant="1.59" specularExponent="0.0" surfaceScale="0.44">
                      <bumpInput>
-                        <Shadow />
+                        <Shadow>
+                           <input>
+                              <DropShadow radius="68.5" width="255.0" />
+                           </input>
+                        </Shadow>
                      </bumpInput>
                      <light>
                         <Light.Distant>
@@ -100,7 +107,8 @@
                         </Light.Distant>
                      </light>
                   </Lighting>
-               </effect></TextArea>
+               </effect>
+            </TextArea>
             <DatePicker fx:id="daterecorded" layoutX="284.0" layoutY="391.0" prefHeight="30.0" prefWidth="418.0" />
             <ComboBox fx:id="LRNfield" layoutX="284.0" layoutY="139.0" prefHeight="30.0" prefWidth="418.0" />
             <Text layoutX="127.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oral result">
@@ -118,8 +126,13 @@
             <Line endX="631.0" layoutX="158.0" layoutY="101.0" startX="-100.0" />
          </children>
       </Pane>
-   </children>
-   <effect>
-      <DropShadow />
-   </effect>
-</AnchorPane>
+   </center>
+   <top>
+      <Pane prefHeight="60.0" prefWidth="835.0" BorderPane.alignment="CENTER">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#343e52" height="136.0" layoutX="-43.0" layoutY="-70.0" stroke="BLACK" strokeType="INSIDE" width="951.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#641212" height="116.0" layoutX="596.0" layoutY="-50.0" stroke="BLACK" strokeType="INSIDE" width="115.0" />
+         </children>
+      </Pane>
+   </top>
+</BorderPane>
