@@ -12,12 +12,12 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="854.0" prefWidth="1462.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.Readinglog">
    <center>
-      <AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="866.0" prefWidth="1462.0" scaleShape="false" stylesheets="@application.css" BorderPane.alignment="CENTER">
+      <AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="866.0" prefWidth="1500.0" scaleShape="false" stylesheets="@application.css" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="75.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: bold;" text="Reading Logs" wrappingWidth="331.09130859375" />
-            <AnchorPane layoutX="13.0" layoutY="161.0">
+            <AnchorPane layoutX="13.0" layoutY="161.0" prefHeight="500.0" prefWidth="1500.0">
                <children>
-                  <TableView fx:id="readinglogtable" layoutX="6.0" layoutY="4.0" prefHeight="559.0" prefWidth="1425.0" style="-fx-border-color: #374951; -fx-alighment: center;" stylesheets="@table.css">
+                  <TableView fx:id="readinglogtable" layoutX="74.0" layoutY="10.0" prefHeight="452.0" prefWidth="1322.0" style="-fx-border-color: #374951; -fx-alighment: center;" stylesheets="@table.css">
                      <columns>
                         <TableColumn fx:id="logidcol" prefWidth="75.0" text="LogID" />
                         <TableColumn fx:id="lrncol" prefWidth="100.0" text="LRN" />

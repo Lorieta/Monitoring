@@ -48,6 +48,7 @@ public class Averagedailyscore {
         averagescoredaily.getXAxis().setLabel("Date");
 
         System.out.println("Chart initialized successfully.");
+        updateChart();
     }
 
     @FXML
@@ -78,16 +79,11 @@ public class Averagedailyscore {
             return;
         }
 
-        if (currentAdviserID == null || currentAdviserID.isEmpty()) {
-            System.err.println("Error: currentAdviserID is null or empty");
-            return;
-        }
-
-        fetchDataForAdviser();
+        fetchData();
     }
 
-    private void fetchDataForAdviser() {
-        System.out.println("Fetching data for adviser: " + currentAdviserID);
+    private void fetchData() {
+        System.out.println("Fetching data" + (currentAdviserID != null ? " for adviser: " + currentAdviserID : " for all advisers"));
 
         ObservableList<XYChart.Series<String, Number>> seriesList = averagescoredaily.getData();
         seriesList.clear(); // Clear existing data
@@ -98,7 +94,10 @@ public class Averagedailyscore {
             System.out.println("Database connection established.");
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, currentAdviserID);
+                int parameterIndex = 1; // Start parameter index
+                if (currentAdviserID != null && !currentAdviserID.isEmpty()) {
+                    preparedStatement.setString(parameterIndex++, currentAdviserID);
+                }
 
                 System.out.println("Executing query: " + preparedStatement);
 
@@ -119,7 +118,7 @@ public class Averagedailyscore {
                     }
 
                     if (series.getData().isEmpty()) {
-                        System.out.println("No data found for adviser ID: " + currentAdviserID);
+                        System.out.println("No data found" + (currentAdviserID != null ? " for adviser ID: " + currentAdviserID : ""));
                     } else {
                         seriesList.add(series);
                         System.out.println("Added series with " + rowCount + " data points to the chart.");
@@ -135,29 +134,33 @@ public class Averagedailyscore {
     }
 
     private String getQueryForViewType() {
+        String baseQuery = "";
         switch (currentViewType) {
             case "daily":
-                return "SELECT ds.date::date AS Date, AVG(ds.Score) AS AverageScore " +
-                        "FROM dailyselection ds " +
-                        "WHERE ds.adviserid = ? " +
-                        "GROUP BY ds.date " +
-                        "ORDER BY ds.date";
+                baseQuery = "SELECT ds.date::date AS Date, AVG(ds.Score) AS AverageScore " +
+                        "FROM dailyselection ds ";
+                break;
             case "monthly":
-                return "SELECT DATE_TRUNC('month', ds.date)::date AS Date, AVG(ds.Score) AS AverageScore " +
-                        "FROM dailyselection ds " +
-                        "WHERE ds.adviserid = ? " +
-                        "GROUP BY DATE_TRUNC('month', ds.date) " +
-                        "ORDER BY Date";
+                baseQuery = "SELECT DATE_TRUNC('month', ds.date)::date AS Date, AVG(ds.Score) AS AverageScore " +
+                        "FROM dailyselection ds ";
+                break;
             case "yearly":
-                return "SELECT DATE_TRUNC('year', ds.date)::date AS Date, AVG(ds.Score) AS AverageScore " +
-                        "FROM dailyselection ds " +
-                        "WHERE ds.adviserid = ? " +
-                        "GROUP BY DATE_TRUNC('year', ds.date) " +
-                        "ORDER BY Date";
+                baseQuery = "SELECT DATE_TRUNC('year', ds.date)::date AS Date, AVG(ds.Score) AS AverageScore " +
+                        "FROM dailyselection ds ";
+                break;
             default:
                 return "";
         }
+
+        if (currentAdviserID != null && !currentAdviserID.isEmpty()) {
+            baseQuery += "WHERE ds.adviserid = ? ";
+        }
+
+        baseQuery += "GROUP BY Date ORDER BY Date";
+
+        return baseQuery;
     }
+
 
     private String formatDate(String date) {
         LocalDate localDate;

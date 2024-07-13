@@ -56,36 +56,51 @@ public class dbFunctions extends Controller {
     }
 
 
-    //SIGNUP
-    public boolean signup(Connection conn, String tablename, String teacherid, String fname, String lname, String section, String password) {
-        try {
-            String query = "INSERT INTO " + tablename + " (employeeid, teacherfname, teacherlname, grade_section, password) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, teacherid);
-            statement.setString(2, fname);
-            statement.setString(3, lname);
-            statement.setString(4, section);
-            statement.setString(5, password);
+    public void signup(Connection conn, String tablename, String teacherid, String fname, String lname, String section, String password, String email, String specialization) {
+        if (conn == null || tablename == null || teacherid == null || fname == null || lname == null || section == null || password == null || email == null || specialization == null) {
+            System.out.println("Error: All parameters must be non-null");
 
-            int rowsInserted = statement.executeUpdate();
-            System.out.println(rowsInserted);
-            if (rowsInserted > 0) {
-                System.out.println("Teacher signed up successfully.");
-                return true;
-            } else {
-                System.out.println("Failed to sign up teacher.");
-                return false;
+        }
+
+        try {
+            // Check if teacher already exists
+            String checkQuery = "SELECT COUNT(*) FROM " + tablename + " WHERE employeeid = ?";
+            try (PreparedStatement checkStatement = conn.prepareStatement(checkQuery)) {
+                checkStatement.setString(1, teacherid);
+                ResultSet resultSet = checkStatement.executeQuery();
+                if (resultSet.next() && resultSet.getInt(1) > 0) {
+                    System.out.println("Error: Teacher with ID " + teacherid + " already exists.");
+
+                }
             }
 
 
+            // Insert new teacher
+            String insertQuery = "INSERT INTO " + tablename + " (employeeid, teacherfname, teacherlname, grade_section, password, email, specialization) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement insertStatement = conn.prepareStatement(insertQuery)) {
+                insertStatement.setString(1, teacherid);
+                insertStatement.setString(2, fname);
+                insertStatement.setString(3, lname);
+                insertStatement.setString(4, section);
+                insertStatement.setString(5, password);
+                insertStatement.setString(6, email);
+                insertStatement.setString(7, specialization);
 
+                int rowsInserted = insertStatement.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Teacher signed up successfully.");
+
+                } else {
+                    System.out.println("Failed to sign up teacher. No rows were inserted.");
+
+                }
+            }
         } catch (SQLException e) {
             System.out.println("An error occurred while signing up teacher: " + e.getMessage());
             e.printStackTrace();
-            return false;
+
         }
     }
-
 
 
 

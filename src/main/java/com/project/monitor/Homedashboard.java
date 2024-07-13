@@ -4,6 +4,7 @@ import Tables.Student;
 import Tables.rankingScore;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +18,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -31,6 +34,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Homedashboard implements Initializable {
+    @FXML
+    private Label lblmat;
+
+    @FXML
+    private Label lblstd;
+
 
     @FXML
     private Label username;
@@ -104,8 +113,6 @@ public class Homedashboard implements Initializable {
         slider.setOnMouseEntered(event -> showSlider());
         slider.setOnMouseExited(event -> hideSlider());
 
-        // Refresh the table when initializing
-        refresh();
     }
 
     private void showSlider() {
@@ -293,14 +300,43 @@ public class Homedashboard implements Initializable {
     }
 
 
-
     @FXML
-    void logout(MouseEvent event) {
-        // Implement logout functionality
+    void showteacher(MouseEvent event) {
+
     }
+@FXML
+    void logout(MouseEvent event) {
+        try {
+            // Load the login view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage for the login window
+            Stage loginStage = new Stage();
+            loginStage.setTitle("Login");
+            loginStage.setScene(new Scene(root));
+            loginStage.show();
+
+            // Close all other windows
+            Platform.runLater(() -> {
+                for (Window window : Window.getWindows()) {
+                    if (window instanceof Stage && window != loginStage) {
+                        ((Stage) window).close();
+                    }
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load login view: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+
 
     private Stage createAndShowStage(Parent root, String title) {
         Stage stage = new Stage();
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(new Scene(root));
         stage.setTitle(title);
 
@@ -413,6 +449,22 @@ public class Homedashboard implements Initializable {
         }
 
         scoreRanking.getItems().setAll(students); // Update the table with the new data
+
+        // Update labels with total counts
+        int studentCount = countStudents();
+        int materialCount = countMaterials();
+
+        if (lblstd != null) {
+            lblstd.setText(String.valueOf(studentCount));
+        }
+
+        if (lblmat != null) {
+            lblmat.setText(String.valueOf(materialCount));
+        }
+
+        // Update the sum label
+        int totalSum = studentCount + materialCount;
+
     }
 
     private void setupTableColumns() {
@@ -453,5 +505,34 @@ public class Homedashboard implements Initializable {
             showAlert("Error", "Failed to load Philiri View: " + e.getMessage(), Alert.AlertType.ERROR);
         }
 
+    }
+
+    private int countStudents() {
+        String query = "SELECT COUNT(DISTINCT LRN) AS student_count FROM student_info WHERE adviserid = ?";
+        try (Connection connection = db.connect_to_db(DATABASE, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, teacherID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("student_count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private int countMaterials() {
+        String query = "SELECT COUNT(*) AS material_count FROM materials";
+        try (Connection connection = db.connect_to_db(DATABASE, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("material_count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -20,7 +20,7 @@
       <Button id="loginID" onMouseClicked="#login" style="-fx-font-size: 16;" styleClass="button" stylesheets="@application.css" text="Login" />
    </VBox>
    <HBox alignment="CENTER" prefHeight="28.0" prefWidth="360.0" spacing="5">
-      <Label onMouseClicked="#switchToSignUp" style="-fx-font-weight: bold; -fx-font-size: 16; -fx-cursor: hand;" text="Don't have an account?" />
+      <Label  style="-fx-font-weight: bold; -fx-font-size: 16; -fx-cursor: hand;" text="Don't have an account?" />
 
    </HBox>
 </VBox>

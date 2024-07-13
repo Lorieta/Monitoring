@@ -66,7 +66,8 @@ public class OralandSilent implements Initializable {
                             "JOIN oral o ON r.oralID = o.orallID " +
                             "JOIN LanguageType lt ON r.LanguageID = lt.LanguageID " +
                             "JOIN Student_info si ON r.LRN = si.LRN " +
-                            "WHERE lt.LanguageType = 'English' AND si.AdviserID = ? " +
+                            "WHERE lt.LanguageType = 'English' " +
+                            (currentAdviserID != null ? "AND si.AdviserID = ? " : "") +
                             "GROUP BY o.oralresult " +
                             "ORDER BY o.oralresult";
                     break;
@@ -76,7 +77,8 @@ public class OralandSilent implements Initializable {
                             "JOIN oral o ON r.oralID = o.orallID " +
                             "JOIN LanguageType lt ON r.LanguageID = lt.LanguageID " +
                             "JOIN Student_info si ON r.LRN = si.LRN " +
-                            "WHERE lt.LanguageType = 'Tagalog' AND si.AdviserID = ? " +
+                            "WHERE lt.LanguageType = 'Tagalog' " +
+                            (currentAdviserID != null ? "AND si.AdviserID = ? " : "") +
                             "GROUP BY o.oralresult " +
                             "ORDER BY o.oralresult";
                     break;
@@ -86,7 +88,8 @@ public class OralandSilent implements Initializable {
                             "JOIN silent s ON r.silentID = s.SilentID " +
                             "JOIN LanguageType lt ON r.LanguageID = lt.LanguageID " +
                             "JOIN Student_info si ON r.LRN = si.LRN " +
-                            "WHERE lt.LanguageType = 'English' AND si.AdviserID = ? " +
+                            "WHERE lt.LanguageType = 'English' " +
+                            (currentAdviserID != null ? "AND si.AdviserID = ? " : "") +
                             "GROUP BY s.silentresult " +
                             "ORDER BY s.silentresult";
                     break;
@@ -96,7 +99,8 @@ public class OralandSilent implements Initializable {
                             "JOIN silent s ON r.silentID = s.SilentID " +
                             "JOIN LanguageType lt ON r.LanguageID = lt.LanguageID " +
                             "JOIN Student_info si ON r.LRN = si.LRN " +
-                            "WHERE lt.LanguageType = 'Tagalog' AND si.AdviserID = ? " +
+                            "WHERE lt.LanguageType = 'Tagalog' " +
+                            (currentAdviserID != null ? "AND si.AdviserID = ? " : "") +
                             "GROUP BY s.silentresult " +
                             "ORDER BY s.silentresult";
                     break;
@@ -117,7 +121,9 @@ public class OralandSilent implements Initializable {
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, currentAdviserID); // Set the current adviser ID
+            if (currentAdviserID != null) {
+                stmt.setString(1, currentAdviserID); // Set the current adviser ID only if it's not null
+            }
             try (ResultSet rs = stmt.executeQuery()) {
                 int total = 0;
                 while (rs.next()) {
@@ -149,7 +155,6 @@ public class OralandSilent implements Initializable {
         this.currentAdviserID = adviserID;
         loadData(currentResultType);
         setUpClickEvents();
-        // Set your adviser ID here
         System.out.println(currentAdviserID);
     }
 

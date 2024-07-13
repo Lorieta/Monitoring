@@ -162,6 +162,7 @@ public class ResourceController extends Controller implements Initializable {
             editResourceController.setResource(resource);
 
             Scene scene = new Scene(parent);
+
             dialogStage.setTitle("Edit Resource");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setScene(scene);
@@ -296,6 +297,7 @@ public class ResourceController extends Controller implements Initializable {
 
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(scene);
             stage.initStyle(StageStyle.UTILITY);
             stage.show();

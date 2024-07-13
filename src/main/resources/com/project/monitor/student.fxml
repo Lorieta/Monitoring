@@ -13,12 +13,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.TableController">
+<BorderPane prefHeight="787.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.monitor.TableController">
    <center>
-      <AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="979.0" prefWidth="1921.0" scaleShape="false" stylesheets="@application.css">
-          <TableView id="table" fx:id="studentTable" layoutX="82.0" layoutY="153.0" prefHeight="686.0" prefWidth="1749.0" style="-fx-background-color: white;" stylesheets="@table.css">
+      <AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="1500.0" scaleShape="false" stylesheets="@application.css">
+          <TableView id="table" fx:id="studentTable" layoutX="82.0" layoutY="153.0" prefHeight="452.0" prefWidth="1322.0" style="-fx-background-color: white;" stylesheets="@table.css">
               <columns>
                   <TableColumn fx:id="LRNColumn" prefWidth="286.0" style="-fx-background-color: white;" text="LRN" />
                   <TableColumn fx:id="firstnameColumn" prefWidth="236.0" style="-fx-background-color: white;" text="First Name" />
@@ -35,7 +37,7 @@
           </TableView>
           <Pane layoutX="475.0" layoutY="56.0" prefHeight="60.0" prefWidth="897.0">
               <children>
-                  <Button fx:id="addButton" layoutX="581.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#addBtn" prefHeight="56.0" prefWidth="162.0" styleClass="addstu" stylesheets="@student.css" text="ADD">
+                  <Button fx:id="addButton" layoutX="209.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#addBtn" prefHeight="56.0" prefWidth="162.0" styleClass="addstu" stylesheets="@student.css" text="ADD">
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor>
@@ -50,7 +52,7 @@
                      <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
                   </padding>
                </Button>
-               <Button id="refstud" layoutX="807.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#refreshTable" prefHeight="56.0" prefWidth="180.0" styleClass="refstu" stylesheets="@student.css" text="REFRESH">
+               <Button id="refstud" layoutX="390.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#refreshTable" prefHeight="56.0" prefWidth="180.0" styleClass="refstu" stylesheets="@student.css" text="REFRESH">
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor>
@@ -65,24 +67,25 @@
                      </DropShadow>
                   </effect>
                </Button>
+                  <TextField fx:id="searchField" layoutX="610.0" layoutY="24.0" onAction="#search" prefHeight="39.0" prefWidth="311.0" promptText="Search" styleClass="button5" />
+               <ImageView fitHeight="27.0" fitWidth="21.0" layoutX="887.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/pngwing.com.png" />
+                  </image>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+               </ImageView>
               </children>
           </Pane>
-            <TextField fx:id="searchField" layoutX="1506.0" layoutY="86.0" onAction="#search" prefHeight="39.0" prefWidth="311.0" promptText="Search" styleClass="button5" />
-         <ImageView fitHeight="27.0" fitWidth="21.0" layoutX="1785.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@images/pngwing.com.png" />
-            </image>
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-         </ImageView>
+         <Text layoutX="114.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30; -fx-font-weight: bold;" text="Student Information" />
+         <Line endX="1318.0" endY="-39.0" layoutX="75.0" layoutY="93.0" startX="42.0" startY="-39.0" />
       </AnchorPane>
    </center>
    <top>
-      <Pane prefHeight="98.0" prefWidth="1921.0" BorderPane.alignment="CENTER">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1650.0" style="-fx-background-color: #374951;" BorderPane.alignment="CENTER">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#343e52" height="165.0" layoutX="-30.0" layoutY="-60.0" stroke="BLACK" strokeType="INSIDE" width="1983.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#641212" height="200.0" layoutX="1618.0" layoutY="-95.0" stroke="BLACK" strokeType="INSIDE" width="159.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#641212" height="60.0" layoutX="1303.0" stroke="BLACK" strokeType="INSIDE" width="76.0" />
          </children>
       </Pane>
    </top>

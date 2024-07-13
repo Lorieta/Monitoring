@@ -39,21 +39,37 @@ public class Malevsfemale {
 
     private void fetchDataAndPopulateChart(CategoryAxis xAxis, NumberAxis yAxis) {
         ObservableList<XYChart.Series<String, Number>> seriesList = FXCollections.observableArrayList();
-        String query = "SELECT " +
-                "rl.datestarted AS \"Date\", " +
-                "si.gender AS \"Gender\", " +
-                "COUNT(rl.logid) AS \"TotalSessions\" " +
-                "FROM reading_log rl " +
-                "JOIN student_info si ON rl.lrn = si.lrn " +
-                "WHERE si.adviserid = ? " + // Filter by adviser ID
-                "GROUP BY rl.datestarted, si.gender " +
-                "ORDER BY rl.datestarted, si.gender";
+        String query;
 
+        if (currentAdviserID == null || currentAdviserID.trim().isEmpty()) {
+            // Query for all records when no adviserID is specified
+            query = "SELECT " +
+                    "rl.datestarted AS \"Date\", " +
+                    "si.gender AS \"Gender\", " +
+                    "COUNT(rl.logid) AS \"TotalSessions\" " +
+                    "FROM reading_log rl " +
+                    "JOIN student_info si ON rl.lrn = si.lrn " +
+                    "GROUP BY rl.datestarted, si.gender " +
+                    "ORDER BY rl.datestarted, si.gender";
+        } else {
+            // Query for specific adviserID
+            query = "SELECT " +
+                    "rl.datestarted AS \"Date\", " +
+                    "si.gender AS \"Gender\", " +
+                    "COUNT(rl.logid) AS \"TotalSessions\" " +
+                    "FROM reading_log rl " +
+                    "JOIN student_info si ON rl.lrn = si.lrn " +
+                    "WHERE si.adviserid = ? " +
+                    "GROUP BY rl.datestarted, si.gender " +
+                    "ORDER BY rl.datestarted, si.gender";
+        }
 
         try (Connection connection = db.connect_to_db(Config.DATABASE, Config.USER, Config.PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, currentAdviserID); // Set the adviser ID parameter
+            if (currentAdviserID != null && !currentAdviserID.trim().isEmpty()) {
+                preparedStatement.setString(1, currentAdviserID); // Set the adviser ID parameter only if it's specified
+            }
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Create series for each gender
